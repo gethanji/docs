@@ -5,14 +5,20 @@
 body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif}
 .frame{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}
 aside{border-right:1px solid var(--hairline);padding:2rem 1.25rem 2rem 1.5rem;position:sticky;top:0;height:100vh;overflow-y:auto}
-.lockup{margin:0 0 1.25rem}.lockup a{font-family:Newsreader,serif;font-size:1.35rem;font-weight:600;color:var(--ink);text-decoration:none}
+.lockup{margin:0 0 1.25rem}.lockup a{display:flex;align-items:center;gap:.55rem;font-family:Newsreader,serif;font-size:1.35rem;font-weight:600;color:var(--ink);text-decoration:none}
+.lockup .mark{width:1.5rem;height:1.5rem}
 nav{font-size:.85rem;line-height:1.5}
 nav a{display:block;padding:.28rem .5rem;border-radius:6px;color:var(--ink-soft);text-decoration:none}
 nav a:hover{background:color-mix(in srgb,var(--hairline) 55%,transparent)}
 nav a[aria-current]{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent-text)}
-nav details{padding-left:.35rem}nav details details{padding-left:.75rem}
-nav summary{cursor:pointer;padding:.28rem .5rem;color:var(--ink-soft)}
-nav summary a{display:inline;padding:0}
+nav details{padding-left:.1rem}nav details nav, nav details details, nav details a{margin-left:.8rem}
+nav summary{cursor:pointer;padding:.28rem .5rem;color:var(--ink-soft);display:flex;align-items:center;gap:.45rem;border-radius:6px;list-style:none}
+nav summary::-webkit-details-marker{display:none}
+nav summary::before{content:"";flex:none;width:.4em;height:.4em;border-right:1.5px solid var(--faint);border-top:1.5px solid var(--faint);transform:rotate(45deg);transition:transform .15s}
+nav details[open]>summary::before{transform:rotate(135deg)}
+nav summary:hover{background:color-mix(in srgb,var(--hairline) 55%,transparent)}
+nav summary a{display:inline;padding:0;margin-left:0}
+nav .mount-label{margin:1.1rem 0 .3rem;padding:0 .5rem;font-size:.68rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
 main{padding:3.2rem 2.5rem 4rem;display:flex;flex-direction:column;align-items:center}
 .crumbs{width:100%;max-width:var(--measure);margin:0 0 .4rem;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 .crumbs a{color:var(--faint);text-decoration:none}.crumbs a:hover{color:var(--accent-text)}

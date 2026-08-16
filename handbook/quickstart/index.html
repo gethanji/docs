@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick start · Hanji</title>
+<link rel="icon" href="../../hanji-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../.."><img class="mark" src="../../hanji-mark.svg" alt="">Hanji</a></p>
+<p class="home"><a href="https://gethanji.github.io/">← hanji</a></p>
+<nav><p class="mount-label">handbook</p><a href="../">The Hanji handbook</a><a aria-current="page" href="./">Quick start</a><a href="../hanji/">Hanji</a><a href="../the-name/">The name</a><a href="../why-hanji-is-different/">Why Hanji is different</a><a href="../is-hanji-for-you/">Is Hanji for you?</a><a href="../mission-and-vision/">Mission and vision</a><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/publish/">Publish to the web</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../brand/">The brand</a></summary><a href="../brand/visual-language/">The visual language</a><a href="../brand/voice/">Voice</a></details><a href="../principles/">Principles</a><a href="../status/">Where we are</a><a href="../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../">handbook</a> / quickstart</p>
+<article><h1>Quick start</h1>
+<p>You have repositories full of Markdown - notes, docs, decisions that deserve
+better than a file tree. In five minutes they become one quiet, readable
+place: yours to write, your team's to read, your agents' to work in.</p>
+<p><em>Pre-release note: the code ships soon as one clean release. This page is
+exactly what day one looks like.</em></p>
+<h2>The five minutes</h2>
+<pre><code class="language-bash"># 1. get it running
+git clone https://github.com/gethanji/hanji &#x26;&#x26; cd hanji
+pnpm install
+
+# 2. tell it who you are
+export HANJI_DATA_DIR=~/.hanji
+export HANJI_SESSION_SECRET=$(openssl rand -hex 32)
+export HANJI_OWNER_PASSWORD=choose-one
+
+# 3. point it at a repo you own
+pnpm hanji add-mount notes git@github.com:you/notes.git notes
+pnpm hanji sync
+
+# 4. open the front
+pnpm dev:web   # http://localhost:4100
+</code></pre>
+<p>Sign in, and your notes are there, rendered on warm paper. Click <strong>Edit</strong>,
+change something, press <strong>Update</strong> - you just made a clean git commit without
+thinking about git once. That is the whole trick, and it never gets more
+complicated than that.</p>
+<h2>Where to next</h2>
+<p>Pick the shape that matches your life:</p>
+<ul>
+<li><strong>A team on your tailnet</strong> - share one instance where the network signs
+people in and nobody types a password. <a href="../guide/on-your-tailnet/">On your tailnet</a>.</li>
+<li><strong>Your coding agents</strong> - give them scoped reads and let their edits arrive
+as proposals you review. <a href="../guide/agents/">Agents</a>.</li>
+<li><strong>A public site</strong> - one command turns everything you've opened into a
+website, <code>llms.txt</code> included. <a href="../guide/publish/">Publish to the web</a>.</li>
+<li><strong>Just curious how it holds together?</strong> <a href="../guide/mounts/">Mounts</a>, then
+<a href="../guide/reading-and-writing/">Reading and writing</a> - the two pages that explain the daily feel.</li>
+</ul></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

@@ -25,6 +25,8 @@
 - [Mounts](handbook/guide/mounts.md)
 - [On your tailnet](handbook/guide/on-your-tailnet.md)
 - [Proposals](handbook/guide/proposals.md)
+- [Publish to the web](handbook/guide/publish.md)
+- [Quick start](handbook/guide/quickstart.md)
 - [Reading and writing](handbook/guide/reading-and-writing.md)
 - [Hanji](handbook/hanji.md)
 - [The Hanji handbook](handbook/index.md)

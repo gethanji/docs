@@ -291,6 +291,12 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## The front door serves you first
+
+- The handbook's home now leads with what every reader actually came for: a five-minute [[Quick start]], then a door for each shape Hanji is lived in - solo, tailnet, agents, publishing. The manifesto still matters; it just stops standing in front of the person mid-task.
+- Two guides joined: [[Quick start]] and [[Publish to the web]] - the second one describing exactly how the site you are reading came to exist.
+- The published site grew a masthead cover built from the workspace's own landing page, and an optional way home to the site that sent you (`export_home_url`).
+
 ## The handbook publishes itself
 
 - `hanji export` grew its browsable half: a static site in the hanji look - warm paper, the serif, the sidebar tree - with not one line of JavaScript. Folders collapse with `<details>`, dark mode rides the system preference, and every link is relative, so the site serves from any path.
@@ -649,13 +655,15 @@ description: Getting started, and the order to read these in.
 
 This section is the how-to. It is written to be read in order the first time, and dipped into after.
 
-1. [[Install Hanji]] gets it running on your machine in a handful of commands.
-2. [[Mounts]] points it at the repositories you want to read and write.
-3. [[Reading and writing]] covers the human front: reading, editing, history, and making new pages.
-4. [[Agents]] connects a coding agent through the MCP server, with scoped tokens and propose-as-PR.
-5. [[Proposals]] is where those agent suggestions land: review the diff, merge or reject.
-6. [[On your tailnet]] moves the instance onto your tailnet, where the network signs people in and nobody types a password.
-7. [[Command reference]] is the full list of CLI commands, for when you already know what you want.
+1. [[Quick start]] - five minutes to a running Hanji, and the map of where to go next.
+2. [[Install Hanji]] gets it running on your machine in a handful of commands.
+3. [[Mounts]] points it at the repositories you want to read and write.
+4. [[Reading and writing]] covers the human front: reading, editing, history, and making new pages.
+5. [[Agents]] connects a coding agent through the MCP server, with scoped tokens and propose-as-PR.
+6. [[Proposals]] is where those agent suggestions land: review the diff, merge or reject.
+7. [[Publish to the web]] turns everything you've opened into a website, llms.txt included.
+8. [[On your tailnet]] moves the instance onto your tailnet, where the network signs people in and nobody types a password.
+9. [[Command reference]] is the full list of CLI commands, for when you already know what you want.
 
 A note before you start. Hanji is early. It runs today on your machine: one owner, the people you add, and the agents you scope - and the recommended way to share it with a team is [[On your tailnet]]. Hosted sync sits in the later column of [[Where we are]], not in your hands yet. What is here works, and this section documents only what works.
 
@@ -913,6 +921,118 @@ Read [[Agents]] for minting the token that can propose, and [[Permissions]] for 
 
 ---
 
+<!-- handbook/guide/publish.md -->
+
+---
+title: Publish to the web
+order: 48
+description: One command turns everything open-to-everyone into a website, llms.txt included.
+---
+
+# Publish to the web
+
+Some of what a team writes deserves an audience: the docs, the handbook, the
+pages you would happily show a customer. Hanji publishes exactly the content
+you have opened to everyone - and nothing else. The lock decides what goes;
+the exporter never widens it.
+
+The site you are reading right now was made this way.
+
+## Choose, then publish
+
+```bash
+# 1. open what should be public (a mount, or just a folder)
+pnpm hanji rule handbook everyone-read
+
+# 2. render it
+pnpm hanji export ./site
+```
+
+`./site` is now a complete static website in Hanji's look: your sidebar, your
+reading order, dark mode, zero JavaScript. Beside every HTML page sits the
+same page as plain Markdown, plus `llms.txt` and `llms-full.txt` at the root -
+so the agents reading the open web get your writing as text, not scraped
+pixels.
+
+## Put it on GitHub Pages
+
+```bash
+cd site
+git init -b main && git add -A && git commit -m "Published with Hanji"
+git remote add origin git@github.com:you/docs.git
+git push origin main
+# then: repository Settings → Pages → deploy from main
+```
+
+Publishing again is the same two commands: `hanji export` straight into that
+clone (it cleans its own output and leaves `.git` alone), commit, push.
+
+## What stays private
+
+Everything without an everyone rule. A restricted folder inside an open mount
+stays dark, its pages and even its images never leave the building. If
+nothing is open at all, the exporter refuses loudly rather than shipping an
+empty site - you will never publish by accident.
+
+---
+
+<!-- handbook/guide/quickstart.md -->
+
+---
+title: Quick start
+order: 5
+description: A running Hanji in five minutes, on the Markdown you already have.
+---
+
+# Quick start
+
+You have repositories full of Markdown - notes, docs, decisions that deserve
+better than a file tree. In five minutes they become one quiet, readable
+place: yours to write, your team's to read, your agents' to work in.
+
+*Pre-release note: the code ships soon as one clean release. This page is
+exactly what day one looks like.*
+
+## The five minutes
+
+```bash
+# 1. get it running
+git clone https://github.com/gethanji/hanji && cd hanji
+pnpm install
+
+# 2. tell it who you are
+export HANJI_DATA_DIR=~/.hanji
+export HANJI_SESSION_SECRET=$(openssl rand -hex 32)
+export HANJI_OWNER_PASSWORD=choose-one
+
+# 3. point it at a repo you own
+pnpm hanji add-mount notes git@github.com:you/notes.git notes
+pnpm hanji sync
+
+# 4. open the front
+pnpm dev:web   # http://localhost:4100
+```
+
+Sign in, and your notes are there, rendered on warm paper. Click **Edit**,
+change something, press **Update** - you just made a clean git commit without
+thinking about git once. That is the whole trick, and it never gets more
+complicated than that.
+
+## Where to next
+
+Pick the shape that matches your life:
+
+- **A team on your tailnet** - share one instance where the network signs
+  people in and nobody types a password. [[On your tailnet]].
+- **Your coding agents** - give them scoped reads and let their edits arrive
+  as proposals you review. [[Agents]].
+- **A public site** - one command turns everything you've opened into a
+  website, `llms.txt` included. [[Publish to the web]].
+- **Just curious how it holds together?** [[Mounts]], then
+  [[Reading and writing]] - the two pages that explain the daily feel.
+
+---
+
 <!-- handbook/guide/reading-and-writing.md -->
 
 ---
@@ -1042,59 +1162,60 @@ description: Paper-thin documentation tool. Start here.
 
 *Paper-thin documentation tool.*
 
-This is Hanji's own handbook, written in Hanji, kept in Hanji's repository, and read through the product you are looking at now. 🎉
+This is Hanji's own handbook - written in Hanji, kept in Hanji's repository, and read through the product itself. 🎉
 
-<figure><img src="assets/reading-view.png" alt="The Hanji reading view: the sidebar of mounts on the left, a page set in serif on warm paper on the right"><figcaption>The front: your repositories on the left, one of their pages on paper.</figcaption></figure>
+## Quick start
 
-## Start here
+Five minutes from a repo full of Markdown to a place worth reading:
 
-New to Hanji? Read these five, in order. Fifteen minutes, and you will know what it is, how it is different, and whether it is for you.
+```bash
+git clone https://github.com/gethanji/hanji && cd hanji && pnpm install
+export HANJI_DATA_DIR=~/.hanji HANJI_SESSION_SECRET=$(openssl rand -hex 32) HANJI_OWNER_PASSWORD=choose-one
+pnpm hanji add-mount notes git@github.com:you/notes.git notes && pnpm hanji sync
+pnpm dev:web   # → http://localhost:4100
+```
 
-1. [[Hanji]], the manifesto. What it is, in one read.
+The full walk, with what each line does for you: [[Quick start]].
+
+## Set up yours
+
+Four shapes Hanji is lived in. Start with the one that matches you.
+
+| You are | Start here |
+|---|---|
+| **Just you, on your machine** | [[Quick start]] - the five minutes above, explained |
+| **A team on a tailnet** | [[On your tailnet]] - one shared instance, and nobody types a password |
+| **Working with coding agents** | [[Agents]] - scoped reads, and their edits arrive as proposals you review |
+| **Publishing docs to the world** | [[Publish to the web]] - one command; this site is the proof |
+
+## The documentation
+
+How to use it, and how it actually works. Written to serve you mid-task.
+
+| Page | What it does for you |
+|---|---|
+| [[Install Hanji]] | From clone to a running instance, with the rough edges named. |
+| [[Mounts]] | Point Hanji at your repositories, and keep them in sync on their own. |
+| [[Reading and writing]] | The daily feel: reading, editing, search, history, organizing. |
+| [[Proposals]] | Review what agents and teammates propose - diff, Merge, done. |
+| [[Command reference]] | Every CLI command in one table, for when you know what you want. |
+| [[Permissions]] | The lock, from mount to single page - and exactly what it enforces. |
+| [[The two faces]] | The human front and the agent surface, over one git. |
+| [[Byte-fidelity]] | Why a one-word edit is a one-line diff, forever. |
+| [[Performance]] | Paper-thin: the speed and size numbers. |
+| [[Features]] | The whole list, with honest status. |
+
+## The handbook
+
+The why. What makes this more than a wiki - read these five in order, fifteen minutes.
+
+1. [[Hanji]], the manifesto.
 2. [[What Hanji is]], how it actually works.
 3. [[Why Hanji is different]], how it lands differently from other tools.
 4. [[Is Hanji for you?]], an honest look at fit, with better options where they exist.
-5. [[Mission and vision]], why it exists, and where it is going.
+5. [[Mission and vision]], why it exists and where it is going.
 
-Everything below is reference. Read it when you need it.
-
-## Using Hanji
-
-| Page | What it is |
-|---|---|
-| [[Install Hanji]] | From clone to a running instance. |
-| [[Mounts]] | Pointing Hanji at your repositories. |
-| [[Reading and writing]] | The human front, in practice. |
-| [[Agents]] | Connecting a coding agent through MCP. |
-| [[Proposals]] | Reviewing and merging what agents propose. |
-| [[On your tailnet]] | Sharing an instance where the network signs people in. |
-| [[Command reference]] | Every CLI command, in one table. |
-
-## The product, in depth
-
-| Page | What it is |
-|---|---|
-| [[The two faces]] | The human front and the agent surface, over one git. |
-| [[Permissions]] | The two-plane model, and exactly what it enforces today. |
-| [[Byte-fidelity]] | Why a one-word edit is a one-line change. |
-| [[Performance]] | Paper-thin: the speed and size numbers. |
-| [[Features]] | The whole feature list, with honest status. |
-
-## Go deeper
-
-For when you want to see the machine, or build on it.
-
-- **How it's built:** [[How it's built]] · [[The serializer]] · [[The core]] · [[The editor]] · [[The MCP server]] · [[The web front]]
-- **Contributing:** [[Contributing]] · [[Developing]] · [[Conventions]] · [[Open core]]
-- **Brand:** [[The brand]] · [[The visual language]] · [[Voice]]
-
-## Project
-
-| Page | What it is |
-|---|---|
-| [[Principles]] | The beliefs that break the ties. |
-| [[Where we are]] | What is shipped, what is next, and what we are exploring. |
-| [[Changelog]] | The road behind us, honestly logged. |
+Deeper still: **how it's built** ([[How it's built]] · [[The serializer]] · [[The core]] · [[The editor]] · [[The MCP server]] · [[The web front]]), **contributing** ([[Contributing]] · [[Developing]] · [[Conventions]] · [[Open core]]), **the brand** ([[The brand]] · [[The visual language]] · [[Voice]]), and **the project** ([[Principles]] · [[Where we are]] · [[Changelog]]).
 
 ---
 

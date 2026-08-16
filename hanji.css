@@ -7,6 +7,14 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-
 aside{border-right:1px solid var(--hairline);padding:2rem 1.25rem 2rem 1.5rem;position:sticky;top:0;height:100vh;overflow-y:auto}
 .lockup{margin:0 0 1.25rem}.lockup a{display:flex;align-items:center;gap:.55rem;font-family:Newsreader,serif;font-size:1.35rem;font-weight:600;color:var(--ink);text-decoration:none}
 .lockup .mark{width:1.5rem;height:1.5rem}
+.home{margin:-0.6rem 0 1rem}.home a{font-size:.74rem;color:var(--faint);text-decoration:none}.home a:hover{color:var(--accent-text)}
+.cover-head{text-align:center;margin:1.5rem 0 3rem}
+.cover-head img{width:4.2rem;height:4.2rem;margin-bottom:1rem}
+.cover-head h1{font-family:Newsreader,serif;font-size:2.7rem;letter-spacing:-.022em;margin:0 0 .5rem}
+.cover-head p{font-family:Newsreader,serif;font-style:italic;font-size:1.15rem;color:var(--muted);margin:0 0 1.4rem}
+.cover-head .go{display:inline-block;background:var(--accent);color:#fcfcf8;padding:.6rem 1.2rem;border-radius:9px;font-family:Inter,sans-serif;font-size:.88rem;font-weight:500;text-decoration:none}
+.cover-head .go:hover{opacity:.92}
+.cover-rule{border:0;border-top:1px solid var(--hairline);margin:0 0 2.5rem}
 nav{font-size:.85rem;line-height:1.5}
 nav a{display:block;padding:.28rem .5rem;border-radius:6px;color:var(--ink-soft);text-decoration:none}
 nav a:hover{background:color-mix(in srgb,var(--hairline) 55%,transparent)}

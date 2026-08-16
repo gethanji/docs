@@ -198,6 +198,12 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## The door for contributors
+
+- Published pages can end with a quiet **suggest an edit** link into your repository's web editor (`export_edit_base_url`) - a typo becomes a pull request in two clicks. This site turns it on the day the code is public.
+- A `set` command joined the CLI, so the export settings are one line each instead of a database visit.
+- [[Contributing]] now says the quiet part plainly: agent-assisted contributions are welcome - a human signs and answers, the gates judge the code.
+
 ## The first run lost its terminal
 
 - A brand-new instance now greets you with a welcome screen: name the place, choose the owner's password, point it at a folder of Markdown or a git URL - and land signed in, on your pages. No environment variables, no CLI, nothing to wire by hand.
@@ -401,6 +407,10 @@ Here is what contributing will look like, and what already holds today for anyon
 - The history stays clean and human. Commits read like a person wrote them, because a person did.
 - Read [[Developing]] for how to run the project and the tests, [[Conventions]] for how the code is kept, and [[Open core]] for the license and what stays free.
 
+## Bringing your agent
+
+You will likely write your contribution with a coding agent at your side - we do, and this product exists because of that way of working. So the policy is explicit rather than awkward: **agent-assisted contributions are welcome.** A human signs the DCO and answers for the change; the gates - the tests, the corpus round-trip, the leak suite - judge the code without asking who typed it. What we ask is the same thing we ask of any contributor: understand the change you are proposing, keep the history human, and never let an agent negotiate a review for you.
+
 ## The spirit
 
 Hanji has a small number of beliefs, listed in [[Principles]], and the code is meant to hold them. A contribution that makes the product faster, clearer, or more honest about its limits is welcome. One that bundles a model, meters a feature, or quietly rewrites the user's files is not, however clever it is. The tie-breakers are the principles, for the code as much as the product.
@@ -528,6 +538,7 @@ The whole CLI, run as `pnpm hanji <command>`. It reads `HANJI_DATA_DIR` for wher
 | `list` | List every mount and how many pages it holds. |
 | `export <outDir> [mount...]` | Publish everything open to everyone: a browsable static site, `llms.txt`, `llms-full.txt`, and every page as plain Markdown. Mount names narrow the set; nothing widens it. |
 | `rule <mount> [path] <everyone-read\|everyone-propose\|restricted\|clear>` | Set or clear a general-access rule from the command line - what Share's select does in the front. |
+| `set <key> <value>` | Write an instance setting - the workspace name, or the export settings [[Publish to the web]] describes. |
 | `assets [mount]` | List uploaded images no page references anymore, per mount or everywhere. |
 
 ## Examples
@@ -880,6 +891,22 @@ git push origin main
 
 Publishing again is the same two commands: `hanji export` straight into that
 clone (it cleans its own output and leaves `.git` alone), commit, push.
+
+## Make it yours
+
+A few optional settings shape the published site, set once from the CLI:
+
+```bash
+pnpm hanji set export_home_url https://your.site/     # the crumb's way home
+pnpm hanji set export_home_label YourSite
+pnpm hanji set export_site_label Handbook             # the crumb's right side
+pnpm hanji set export_edit_base_url https://github.com/you/repo/edit/main/docs
+```
+
+With an edit base set, every published page ends with a quiet **suggest an
+edit** link straight into your repository's web editor - a reader spots a
+typo, clicks, and a pull request is two clicks away. The cheapest
+contribution funnel there is.
 
 ## What stays private
 

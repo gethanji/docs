@@ -45,6 +45,17 @@ git push origin main
 </code></pre>
 <p>Publishing again is the same two commands: <code>hanji export</code> straight into that
 clone (it cleans its own output and leaves <code>.git</code> alone), commit, push.</p>
+<h2>Make it yours</h2>
+<p>A few optional settings shape the published site, set once from the CLI:</p>
+<pre><code class="language-bash">pnpm hanji set export_home_url https://your.site/     # the crumb's way home
+pnpm hanji set export_home_label YourSite
+pnpm hanji set export_site_label Handbook             # the crumb's right side
+pnpm hanji set export_edit_base_url https://github.com/you/repo/edit/main/docs
+</code></pre>
+<p>With an edit base set, every published page ends with a quiet <strong>suggest an
+edit</strong> link straight into your repository's web editor - a reader spots a
+typo, clicks, and a pull request is two clicks away. The cheapest
+contribution funnel there is.</p>
 <h2>What stays private</h2>
 <p>Everything without an everyone rule. A restricted folder inside an open mount
 stays dark, its pages and even its images never leave the building. If

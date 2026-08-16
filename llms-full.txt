@@ -62,7 +62,7 @@ Read [[The web front]] for how this editor is placed into the reading experience
 
 ---
 title: How it's built
-order: 80
+order: 30
 description: The four packages and one app that make up Hanji, and how a read flows through them.
 ---
 
@@ -190,7 +190,7 @@ It is not the source of truth, and it is careful never to become one. It holds n
 
 ---
 title: The brand
-order: 100
+order: 90
 description: The whole of Hanji's brand in one page: the name, the look, the voice.
 ---
 
@@ -478,7 +478,7 @@ Read [[Conventions]] for how the code is kept.
 
 ---
 title: Contributing
-order: 90
+order: 40
 description: How to get involved, and the state of contributions today.
 ---
 
@@ -654,7 +654,7 @@ For the agent side of this, read [[Agents]]. For what is coming, read [[Where we
 
 ---
 title: Using Hanji
-order: 70
+order: 10
 description: Getting started, and the order to read these in.
 ---
 
@@ -1060,7 +1060,7 @@ Read [[Agents]] next, to let a coding agent read and propose against these same 
 
 ---
 title: Hanji
-order: 10
+order: 60
 description: Paper-thin documentation tool.
 ---
 
@@ -1173,7 +1173,7 @@ Deeper still: **how it's built** ([[How it's built]] · [[The serializer]] · [[
 
 ---
 title: Is Hanji for you?
-order: 40
+order: 75
 description: An honest look at who Hanji fits, and where something else fits better.
 ---
 
@@ -1216,7 +1216,7 @@ No bundled model. No credits, ever. See [[Why Hanji is different]] for the longe
 
 ---
 title: Mission and vision
-order: 50
+order: 80
 description: Why Hanji exists, and where it is going.
 ---
 
@@ -1246,7 +1246,7 @@ See [[Where we are]] for what is shipped and what is next, and [[Why Hanji is di
 
 ---
 title: Principles
-order: 110
+order: 85
 ---
 
 # Principles
@@ -1370,7 +1370,7 @@ For what is coming next, see [[Where we are]]. For what shipped when, see [[Chan
 
 ---
 title: What Hanji is
-order: 60
+order: 20
 description: How Hanji turns the repos you already have into one permissioned knowledge base.
 ---
 
@@ -1666,7 +1666,7 @@ Read [[Mission and vision]] for the why behind the order.
 
 ---
 title: The name
-order: 20
+order: 65
 ---
 
 # The name
@@ -1687,7 +1687,7 @@ We kept the metaphor close in the craft too. The reading surface is warm, like a
 
 ---
 title: Why Hanji is different
-order: 30
+order: 70
 description: What Hanji refuses to do, and why that is the point.
 ---
 

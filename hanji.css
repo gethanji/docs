@@ -5,9 +5,12 @@
 body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif}
 .frame{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}
 aside{border-right:1px solid var(--hairline);padding:2rem 1.25rem 2rem 1.5rem;position:sticky;top:0;height:100vh;overflow-y:auto}
-.lockup{margin:0 0 1.25rem}.lockup a{display:flex;align-items:center;gap:.55rem;font-family:Newsreader,serif;font-size:1.35rem;font-weight:600;color:var(--ink);text-decoration:none}
-.lockup .mark{width:1.5rem;height:1.5rem}
-.home{margin:-0.6rem 0 1rem}.home a{font-size:.74rem;color:var(--faint);text-decoration:none}.home a:hover{color:var(--accent-text)}
+.lockup{margin:0 0 1.25rem;display:flex;align-items:center;gap:.55rem;font-family:Newsreader,serif;font-size:1.35rem;font-weight:600;line-height:1.5rem}
+.lockup a{display:flex;align-items:center;gap:.55rem;color:var(--ink);text-decoration:none;line-height:1.5rem}
+.lockup .mark{width:1.5rem;height:1.5rem;transform:translateY(-1px)}
+.lockup .sep{color:var(--faint);font-weight:400}
+.lockup a.site{color:var(--ink-soft)}
+.lockup a:hover{color:var(--accent-text)}
 .cover-head{text-align:center;margin:1.5rem 0 3rem}
 .cover-head img{width:4.2rem;height:4.2rem;margin-bottom:1rem}
 .cover-head h1{font-family:Newsreader,serif;font-size:2.7rem;letter-spacing:-.022em;margin:0 0 .5rem}

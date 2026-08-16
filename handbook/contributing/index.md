@@ -1,6 +1,6 @@
 ---
 title: Contributing
-order: 90
+order: 40
 description: How to get involved, and the state of contributions today.
 ---
 

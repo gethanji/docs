@@ -1,6 +1,6 @@
 ---
 title: How it's built
-order: 80
+order: 30
 description: The four packages and one app that make up Hanji, and how a read flows through them.
 ---
 

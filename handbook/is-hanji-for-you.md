@@ -1,6 +1,6 @@
 ---
 title: Is Hanji for you?
-order: 40
+order: 75
 description: An honest look at who Hanji fits, and where something else fits better.
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Principles
-order: 110
+order: 85
 ---
 
 # Principles

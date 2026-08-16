@@ -1,6 +1,6 @@
 ---
 title: The brand
-order: 100
+order: 90
 description: The whole of Hanji's brand in one page: the name, the look, the voice.
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: What Hanji is
-order: 60
+order: 20
 description: How Hanji turns the repos you already have into one permissioned knowledge base.
 ---
 

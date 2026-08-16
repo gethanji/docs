@@ -1,6 +1,6 @@
 ---
 title: Using Hanji
-order: 70
+order: 10
 description: Getting started, and the order to read these in.
 ---
 

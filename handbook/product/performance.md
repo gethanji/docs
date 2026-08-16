@@ -28,7 +28,7 @@ Single-digit milliseconds, because there is no cloud in the loop. The agent read
 | Bundled LLM SDKs | 0 |
 | AI credits or metering | none, ever |
 | Web app runtime dependencies | 24, all ProseMirror, remark-rehype, React, and Next |
-| Test cases | 212 |
+| Test cases | 361 |
 | Real Markdown files round-tripped byte-identical | 600+ |
 
 The zero on the first row is the point. Hanji ships no model and meters nothing, so nothing about its cost or its weight grows because your team wrote more this month.

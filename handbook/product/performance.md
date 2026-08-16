@@ -8,7 +8,7 @@ description: Paper-thin. The speed and size numbers, measured, and the ones stil
 
 Paper-thin is not only a metaphor about longevity. It is also a claim about weight. A knowledge base you read all day should be quick and light, and most are neither, because every read is a round-trip to someone's cloud and every page ships a small application to your browser.
 
-Hanji is built the other way. Reads come off a local git clone and a small local index, not a network hop. Here are the numbers, measured on the dogfood instance, with the ones we have not earned yet marked as such. Honesty about limits applies to benchmarks too.
+Hanji is built the other way. Reads come off a local git clone and a small local index, not a network hop. Here are the numbers, measured on the instance we live in daily, with the ones we have not earned yet marked as such. Honesty about limits applies to benchmarks too.
 
 ## The agent read path
 

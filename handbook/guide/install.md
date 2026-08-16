@@ -6,7 +6,7 @@ description: From clone to a running instance in a handful of commands.
 
 # Install Hanji
 
-Hanji runs today as a local dogfood. One owner, on your machine. Here is the whole path from nothing to a page you can read.
+Hanji runs today on a machine you own - the same way we run it ourselves, daily. Here is the whole path from nothing to a page you can read.
 
 ## Before you start
 

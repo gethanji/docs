@@ -56,6 +56,7 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Name and logo | Shipped | SVG adapts to light and dark; anything else gets a mode-safe plate |
 | Colors and fonts | Shipped | Three OKLCH seeds reinterpreted per mode, contrast secured |
 | Sidebar collapse | Shipped | Automatic by mount count, or your explicit choice |
+| Solo and team modes | Shipped | Solo keeps the sharing chrome away; team brings Share, People, and general access |
 | Tailscale zero-login | Shipped | On a tailnet, the network signs people in; grants stay owner-assigned |
 | A phone-ready shell | Shipped | A slim top bar, and a drawer carrying the full sidebar |
 | Version in the footer | Shipped | One source of truth: the repository's own version |

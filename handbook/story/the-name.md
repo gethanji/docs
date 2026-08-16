@@ -1,6 +1,6 @@
 ---
 title: The name
-order: 65
+order: 20
 ---
 
 # The name

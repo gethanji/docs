@@ -1,6 +1,6 @@
 ---
 title: Mission and vision
-order: 80
+order: 50
 description: Why Hanji exists, and where it is going.
 ---
 

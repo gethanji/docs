@@ -1,6 +1,6 @@
 ---
 title: Hanji
-order: 60
+order: 10
 description: Paper-thin documentation tool.
 ---
 

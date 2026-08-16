@@ -7,7 +7,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-
 aside{border-right:1px solid var(--hairline);padding:2rem 1.25rem 2rem 1.5rem;position:sticky;top:0;height:100vh;overflow-y:auto}
 .lockup{margin:0 0 1.25rem;display:flex;align-items:center;gap:.55rem;font-family:Newsreader,serif;font-size:1.35rem;font-weight:600;line-height:1.5rem}
 .lockup a{display:flex;align-items:center;gap:.55rem;color:var(--ink);text-decoration:none;line-height:1.5rem}
-.lockup .mark{width:1.5rem;height:1.5rem;transform:translateY(-1px)}
+.lockup .mark{width:1.5rem;height:1.5rem;transform:translateY(-2px)}
 .lockup .sep{color:var(--faint);font-weight:400}
 .lockup a.site{color:var(--ink-soft)}
 .lockup a:hover{color:var(--accent-text)}

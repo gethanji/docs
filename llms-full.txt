@@ -186,99 +186,6 @@ It is not the source of truth, and it is careful never to become one. It holds n
 
 ---
 
-<!-- handbook/brand/index.md -->
-
----
-title: The brand
-order: 90
-description: The whole of Hanji's brand in one page: the name, the look, the voice.
----
-
-# The brand
-
-Hanji's brand is one idea, held consistently: this is paper made to be written on and meant to last, and everything you can see or read should feel that way. Three pieces carry it.
-
-- [[The name]] is where it starts. 한지 is Korean paper that has survived a thousand years, and the name is a promise about longevity.
-- [[The visual language]] is how it looks: warm paper, an editorial serif, one secret color, and the ㅎ mark cut back to its bones.
-- [[Voice]] is how it speaks: plainly, with an edge, honest about its limits.
-
-None of the four is loud. That is the brand. The craft lives in restraint, in what was left out, in one considered color instead of ten. A knowledge base is a quiet place you go to read and to think, and the brand's only job is to keep it quiet and make it feel like it will still be here in ten years.
-
----
-
-<!-- handbook/brand/visual-language.md -->
-
----
-title: The visual language
-order: 10
-description: Warm paper, an editorial serif, celadon, and a mark cut back to its bones.
----
-
-# The visual language
-
-Every visual choice in Hanji answers to one idea: this is paper made to be written on and meant to last. Here is what that produced, and why.
-
-## Warm paper white
-
-The background is a warm off-white, close to a fresh sheet, with the faintest grain laid over everything. Pure white is a screen. Warm white is paper. The difference is small, and you feel it on every page, the way you feel the difference between a glossy flyer and a good book.
-
-## An editorial serif
-
-The reading type is **Newsreader**, a serif drawn for long-form reading, set large with a generous line-height and a comfortable measure. A knowledge base is a place you read, sometimes for a long time, and it should carry the calm of a good magazine rather than the density of a dashboard. The interface itself steps back into a quiet sans, so the writing stays the loudest thing on the page.
-
-## 비색, the secret color
-
-The accent is **celadon (비색, bisaek)**, the blue-green glaze of Goryeo celadon that Korean potters a thousand years ago called *the secret color*. It is calm, it is unmistakably Korean, and it is almost never seen in software. It ties the product to a tradition of objects made by hand and meant to endure, which is the same claim hanji makes about paper.
-
-## The mark
-
-<figure>
-<img src="assets/hanji-mark.svg" alt="The Hanji mark, a hieut reduced to a stroke, a bar, and a ring" class="w-25">
-<figcaption>ㅎ or hieut from the Korean alphabet (한글)</figcaption>
-</figure>
-
-The logo is **ㅎ (hieut)**, the first consonant of 한 in 한지 and Hanji, cut back to its bones: a short top stroke, a horizontal bar, and a ring. The letter was already almost a mark, and we only had to clear away what it did not need. The three parts sit exactly where the letter puts them, so it reads as ㅎ to anyone who knows the alphabet and as a calm, balanced glyph to anyone who does not.
-
-The mark keeps its own deep charcoal rather than taking the celadon of the text around it. Celadon is the accent of the writing surface, and the mark is the object that sits on the surface, so it holds its own weight, the way a seal pressed into paper is darker than the ink of the page. It is the single, deliberate exception to the color rule.
-
-## Restraint as the style
-
-There is no chrome for its own sake, no gradient, no theatre of shadows. The craft lives in the spacing, the type, and one considered color. Elegance here is a matter of what we left out. Read [[Voice]] for how the same restraint shapes the words.
-
----
-
-<!-- handbook/brand/voice.md -->
-
----
-title: Voice
-order: 20
-description: "How Hanji speaks: plainly, with an edge, and honest about its limits."
----
-
-# Voice
-
-Hanji's visual language is restraint, and its voice is the same restraint carried into words. Here is how it speaks, and why.
-
-## Plain
-
-We say the thing. No jargon standing in for a plain word, no sentence that could have come from any product on any landing page. If a claim can be made in a shorter word, it is. The reader is a peer, a working engineer or designer who can smell marketing from a mile off, and they get talked to like one.
-
-## With an edge
-
-Plain does not mean bland. Hanji takes positions. Git is the store, and a backup target is not good enough. An agent is a reader, not a chat box. The day you charge someone for the right to write down what they know is the day you have become the thing this was built against. The voice is willing to be a little sharp, because a product with no point of view is not worth reading about.
-
-## Honest about limits
-
-This is the load-bearing one. When a feature is not built, we say so. When permissions are enforced at the mount and not yet the folder, the page says exactly that. A benchmark we have not run honestly is marked as not run, not rounded up. It is the [[Principles]] page applied to the writing: a promise we cannot keep is worse than no promise, so we do not make it.
-
-## In practice
-
-A page reads like a person wrote it, because one did. Sentences vary. Some run long and accumulating, some are three words. There is a wink now and then, and a number wherever a claim can carry one. What there never is: a summary that restates what you just read, or a conclusion that adds nothing. When the point is made, the page stops.
-
-Read [[The visual language]] for the same restraint in pixels.
-
----
-
 <!-- handbook/changelog.md -->
 
 ---
@@ -1056,50 +963,6 @@ Read [[Agents]] next, to let a coding agent read and propose against these same 
 
 ---
 
-<!-- handbook/hanji.md -->
-
----
-title: Hanji
-order: 60
-description: Paper-thin documentation tool.
----
-
-# Hanji
-
-*Paper-thin documentation tool.*
-
-Most knowledge tools are built for the moment you write in them. Hanji is built for every moment after.
-
-We went looking for a place to keep what a team knows, and we kept finding the same shape. A store you cannot read without the app that made it. A model bundled in and metered by the token. A wall between your writing and the agents that, more and more, do the reading. In every case the knowledge was the hostage, and the software was holding it.
-
-So we built the reverse.
-
-Hanji keeps what a team knows as plain Markdown, in a git repository you already own. People read and write through a quiet, well-set web front. Coding agents read and contribute through the same git and a small protocol, at the speed of a local clone. Nothing is bundled. Nothing is metered. Nothing is locked away where only one program can reach it.
-
-That is the whole product in one move. Git is the store, and everything else is a face on top of it.
-
-## Two faces
-
-One face is for people. Pages are Markdown, rendered with care, on a warm sheet meant for long reading. You enter edit mode, make a change, and press Update. That update is a single commit with a full history behind it, and git never once shows itself unless you go looking for it.
-
-The other face is for agents. They already live in git, so Hanji meets them there, plus a small MCP server for scoped search and reading. When an agent wants to write, it does not edit your page. It proposes a change as a branch, and a person decides. An agent can suggest. You merge.
-
-## A lock on the sensitive folders
-
-Some folders hold meeting notes and decisions that are not for everyone. Every read Hanji serves, search and links and the agent tools alike, runs through one permission check, so a reader only ever sees what they are allowed to see. We are honest about what that lock protects today and what it does not. A promise we cannot keep is worse than no promise at all.
-
-## Paper-thin
-
-The name is also a claim about weight. Reads come off a local clone and a small local index, not a round-trip to someone's cloud, so the front stays quick and ships almost nothing to the browser. It is meant to get out of the way. See [[Performance]] for the numbers.
-
-## Why "Hanji"
-
-한지 is Korean paper that has carried writing for a thousand years. The name is a promise about longevity: software comes and goes, and the paper should outlast the app. Read [[The name]] for where it comes from, [[What Hanji is]] for how it works, [[Why Hanji is different]] for what it refuses to do, and [[Mission and vision]] for where it is going.
-
-> Your agents already live in git. Hanji gives the humans a front and the sensitive folders a lock.
-
----
-
 <!-- handbook/index.md -->
 
 ---
@@ -1166,101 +1029,6 @@ The why. What makes this more than a wiki - read these five in order, fifteen mi
 5. [[Mission and vision]], why it exists and where it is going.
 
 Deeper still: **how it's built** ([[How it's built]] · [[The serializer]] · [[The core]] · [[The editor]] · [[The MCP server]] · [[The web front]]), **contributing** ([[Contributing]] · [[Developing]] · [[Conventions]] · [[Open core]]), **the brand** ([[The brand]] · [[The visual language]] · [[Voice]]), and **the project** ([[Principles]] · [[Where we are]] · [[Changelog]]).
-
----
-
-<!-- handbook/is-hanji-for-you.md -->
-
----
-title: Is Hanji for you?
-order: 75
-description: An honest look at who Hanji fits, and where something else fits better.
----
-
-# Is Hanji for you?
-
-A tool that claims to be right for everyone is lying to someone. Here is the honest version.
-
-## Hanji fits you well if
-
-- Your team already keeps things in git, and your agents already read code from it.
-- You want people to read and write without ever learning git.
-- You want to bring your own agent, and you refuse to pay by the token for the privilege.
-- You have folders that must stay private, and you need that lock honored everywhere, including by the agents.
-- You want to be able to walk away with everything, because it was always just your files.
-
-That is the center of the target. A 10-to-200-person team, engineering-led, agent-heavy, already paying for a knowledge base its agents cannot read. If that is you, the rest of this handbook is written for you.
-
-## You will be happier somewhere else if
-
-Honesty about limits is one of our [[Principles]], so here it is turned on ourselves. If your need is in the left column, the tool in the middle will serve you better today, and we would rather point you to it.
-
-| If you want | A better fit today | Why it wins there |
-|---|---|---|
-| One app for docs, tasks, databases, and a bundled AI | Notion | It plays the all-in-one game well. You trade portability for it, and often that trade is worth making. |
-| A polished hosted wiki, and git or agents do not matter to you | Docmost, Outline | Excellent open-source wikis with a real team layer today. Hanji only pays off if the git-native part matters. |
-| Personal notes on your own machine, just you | Obsidian | Hard to beat, and free for exactly that. Hanji is built for a team with a shared repo and a permission line down the middle. |
-| To publish external product documentation | GitBook, Mintlify | Shaped for published docs, with the site polish and the SEO Hanji does not chase. |
-| Enterprise SSO, audit, and a filled-in procurement checklist today | Confluence, or Hanji's paid tier later | Hanji is early. Those parts live on the paid tier, and some are still ahead of us. See [[Where we are]]. |
-| Git and agents, but no human front and no permissions | The agent-first newcomers | They move fast in that space. Hanji exists because we wanted the human front and the lock too. |
-
-## The short version
-
-Hanji is the tool built to hold four things at once: git-backed storage, agent-native access, a polished human front, and real permissions. Need all four, and as of today nothing else does the whole set. Need only one or two, and one of the tools above will serve you better, and we would rather tell you that now than sell you the wrong thing.
-
-No bundled model. No credits, ever. See [[Why Hanji is different]] for the longer argument.
-
----
-
-<!-- handbook/mission-and-vision.md -->
-
----
-title: Mission and vision
-order: 80
-description: Why Hanji exists, and where it is going.
----
-
-# Mission and vision
-
-The whole of it in one line: keep what a team knows on a foundation they own, readable by people and agents alike, free to walk away from, and good enough that they stay.
-
-## The mission
-
-Keep what a team knows in a form that outlasts the software holding it, and never hold it hostage to get there.
-
-That is the entire job. A team's knowledge is one of the few things it builds that should still be readable in ten years, and it is usually trapped in the tool least likely to last that long. Hanji's mission is to break that trap. Put the knowledge somewhere durable and yours. Give people a surface calm enough to actually write on. Give agents a native way in. Lock the parts that need locking. If Hanji disappeared tomorrow, you would lose a nice reading experience and nothing else, because the knowledge was never inside it.
-
-## The vision
-
-Most tools grow by pulling more of your work inside their walls, so that leaving costs a little more every year. We want to grow the opposite way, by being worth keeping even though leaving is free.
-
-The order matters, and it is the same order for every decision. Earn trust first. Charge for the parts an administrator wants, the hosted sync and the single sign-on and the per-folder controls a real organization needs. Never gate what one person needs to write. A student, a solo maintainer, a two-person team should get the whole writing experience for nothing, because the day you charge someone for the right to write down what they know is the day you have become the thing Hanji was built against.
-
-Further out, the bet is bigger than a nicer wiki. Documentation is turning into something machines read as much as people do, and the team that owns its knowledge as clean, permissioned, git-native files hands its agents a sharper tool than any bundled chat box can be. The knowledge base stops being a place you visit and becomes infrastructure you own. That is the world Hanji is building toward.
-
-See [[Where we are]] for what is shipped and what is next, and [[Why Hanji is different]] for the refusals that keep this honest.
-
----
-
-<!-- handbook/principles.md -->
-
----
-title: Principles
-order: 85
----
-
-# Principles
-
-A short list of the beliefs Hanji is built on. When a decision is hard, these break the tie.
-
-- **Git is the store.** The repository is the source of truth. The index is a cache we can throw away and rebuild at any time. Anything we cannot rebuild from git, we do not trust.
-- **The human never meets git.** Reading and writing should feel like a good editorial tool. Commits, branches, and conflicts are plumbing, and plumbing stays behind the wall until someone goes looking for it.
-- **Agents are first-class readers.** More than half of documentation is now read by machines. Hanji treats an agent as a reader with an identity and a scope, the same as a person, and lets it propose rather than overwrite.
-- **No bundled intelligence.** We do not sell you a model or meter your tokens. Bring the agent you already trust. Your bill does not grow because your team wrote more this month.
-- **Permissions are honest about their limits.** We say plainly what a lock protects and what it leaves open. A promise we cannot keep is worse than no promise.
-- **Byte-fidelity.** A one-word edit produces a one-line change. Your history stays readable because the tool refuses to rewrite what you did not touch.
-
-None of these is novel on its own. Holding all of them at once, and refusing to trade one away for a feature, is the point.
 
 ---
 
@@ -1662,11 +1430,265 @@ Read [[Mission and vision]] for the why behind the order.
 
 ---
 
-<!-- handbook/the-name.md -->
+<!-- handbook/story/brand/index.md -->
+
+---
+title: The brand
+order: 70
+description: The whole of Hanji's brand in one page: the name, the look, the voice.
+---
+
+# The brand
+
+Hanji's brand is one idea, held consistently: this is paper made to be written on and meant to last, and everything you can see or read should feel that way. Three pieces carry it.
+
+- [[The name]] is where it starts. 한지 is Korean paper that has survived a thousand years, and the name is a promise about longevity.
+- [[The visual language]] is how it looks: warm paper, an editorial serif, one secret color, and the ㅎ mark cut back to its bones.
+- [[Voice]] is how it speaks: plainly, with an edge, honest about its limits.
+
+None of the four is loud. That is the brand. The craft lives in restraint, in what was left out, in one considered color instead of ten. A knowledge base is a quiet place you go to read and to think, and the brand's only job is to keep it quiet and make it feel like it will still be here in ten years.
+
+---
+
+<!-- handbook/story/brand/visual-language.md -->
+
+---
+title: The visual language
+order: 10
+description: Warm paper, an editorial serif, celadon, and a mark cut back to its bones.
+---
+
+# The visual language
+
+Every visual choice in Hanji answers to one idea: this is paper made to be written on and meant to last. Here is what that produced, and why.
+
+## Warm paper white
+
+The background is a warm off-white, close to a fresh sheet, with the faintest grain laid over everything. Pure white is a screen. Warm white is paper. The difference is small, and you feel it on every page, the way you feel the difference between a glossy flyer and a good book.
+
+## An editorial serif
+
+The reading type is **Newsreader**, a serif drawn for long-form reading, set large with a generous line-height and a comfortable measure. A knowledge base is a place you read, sometimes for a long time, and it should carry the calm of a good magazine rather than the density of a dashboard. The interface itself steps back into a quiet sans, so the writing stays the loudest thing on the page.
+
+## 비색, the secret color
+
+The accent is **celadon (비색, bisaek)**, the blue-green glaze of Goryeo celadon that Korean potters a thousand years ago called *the secret color*. It is calm, it is unmistakably Korean, and it is almost never seen in software. It ties the product to a tradition of objects made by hand and meant to endure, which is the same claim hanji makes about paper.
+
+## The mark
+
+<figure>
+<img src="assets/hanji-mark.svg" alt="The Hanji mark, a hieut reduced to a stroke, a bar, and a ring" class="w-25">
+<figcaption>ㅎ or hieut from the Korean alphabet (한글)</figcaption>
+</figure>
+
+The logo is **ㅎ (hieut)**, the first consonant of 한 in 한지 and Hanji, cut back to its bones: a short top stroke, a horizontal bar, and a ring. The letter was already almost a mark, and we only had to clear away what it did not need. The three parts sit exactly where the letter puts them, so it reads as ㅎ to anyone who knows the alphabet and as a calm, balanced glyph to anyone who does not.
+
+The mark keeps its own deep charcoal rather than taking the celadon of the text around it. Celadon is the accent of the writing surface, and the mark is the object that sits on the surface, so it holds its own weight, the way a seal pressed into paper is darker than the ink of the page. It is the single, deliberate exception to the color rule.
+
+## Restraint as the style
+
+There is no chrome for its own sake, no gradient, no theatre of shadows. The craft lives in the spacing, the type, and one considered color. Elegance here is a matter of what we left out. Read [[Voice]] for how the same restraint shapes the words.
+
+---
+
+<!-- handbook/story/brand/voice.md -->
+
+---
+title: Voice
+order: 20
+description: "How Hanji speaks: plainly, with an edge, and honest about its limits."
+---
+
+# Voice
+
+Hanji's visual language is restraint, and its voice is the same restraint carried into words. Here is how it speaks, and why.
+
+## Plain
+
+We say the thing. No jargon standing in for a plain word, no sentence that could have come from any product on any landing page. If a claim can be made in a shorter word, it is. The reader is a peer, a working engineer or designer who can smell marketing from a mile off, and they get talked to like one.
+
+## With an edge
+
+Plain does not mean bland. Hanji takes positions. Git is the store, and a backup target is not good enough. An agent is a reader, not a chat box. The day you charge someone for the right to write down what they know is the day you have become the thing this was built against. The voice is willing to be a little sharp, because a product with no point of view is not worth reading about.
+
+## Honest about limits
+
+This is the load-bearing one. When a feature is not built, we say so. When permissions are enforced at the mount and not yet the folder, the page says exactly that. A benchmark we have not run honestly is marked as not run, not rounded up. It is the [[Principles]] page applied to the writing: a promise we cannot keep is worse than no promise, so we do not make it.
+
+## In practice
+
+A page reads like a person wrote it, because one did. Sentences vary. Some run long and accumulating, some are three words. There is a wink now and then, and a number wherever a claim can carry one. What there never is: a summary that restates what you just read, or a conclusion that adds nothing. When the point is made, the page stops.
+
+Read [[The visual language]] for the same restraint in pixels.
+
+---
+
+<!-- handbook/story/hanji.md -->
+
+---
+title: Hanji
+order: 10
+description: Paper-thin documentation tool.
+---
+
+# Hanji
+
+*Paper-thin documentation tool.*
+
+Most knowledge tools are built for the moment you write in them. Hanji is built for every moment after.
+
+We went looking for a place to keep what a team knows, and we kept finding the same shape. A store you cannot read without the app that made it. A model bundled in and metered by the token. A wall between your writing and the agents that, more and more, do the reading. In every case the knowledge was the hostage, and the software was holding it.
+
+So we built the reverse.
+
+Hanji keeps what a team knows as plain Markdown, in a git repository you already own. People read and write through a quiet, well-set web front. Coding agents read and contribute through the same git and a small protocol, at the speed of a local clone. Nothing is bundled. Nothing is metered. Nothing is locked away where only one program can reach it.
+
+That is the whole product in one move. Git is the store, and everything else is a face on top of it.
+
+## Two faces
+
+One face is for people. Pages are Markdown, rendered with care, on a warm sheet meant for long reading. You enter edit mode, make a change, and press Update. That update is a single commit with a full history behind it, and git never once shows itself unless you go looking for it.
+
+The other face is for agents. They already live in git, so Hanji meets them there, plus a small MCP server for scoped search and reading. When an agent wants to write, it does not edit your page. It proposes a change as a branch, and a person decides. An agent can suggest. You merge.
+
+## A lock on the sensitive folders
+
+Some folders hold meeting notes and decisions that are not for everyone. Every read Hanji serves, search and links and the agent tools alike, runs through one permission check, so a reader only ever sees what they are allowed to see. We are honest about what that lock protects today and what it does not. A promise we cannot keep is worse than no promise at all.
+
+## Paper-thin
+
+The name is also a claim about weight. Reads come off a local clone and a small local index, not a round-trip to someone's cloud, so the front stays quick and ships almost nothing to the browser. It is meant to get out of the way. See [[Performance]] for the numbers.
+
+## Why "Hanji"
+
+한지 is Korean paper that has carried writing for a thousand years. The name is a promise about longevity: software comes and goes, and the paper should outlast the app. Read [[The name]] for where it comes from, [[What Hanji is]] for how it works, [[Why Hanji is different]] for what it refuses to do, and [[Mission and vision]] for where it is going.
+
+> Your agents already live in git. Hanji gives the humans a front and the sensitive folders a lock.
+
+---
+
+<!-- handbook/story/index.md -->
+
+---
+title: The story
+order: 60
+description: The why behind the product - what makes this more than a wiki.
+---
+
+# The story
+
+Everything here is the why. None of it is required to use Hanji - but it is the fifteen minutes that explain every decision in the pages above.
+
+1. [[Hanji]], the manifesto. What it is, in one read.
+2. [[The name]] - 한지, the paper this is named for.
+3. [[Why Hanji is different]], how it lands differently from other tools.
+4. [[Is Hanji for you?]], an honest look at fit, with better options where they exist.
+5. [[Mission and vision]], why it exists and where it is going.
+6. [[Principles]], the beliefs that break the ties.
+7. [[The brand]] - the visual language and the voice, for anyone writing as Hanji.
+
+---
+
+<!-- handbook/story/is-hanji-for-you.md -->
+
+---
+title: Is Hanji for you?
+order: 40
+description: An honest look at who Hanji fits, and where something else fits better.
+---
+
+# Is Hanji for you?
+
+A tool that claims to be right for everyone is lying to someone. Here is the honest version.
+
+## Hanji fits you well if
+
+- Your team already keeps things in git, and your agents already read code from it.
+- You want people to read and write without ever learning git.
+- You want to bring your own agent, and you refuse to pay by the token for the privilege.
+- You have folders that must stay private, and you need that lock honored everywhere, including by the agents.
+- You want to be able to walk away with everything, because it was always just your files.
+
+That is the center of the target. A 10-to-200-person team, engineering-led, agent-heavy, already paying for a knowledge base its agents cannot read. If that is you, the rest of this handbook is written for you.
+
+## You will be happier somewhere else if
+
+Honesty about limits is one of our [[Principles]], so here it is turned on ourselves. If your need is in the left column, the tool in the middle will serve you better today, and we would rather point you to it.
+
+| If you want | A better fit today | Why it wins there |
+|---|---|---|
+| One app for docs, tasks, databases, and a bundled AI | Notion | It plays the all-in-one game well. You trade portability for it, and often that trade is worth making. |
+| A polished hosted wiki, and git or agents do not matter to you | Docmost, Outline | Excellent open-source wikis with a real team layer today. Hanji only pays off if the git-native part matters. |
+| Personal notes on your own machine, just you | Obsidian | Hard to beat, and free for exactly that. Hanji is built for a team with a shared repo and a permission line down the middle. |
+| To publish external product documentation | GitBook, Mintlify | Shaped for published docs, with the site polish and the SEO Hanji does not chase. |
+| Enterprise SSO, audit, and a filled-in procurement checklist today | Confluence, or Hanji's paid tier later | Hanji is early. Those parts live on the paid tier, and some are still ahead of us. See [[Where we are]]. |
+| Git and agents, but no human front and no permissions | The agent-first newcomers | They move fast in that space. Hanji exists because we wanted the human front and the lock too. |
+
+## The short version
+
+Hanji is the tool built to hold four things at once: git-backed storage, agent-native access, a polished human front, and real permissions. Need all four, and as of today nothing else does the whole set. Need only one or two, and one of the tools above will serve you better, and we would rather tell you that now than sell you the wrong thing.
+
+No bundled model. No credits, ever. See [[Why Hanji is different]] for the longer argument.
+
+---
+
+<!-- handbook/story/mission-and-vision.md -->
+
+---
+title: Mission and vision
+order: 50
+description: Why Hanji exists, and where it is going.
+---
+
+# Mission and vision
+
+The whole of it in one line: keep what a team knows on a foundation they own, readable by people and agents alike, free to walk away from, and good enough that they stay.
+
+## The mission
+
+Keep what a team knows in a form that outlasts the software holding it, and never hold it hostage to get there.
+
+That is the entire job. A team's knowledge is one of the few things it builds that should still be readable in ten years, and it is usually trapped in the tool least likely to last that long. Hanji's mission is to break that trap. Put the knowledge somewhere durable and yours. Give people a surface calm enough to actually write on. Give agents a native way in. Lock the parts that need locking. If Hanji disappeared tomorrow, you would lose a nice reading experience and nothing else, because the knowledge was never inside it.
+
+## The vision
+
+Most tools grow by pulling more of your work inside their walls, so that leaving costs a little more every year. We want to grow the opposite way, by being worth keeping even though leaving is free.
+
+The order matters, and it is the same order for every decision. Earn trust first. Charge for the parts an administrator wants, the hosted sync and the single sign-on and the per-folder controls a real organization needs. Never gate what one person needs to write. A student, a solo maintainer, a two-person team should get the whole writing experience for nothing, because the day you charge someone for the right to write down what they know is the day you have become the thing Hanji was built against.
+
+Further out, the bet is bigger than a nicer wiki. Documentation is turning into something machines read as much as people do, and the team that owns its knowledge as clean, permissioned, git-native files hands its agents a sharper tool than any bundled chat box can be. The knowledge base stops being a place you visit and becomes infrastructure you own. That is the world Hanji is building toward.
+
+See [[Where we are]] for what is shipped and what is next, and [[Why Hanji is different]] for the refusals that keep this honest.
+
+---
+
+<!-- handbook/story/principles.md -->
+
+---
+title: Principles
+order: 60
+---
+
+# Principles
+
+A short list of the beliefs Hanji is built on. When a decision is hard, these break the tie.
+
+- **Git is the store.** The repository is the source of truth. The index is a cache we can throw away and rebuild at any time. Anything we cannot rebuild from git, we do not trust.
+- **The human never meets git.** Reading and writing should feel like a good editorial tool. Commits, branches, and conflicts are plumbing, and plumbing stays behind the wall until someone goes looking for it.
+- **Agents are first-class readers.** More than half of documentation is now read by machines. Hanji treats an agent as a reader with an identity and a scope, the same as a person, and lets it propose rather than overwrite.
+- **No bundled intelligence.** We do not sell you a model or meter your tokens. Bring the agent you already trust. Your bill does not grow because your team wrote more this month.
+- **Permissions are honest about their limits.** We say plainly what a lock protects and what it leaves open. A promise we cannot keep is worse than no promise.
+- **Byte-fidelity.** A one-word edit produces a one-line change. Your history stays readable because the tool refuses to rewrite what you did not touch.
+
+None of these is novel on its own. Holding all of them at once, and refusing to trade one away for a feature, is the point.
+
+---
+
+<!-- handbook/story/the-name.md -->
 
 ---
 title: The name
-order: 65
+order: 20
 ---
 
 # The name
@@ -1683,11 +1705,11 @@ We kept the metaphor close in the craft too. The reading surface is warm, like a
 
 ---
 
-<!-- handbook/why-hanji-is-different.md -->
+<!-- handbook/story/why-hanji-is-different.md -->
 
 ---
 title: Why Hanji is different
-order: 70
+order: 30
 description: What Hanji refuses to do, and why that is the point.
 ---
 

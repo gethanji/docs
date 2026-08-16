@@ -1,6 +1,6 @@
 ---
 title: Why Hanji is different
-order: 70
+order: 30
 description: What Hanji refuses to do, and why that is the point.
 ---
 

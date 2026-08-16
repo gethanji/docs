@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performance · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../../hanji/">Hanji</a><a href="../../the-name/">The name</a><a href="../../why-hanji-is-different/">Why Hanji is different</a><a href="../../is-hanji-for-you/">Is Hanji for you?</a><a href="../../mission-and-vision/">Mission and vision</a><details open><summary><a href="../">What Hanji is</a></summary><a href="../two-faces/">The two faces</a><a href="../permissions/">Permissions</a><a href="../byte-fidelity/">Byte-fidelity</a><a aria-current="page" href="./">Performance</a><a href="../features/">Features</a></details><details><summary><a href="../../guide/">Using Hanji</a></summary><a href="../../guide/install/">Install Hanji</a><a href="../../guide/mounts/">Mounts</a><a href="../../guide/reading-and-writing/">Reading and writing</a><a href="../../guide/agents/">Agents</a><a href="../../guide/proposals/">Proposals</a><a href="../../guide/cli/">Command reference</a><a href="../../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../brand/">The brand</a></summary><a href="../../brand/visual-language/">The visual language</a><a href="../../brand/voice/">Voice</a></details><a href="../../principles/">Principles</a><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / product / performance</p>
+<article><h1>Performance</h1>
+<p>Paper-thin is not only a metaphor about longevity. It is also a claim about weight. A knowledge base you read all day should be quick and light, and most are neither, because every read is a round-trip to someone's cloud and every page ships a small application to your browser.</p>
+<p>Hanji is built the other way. Reads come off a local git clone and a small local index, not a network hop. Here are the numbers, measured on the dogfood instance, with the ones we have not earned yet marked as such. Honesty about limits applies to benchmarks too.</p>
+<h2>The agent read path</h2>
+<p>This is the one that has to be fast, because agents read constantly. Measured against the running instance over 127.0.0.1, five runs each.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Operation</th><th>Time</th><th>What it does</th></tr></thead><tbody><tr><td>Fetch a page</td><td>~2 ms</td><td>Return a page's Markdown by mount and path</td></tr><tr><td>Full-text search</td><td>~2 to 3 ms</td><td>Query the FTS5 index across every mount you can read</td></tr></tbody></table>
+<p>Single-digit milliseconds, because there is no cloud in the loop. The agent reads from a local clone and a local index, the same way it reads your code.</p>
+<h2>Weight and dependencies</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Thing</th><th>Number</th></tr></thead><tbody><tr><td>Bundled LLM SDKs</td><td>0</td></tr><tr><td>AI credits or metering</td><td>none, ever</td></tr><tr><td>Web app runtime dependencies</td><td>24, all ProseMirror, remark-rehype, React, and Next</td></tr><tr><td>Test cases</td><td>212</td></tr><tr><td>Real Markdown files round-tripped byte-identical</td><td>600+</td></tr></tbody></table>
+<p>The zero on the first row is the point. Hanji ships no model and meters nothing, so nothing about its cost or its weight grows because your team wrote more this month.</p>
+<h2>Weight in the browser</h2>
+<p>Measured on a clean production build, served and loaded through a real request (the <code>pnpm smoke</code> boot test).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Thing</th><th>Number</th></tr></thead><tbody><tr><td>Shared JavaScript, first load</td><td>~103 kB</td></tr><tr><td>Reading a page, first load</td><td>~108 kB</td></tr><tr><td>A rendered page, over the wire</td><td>~14 kB of HTML</td></tr><tr><td>Time to first byte</td><td>~55 ms</td></tr></tbody></table>
+<p>Reading sits just above the shared floor. The editor is a separate chunk that does not load until you press Edit, so the common case, reading, stays paper-thin, and the writing tools arrive only when you reach for them.</p>
+<p>The index itself is worth one honest note. It is a cache. Whatever it costs in space, you can delete it and rebuild it from git, because the repository is the only thing that has to be trusted. Read <a href="../byte-fidelity/">Byte-fidelity</a> for the engine underneath, and <a href="../../why-hanji-is-different/">Why Hanji is different</a> for why none of this is bundled.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

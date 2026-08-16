@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where we are · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../hanji/">Hanji</a><a href="../the-name/">The name</a><a href="../why-hanji-is-different/">Why Hanji is different</a><a href="../is-hanji-for-you/">Is Hanji for you?</a><a href="../mission-and-vision/">Mission and vision</a><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../brand/">The brand</a></summary><a href="../brand/visual-language/">The visual language</a><a href="../brand/voice/">Voice</a></details><a href="../principles/">Principles</a><a aria-current="page" href="./">Where we are</a><a href="../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../">handbook</a> / status</p>
+<article><h1>Where we are now</h1>
+<p>Hanji is early, and built in the open with its own tools. This page is written in Hanji, kept in Hanji's repository, and read through the product you are looking at now. It is honest to a fault, because pretending to be further along than you are is its own kind of lock-in. There are no dates here, because a solo, early project that promises dates is lying. The order is real, though, and it follows the rule in <a href="../mission-and-vision/">Mission and vision</a>: earn trust first, charge for what an administrator wants, never gate what one person needs to write.</p>
+<h2>Now, shipped and live</h2>
+<ul>
+<li><input type="checkbox" checked disabled> Byte-fidelity Markdown engine, guarded by a corpus gate</li>
+<li><input type="checkbox" checked disabled> Git-backed mounts, sync, and a rebuildable index</li>
+<li><input type="checkbox" checked disabled> The human front: reading, in-place WYSIWYG editing, history, nested navigation</li>
+<li><input type="checkbox" checked disabled> The agent surface: MCP scoped read tools and propose-as-PR</li>
+<li><input type="checkbox" checked disabled> Per-mount permissions on a single read path</li>
+<li><input type="checkbox" checked disabled> The agent git flow, end to end: an agent proposes, you review the diff in the front, and merge (see <a href="../guide/proposals/">Proposals</a>)</li>
+<li><input type="checkbox" checked disabled> Search worth the name: a title-boosted, multi-word-aware backend under a <code>⌘K</code> palette and a full results page</li>
+<li><input type="checkbox" checked disabled> The sidebar as an organizer: quick-create, drag to move, reorder, nest, and delete, all real git behind an instant UI</li>
+<li><input type="checkbox" checked disabled> A workspace made yours: name, logo, OKLCH theming with secured contrast, fonts, and a phone-ready shell</li>
+<li><input type="checkbox" checked disabled> Proposal from the human front: on a suggest-only mount, Update becomes Propose, landing in the same review card</li>
+<li><input type="checkbox" checked disabled> Several human principals: viewers and contributors with per-mount scopes, added by the owner in Settings</li>
+<li><input type="checkbox" checked disabled> The lock, down to a single page: path grants (mount, folder, or one file) and a Share button on the page itself</li>
+<li><input type="checkbox" checked disabled> Content-first visibility: general access inherited downward, restrictions that go dark, people as the exceptions</li>
+<li><input type="checkbox" checked disabled> Tailscale mode: run on a tailnet and the network signs people in, no password, grants untouched (see <a href="../guide/on-your-tailnet/">On your tailnet</a>)</li>
+<li><input type="checkbox" checked disabled> Path grants for agent tokens: a token holds a mount, a folder, or one page - the same mechanism people have</li>
+<li><input type="checkbox" checked disabled> <code>hanji export</code>: the everyone-visible content mirrored as <code>llms.txt</code> plus per-page Markdown, for the agents that read the open web</li>
+<li><input type="checkbox" checked disabled> Changes arrive on their own: a signed push-to-sync webhook, and an opt-in poll loop for tailnets and local mounts</li>
+<li><input type="checkbox" checked disabled> The publishing plane: <code>hanji export</code> renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.</li>
+</ul>
+<p>Reading and writing both feel like paper. That was the first thing that had to be true. See <a href="../product/features/">Features</a> for the full list, and <a href="../changelog/">Changelog</a> for what shipped when.</p>
+<h2>Next, in build</h2>
+<p>The agent git flow shipped; what remains of the real test is a second pair of hands living on it.</p>
+<ul>
+<li><input type="checkbox" disabled> <strong>A second human</strong>, living on a shared instance - the thing no more code can produce</li>
+</ul>
+<h2>Later, the paid seam</h2>
+<p>Everything an administrator needs to trust Hanji with a whole organization. This is where the revenue is, and it is deliberately not where the writing is.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Area</th><th>What it adds</th></tr></thead><tbody><tr><td>Hosted sync</td><td>A managed instance, for teams who would rather not run their own</td></tr><tr><td>Single sign-on</td><td>Log in with your identity provider</td></tr><tr><td>Audit</td><td>Who read and wrote what, and when, read straight from the git history</td></tr><tr><td>Hardening</td><td>The operational harnesses that keep an organization-size instance honest at scale</td></tr></tbody></table>
+<h2>Exploring, not promised</h2>
+<p>Ideas we like and have not committed to.</p>
+<ul>
+<li>Real-time collaboration, reconciled with git as the source of truth</li>
+<li>Serving a folder as an installable agent skill</li>
+<li>The HTML half of publishing: <code>hanji export</code> rendered as a browsable static site</li>
+</ul>
+<p>Read <a href="../mission-and-vision/">Mission and vision</a> for the why behind the order.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

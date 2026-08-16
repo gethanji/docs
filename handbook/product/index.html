@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Hanji is · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../hanji/">Hanji</a><a href="../the-name/">The name</a><a href="../why-hanji-is-different/">Why Hanji is different</a><a href="../is-hanji-for-you/">Is Hanji for you?</a><a href="../mission-and-vision/">Mission and vision</a><details open><summary><a href="./">What Hanji is</a></summary><a href="two-faces/">The two faces</a><a href="permissions/">Permissions</a><a href="byte-fidelity/">Byte-fidelity</a><a href="performance/">Performance</a><a href="features/">Features</a></details><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../brand/">The brand</a></summary><a href="../brand/visual-language/">The visual language</a><a href="../brand/voice/">Voice</a></details><a href="../principles/">Principles</a><a href="../status/">Where we are</a><a href="../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../">handbook</a> / product</p>
+<article><h1>What Hanji is</h1>
+<p>Hanji turns the git repositories a team already has into one shared, permissioned knowledge base with two faces. One for people, one for agents. Nothing moves and nothing is copied into a new store. Hanji reads what is already there and serves it well.</p>
+<h2>Mounts</h2>
+<p>You point Hanji at git repositories, or at folders inside them, and each one becomes a <strong>mount</strong> in a single tree. A repo of engineering docs, a folder of product specs, a private repo of meeting notes, all of it lands in one place to read and search, while each repository stays exactly where it is. Hanji never becomes the owner of your content. Git remains the source of truth, and the index Hanji builds on top is a cache it can throw away and rebuild at any time. See <a href="../guide/mounts/">Mounts</a> for how to add one.</p>
+<h2>For people</h2>
+<p>A quiet reading and writing front. Pages are Markdown, rendered with care on a warm sheet meant for long reading. Editing is deliberate. You enter edit mode, make your changes, and press Update, and that Update is a single commit with a full history behind it. Git stays out of sight unless you go looking for it. There is a full editor under that calm surface, with tables, task lists, images, and embeds, and it never rewrites a line you did not touch. Read <a href="two-faces/">The two faces</a> for how the front is built, and <a href="byte-fidelity/">Byte-fidelity</a> for why your history stays clean.</p>
+<h2>For agents</h2>
+<p>Coding agents read the knowledge the way they read code, as files in a repository, at the speed of a local clone. Where a hosted surface helps, a small MCP server offers scoped search and reading, plus a write path that proposes changes as branches rather than editing pages in place. An agent can suggest. A person decides. That one rule fixes the failure mode everyone with a bundled AI has hit, the model that confidently edited the wrong page. Here it opens a branch, and you merge it or you do not.</p>
+<h2>For the sensitive parts</h2>
+<p>Some folders hold decisions and notes that should not be open to everyone. Every read Hanji serves, search and links and the agent tools alike, runs through a single permission check, so a reader only ever sees what they are allowed to see. A search will not leak a title. A wikilink will not resolve to a page you cannot open. And we are honest about where that check is strict today and where it is still getting finer. Read <a href="permissions/">Permissions</a> for exactly what is enforced now.</p>
+<h2>What it will never do</h2>
+<p>No bundled model. No per-token credits. No format you cannot walk away from. If you leave, you already have everything, because it was always just your files in your git. Read <a href="../why-hanji-is-different/">Why Hanji is different</a> for the longer version of that promise.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

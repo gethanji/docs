@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conventions · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../../hanji/">Hanji</a><a href="../../the-name/">The name</a><a href="../../why-hanji-is-different/">Why Hanji is different</a><a href="../../is-hanji-for-you/">Is Hanji for you?</a><a href="../../mission-and-vision/">Mission and vision</a><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../guide/">Using Hanji</a></summary><a href="../../guide/install/">Install Hanji</a><a href="../../guide/mounts/">Mounts</a><a href="../../guide/reading-and-writing/">Reading and writing</a><a href="../../guide/agents/">Agents</a><a href="../../guide/proposals/">Proposals</a><a href="../../guide/cli/">Command reference</a><a href="../../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details open><summary><a href="../">Contributing</a></summary><a href="../develop/">Developing</a><a aria-current="page" href="./">Conventions</a><a href="../open-core/">Open core</a></details><details><summary><a href="../../brand/">The brand</a></summary><a href="../../brand/visual-language/">The visual language</a><a href="../../brand/voice/">Voice</a></details><a href="../../principles/">Principles</a><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / contributing / conventions</p>
+<article><h1>Conventions</h1>
+<p>Nothing exotic here. The conventions exist so the codebase stays boring, and boring is the goal.</p>
+<h2>Code</h2>
+<ul>
+<li><strong>Strict TypeScript</strong>, everywhere, with no exceptions carved out to dodge a type.</li>
+<li><strong>Small modules with one job.</strong> The parts of Hanji have clear seams on purpose. A file that grows into two responsibilities gets split.</li>
+<li><strong>The security-critical paths are single-sourced.</strong> Permissions live in one module. Byte-fidelity lives in one engine. You do not add a second way to do either, because a second way is a second thing to get wrong.</li>
+<li><strong>No new dependency for what a few lines can do</strong>, and never a dependency that pulls in a model or a meter.</li>
+</ul>
+<h2>Commits</h2>
+<ul>
+<li><strong>DCO sign-off</strong> on every commit, <code>git commit -s</code>.</li>
+<li><strong>Clean, human history.</strong> A commit message says what changed and why, in a person's words. No machine trailers, no noise. The point of byte-fidelity is a readable history, and the commits are held to the same bar.</li>
+<li><strong>One change per commit.</strong> A one-word fix is a one-line diff, and the commit that carries it should be just as legible.</li>
+</ul>
+<h2>Documentation</h2>
+<ul>
+<li><strong>Docs ship with the feature.</strong> A behavior change and its handbook pages land in the same series: the changelog says what changed, <a href="../../status/">Where we are</a> stays true, and the affected guides get swept for claims the change made false. This handbook is the product documenting itself, so a stale page is a product bug.</li>
+<li><strong>A mechanical floor is enforced by the test suite</strong>: every environment variable the product reads is documented, every CLI command is in the <a href="../../guide/cli/">Command reference</a>, every guide page is in the reading order. When that test fails, the docs are wrong, not the test.</li>
+</ul>
+<h2>Reviews</h2>
+<p>Changes get reviewed, and the reviews are adversarial where they need to be, on the permission and byte-fidelity paths especially. A finding on those paths is not a nit. It is the product. Read <a href="../open-core/">Open core</a> for the license this all ships under.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The core · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../../hanji/">Hanji</a><a href="../../the-name/">The name</a><a href="../../why-hanji-is-different/">Why Hanji is different</a><a href="../../is-hanji-for-you/">Is Hanji for you?</a><a href="../../mission-and-vision/">Mission and vision</a><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../guide/">Using Hanji</a></summary><a href="../../guide/install/">Install Hanji</a><a href="../../guide/mounts/">Mounts</a><a href="../../guide/reading-and-writing/">Reading and writing</a><a href="../../guide/agents/">Agents</a><a href="../../guide/proposals/">Proposals</a><a href="../../guide/cli/">Command reference</a><a href="../../guide/on-your-tailnet/">On your tailnet</a></details><details open><summary><a href="../">How it's built</a></summary><a href="../serializer/">The serializer</a><a aria-current="page" href="./">The core</a><a href="../editor/">The editor</a><a href="../mcp/">The MCP server</a><a href="../web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../brand/">The brand</a></summary><a href="../../brand/visual-language/">The visual language</a><a href="../../brand/voice/">Voice</a></details><a href="../../principles/">Principles</a><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / architecture / core</p>
+<article><h1>The core</h1>
+<p><code>@hanji/core</code> is the rail everything runs on. If the serializer is the paper, core is the press. It takes your git repositories and turns them into something you can read, search, and permission.</p>
+<h2>What it holds</h2>
+<ul>
+<li><strong>Mounts and git.</strong> Core clones each mount, keeps it current, and writes through it. Git is driven as a subprocess, the same git you already have, so there is no reimplementation of version control to trust.</li>
+<li><strong>The index.</strong> A SQLite database with full-text search and a table of wikilinks, split in two: a config database for mounts and tokens, and an index database for pages. The index is a cache, rebuildable at any time from the clones.</li>
+<li><strong>Permissions.</strong> One module, and one rule: every read the app serves flows through it, and the scope check is compiled in exactly one place. Search, page reads, and link resolution all pass through the same door. A page you cannot see is indistinguishable from one that does not exist. Read <a href="../../product/permissions/">Permissions</a>.</li>
+<li><strong>Writes.</strong> <code>saveFile</code> commits directly, with read-your-own-writes, guarded by a per-mount lock so two writes cannot race. <code>proposeSave</code> instead opens a branch, and where GitHub is connected, a pull request.</li>
+<li><strong>History.</strong> Because the store is git, a page's past is just its commits. Core reads them into a list of revisions, and can hand back any past version.</li>
+</ul>
+<h2>Why SQLite, and why a subprocess git</h2>
+<p>Both are the boring, durable option. SQLite is a file, not a server, so the index has no daemon to run and nothing to operate. Driving the real <code>git</code> binary means Hanji inherits whatever your git already does, credentials and remotes and all, instead of reimplementing a fraction of it and getting the edge cases wrong.</p>
+<p>Read <a href="../mcp/">The MCP server</a> for how agents reach this, and <a href="../web/">The web front</a> for how people do.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

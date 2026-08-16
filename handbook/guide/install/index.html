@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Install Hanji · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../../hanji/">Hanji</a><a href="../../the-name/">The name</a><a href="../../why-hanji-is-different/">Why Hanji is different</a><a href="../../is-hanji-for-you/">Is Hanji for you?</a><a href="../../mission-and-vision/">Mission and vision</a><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details open><summary><a href="../">Using Hanji</a></summary><a aria-current="page" href="./">Install Hanji</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a href="../cli/">Command reference</a><a href="../on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../brand/">The brand</a></summary><a href="../../brand/visual-language/">The visual language</a><a href="../../brand/voice/">Voice</a></details><a href="../../principles/">Principles</a><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / guide / install</p>
+<article><h1>Install Hanji</h1>
+<p>Hanji runs today as a local dogfood. One owner, on your machine. Here is the whole path from nothing to a page you can read.</p>
+<h2>Before you start</h2>
+<p>You need a recent Node, <code>pnpm</code>, and <code>git</code>. One dependency, the SQLite driver, is built from source on install, so you also need a working C toolchain: the Xcode command-line tools on a Mac, or <code>build-essential</code> on Linux. That is a known rough edge, and smoothing it out is on the <a href="../../status/">Where we are</a>.</p>
+<h2>Get it running</h2>
+<pre><code class="language-bash"># 1. install
+pnpm install
+
+# 2. point it at a data dir and set the front's secrets
+export HANJI_DATA_DIR=~/.hanji
+export HANJI_SESSION_SECRET=$(openssl rand -hex 32)
+export HANJI_OWNER_PASSWORD=choose-one
+
+# 3. mount a repo you own (name, git url, mount path)
+pnpm hanji add-mount notes git@github.com:you/notes.git notes
+
+# 4. clone and index it
+pnpm hanji sync
+
+# 5. run the two surfaces
+pnpm dev:web   # the human front at http://localhost:4100
+pnpm dev:mcp   # the agent surface at http://localhost:4101/mcp
+</code></pre>
+<p>Open <code>http://localhost:4100</code>, sign in with the owner password you set, and your notes are there, rendered on warm paper. That is the whole thing running.</p>
+<figure>
+<img src="../../assets/login.png" alt="The login screen: the workspace mark, its name, and one password field" class="w-25">
+<figcaption>The front door. One password for the owner; people you add sign in with their own.</figcaption>
+</figure>
+<h2>The three secrets</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>What it is</th></tr></thead><tbody><tr><td><code>HANJI_DATA_DIR</code></td><td>Where Hanji keeps its clones and its index. Everything here is disposable and rebuildable from git.</td></tr><tr><td><code>HANJI_SESSION_SECRET</code></td><td>The key that signs your login session. Any 32-byte hex string.</td></tr><tr><td><code>HANJI_OWNER_PASSWORD</code></td><td>The password for the single owner account, the one that reads and writes everything.</td></tr></tbody></table>
+<p>Two more are optional. <code>HANJI_GITHUB_TOKEN</code> lets the propose path open real pull requests, and <code>HANJI_GIT_AUTHOR_NAME</code> with <code>HANJI_GIT_AUTHOR_EMAIL</code> set the name on the commits Hanji makes. See <a href="../agents/">Agents</a> for the first and <a href="../cli/">Command reference</a> for the rest.</p>
+<p>Next, point Hanji at the repositories you actually want. Read <a href="../mounts/">Mounts</a>.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

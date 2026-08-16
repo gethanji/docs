@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Permissions · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../../hanji/">Hanji</a><a href="../../the-name/">The name</a><a href="../../why-hanji-is-different/">Why Hanji is different</a><a href="../../is-hanji-for-you/">Is Hanji for you?</a><a href="../../mission-and-vision/">Mission and vision</a><details open><summary><a href="../">What Hanji is</a></summary><a href="../two-faces/">The two faces</a><a aria-current="page" href="./">Permissions</a><a href="../byte-fidelity/">Byte-fidelity</a><a href="../performance/">Performance</a><a href="../features/">Features</a></details><details><summary><a href="../../guide/">Using Hanji</a></summary><a href="../../guide/install/">Install Hanji</a><a href="../../guide/mounts/">Mounts</a><a href="../../guide/reading-and-writing/">Reading and writing</a><a href="../../guide/agents/">Agents</a><a href="../../guide/proposals/">Proposals</a><a href="../../guide/cli/">Command reference</a><a href="../../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../brand/">The brand</a></summary><a href="../../brand/visual-language/">The visual language</a><a href="../../brand/voice/">Voice</a></details><a href="../../principles/">Principles</a><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / product / permissions</p>
+<article><h1>Permissions</h1>
+<p>Permissions are where most knowledge tools get honest too late. Hanji tries to get honest early, which means telling you plainly what the lock does today and what it does not do yet.</p>
+<h2>The model</h2>
+<p>Two planes. One is an open human front, where a team reads and writes in the clear. The other is the set of sensitive areas that must stay closed, the meeting notes and the decisions and anything you would not tack to a shared wall. The whole design rests on one rule: <strong>every surface honors the same check</strong>. Search, wikilinks, page reads, and the agent tools all ask the same question before they show you anything, so there is no back door where a locked title slips out through search, or a link resolves to a page you were never allowed to open.</p>
+<p>That is not a claim to make lightly, so here is how it actually works.</p>
+<h2>One read path</h2>
+<p>Every read Hanji serves runs through a single module. The scope check, which mounts may this reader see, is compiled in exactly one place and nowhere else. Search filters to your readable mounts before it runs. A page read returns nothing for a mount you cannot see. Wikilink resolution uses the same filter. This is the boring, load-bearing part. There is one door, and it is the same door for people and for agents.</p>
+<p>A locked page and a page that does not exist look identical to a reader who lacks access. Both come back as not found. You cannot probe the shape of what you are not allowed to see.</p>
+<h2>Scopes today</h2>
+<p>Access is granted per mount, in two levels.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Scope</th><th>The reader can</th><th>The reader cannot</th></tr></thead><tbody><tr><td>none</td><td>see nothing of the mount, not even that it exists</td><td>read, search, or link into it</td></tr><tr><td><code>read</code></td><td>read, search, and follow links inside the mount</td><td>write, or propose changes</td></tr><tr><td><code>read+propose</code></td><td>everything <code>read</code> can, plus propose changes as a branch or PR</td><td>merge, or write directly</td></tr></tbody></table>
+<p>The owner sees every mount. An agent gets a bearer token whose scopes take the same shape as a person's grants - a whole mount, a folder, or exactly one page - so an agent that helps with the engineering docs never sees the folder of sensitive notes, even when both live in the same repository. See <a href="../../guide/agents/">Agents</a> for how that works in practice.</p>
+<h2>Visibility belongs to the content</h2>
+<p>The model reads the way Notion and Confluence taught everyone to think. Content carries a general access level - <strong>Everyone can read</strong>, <strong>Everyone can suggest</strong>, or <strong>Restricted</strong> - set on a mount, a folder, or a single page, flowing down to everything beneath. Open content is simply open: no per-person bookkeeping. Restricted content is dark by default, and the deepest rule covering a page wins, so one restricted folder inside an open mount goes dark for everyone.</p>
+<p>People are the exceptions. A person granted a path - a mount, a folder, or exactly one page - punches through a restriction at or below their grant. That is the 1:1 note: a restricted folder, two names, and nobody else sees it in the tree, in search, or through a wikilink. A locked page still looks identical to a page that does not exist.</p>
+<p>Sharing lives where the content lives: a <strong>Share</strong> control on every page, and on every mount and folder in the sidebar, showing the general access (and where it is inherited from), the people with specific access and through which grant, and a one-line way to add someone with read or suggest. Settings keeps the overview: a Mount access tab for general access per mount, and a People tab for everyone's grants in one place. Revoking takes effect on the person's next request. The rule and grant tables are the implementation; the page is the interface.</p>
+<figure><img src="../../assets/share-popover.png" alt="The Share popover on a mount: general access set to Everyone can read, and one person&#x27;s grant listed beneath" class="w-75"><figcaption>Share, where the content lives: the general rule on top, the exceptions by name.</figcaption></figure>
+<p>One deliberate exception: <strong>agents never inherit "everyone"</strong>. A token sees exactly the scopes it was minted with, whatever the content rules say - opening a mount to your team never opens it to a bot.</p>
+<h2>People, same scopes</h2>
+<p>The same two levels now apply to humans. The owner adds a person in Settings with a name, a password, and per-mount scopes: <code>read</code> makes a <strong>viewer</strong>, <code>read+propose</code> makes a <strong>contributor</strong> whose Update reads Propose and lands in the owner's review card. A user never commits to base, never restructures the tree, and never sees review or settings - those stay the owner's. In user terms: viewers read, contributors suggest, the owner decides. One read path, one review ceremony, whatever species the writer is.</p>
+<h2>What is honest about it</h2>
+<p>The unit of permission is now the path, down to one file, for people and agent tokens alike, and it holds on the same single read path as everything else. What remains honest to say: product privacy is not storage privacy - the bytes are plaintext in a git repo, so the instance owner and the git host can always read them. A 1:1 note is hidden from every other principal; hiding it from the owner would take cryptography, not permissions. The two-plane model is real and enforced on one honest read path, and <a href="../../status/">Where we are</a> tracks the rest without rounding up.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

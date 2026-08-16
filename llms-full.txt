@@ -1,0 +1,1602 @@
+# Hanji
+
+> Everything in this knowledge base that is open to everyone, mirrored as plain Markdown for agents and people alike.
+
+---
+
+<!-- handbook/architecture/core.md -->
+
+---
+title: The core
+order: 20
+description: "@hanji/core: mounts, git, the index, search, permissions, propose, and history."
+---
+
+# The core
+
+`@hanji/core` is the rail everything runs on. If the serializer is the paper, core is the press. It takes your git repositories and turns them into something you can read, search, and permission.
+
+## What it holds
+
+- **Mounts and git.** Core clones each mount, keeps it current, and writes through it. Git is driven as a subprocess, the same git you already have, so there is no reimplementation of version control to trust.
+- **The index.** A SQLite database with full-text search and a table of wikilinks, split in two: a config database for mounts and tokens, and an index database for pages. The index is a cache, rebuildable at any time from the clones.
+- **Permissions.** One module, and one rule: every read the app serves flows through it, and the scope check is compiled in exactly one place. Search, page reads, and link resolution all pass through the same door. A page you cannot see is indistinguishable from one that does not exist. Read [[Permissions]].
+- **Writes.** `saveFile` commits directly, with read-your-own-writes, guarded by a per-mount lock so two writes cannot race. `proposeSave` instead opens a branch, and where GitHub is connected, a pull request.
+- **History.** Because the store is git, a page's past is just its commits. Core reads them into a list of revisions, and can hand back any past version.
+
+## Why SQLite, and why a subprocess git
+
+Both are the boring, durable option. SQLite is a file, not a server, so the index has no daemon to run and nothing to operate. Driving the real `git` binary means Hanji inherits whatever your git already does, credentials and remotes and all, instead of reimplementing a fraction of it and getting the edge cases wrong.
+
+Read [[The MCP server]] for how agents reach this, and [[The web front]] for how people do.
+
+---
+
+<!-- handbook/architecture/editor.md -->
+
+---
+title: The editor
+order: 30
+description: "@hanji/editor: a ProseMirror WYSIWYG that edits Markdown and keeps byte-fidelity per block."
+---
+
+# The editor
+
+`@hanji/editor` is where the hard promise gets harder. Byte-fidelity is one thing when a person edits raw Markdown. It is another thing entirely to put a full WYSIWYG editor in front of them, let them work in rich blocks, and still write back Markdown that touches only what they changed.
+
+## How it keeps the promise
+
+The editor is built on ProseMirror, with `prosemirror-markdown` translating between Markdown and the editing model, over the same [[The serializer]] underneath. The trick is that it tracks which blocks a person actually edited. On Update, only those dirty blocks are re-serialized. Every block left alone is written back from its original bytes, the same reconciliation the serializer does, carried up into a live editor.
+
+So you get tables with real controls, task lists you can check, a slash menu, images, and embeds, and the diff of your one-word fix is still one line. The rich editing experience and the clean git history are not in tension here, because the editor was built to keep both.
+
+## What is inside
+
+The package is a handful of focused files: the schema that defines the editable blocks, the parse and serialize steps that bridge Markdown, the reconciler that decides what to rewrite, and the table handling, which is its own small world of hover controls and moves. Tables move with a built-in ProseMirror command rather than a custom transform, so a moved row carries its per-cell alignment for free.
+
+Read [[The web front]] for how this editor is placed into the reading experience, and [[Byte-fidelity]] for the promise it protects.
+
+---
+
+<!-- handbook/architecture/index.md -->
+
+---
+title: How it's built
+order: 80
+description: The four packages and one app that make up Hanji, and how a read flows through them.
+---
+
+# How it's built
+
+Hanji is a small pile of parts with clear seams. Four packages and one web app, each doing one thing, each testable on its own. Here is the whole map.
+
+## The parts
+
+| Part | What it is | Depends on |
+|---|---|---|
+| `@hanji/serializer` | The byte-fidelity Markdown engine: parse a file into blocks, splice edits back without touching what you left alone | nothing |
+| `@hanji/core` | The rail: mounts, git, the SQLite index, search, permissions, propose, history | the serializer |
+| `@hanji/editor` | The WYSIWYG surface: a ProseMirror editor that edits Markdown and preserves byte-fidelity per block | the serializer |
+| `@hanji/mcp` | The agent surface: a small Streamable HTTP server exposing scoped tools | core |
+| `apps/web` | The human front: a Next.js app that composes the editor and core into a reading and writing experience | core, editor |
+
+Two things stand out on that table. The serializer depends on nothing, because byte-fidelity is the foundation everything else trusts. And nowhere in the column is a model, an AI SDK, or a metering client, because there is none.
+
+## How a read flows
+
+1. A repository is a **mount**. `@hanji/core` clones it and walks the tree, indexing each Markdown file into SQLite, with a full-text index and a table of wikilinks.
+2. A read, from a person or an agent, names a mount and a path. It goes through the one permission check in core, which filters to the mounts the caller may see.
+3. The bytes come back from the index, rendered on the front or handed to the agent as Markdown.
+
+The index is a cache. Delete it, run `rebuild`, and it comes back from the clones, because git is the only thing that has to be trusted.
+
+## How a write flows
+
+A person edits on the front, and `apps/web` asks `@hanji/editor` for the new Markdown, block-fidelity intact, then core commits it to git. An agent instead calls `hanji_propose`, and core opens a branch. One path writes, the other suggests, and both end in git.
+
+Read the parts in depth: [[The serializer]], [[The core]], [[The editor]], [[The MCP server]], and [[The web front]].
+
+---
+
+<!-- handbook/architecture/mcp.md -->
+
+---
+title: The MCP server
+order: 40
+description: "@hanji/mcp: a small Streamable HTTP server exposing scoped tools to agents."
+---
+
+# The MCP server
+
+`@hanji/mcp` is the hosted half of the agent surface. The other half is git itself, which agents already read. This server is for the times a scoped, live read helps: an agent that should see some mounts and not others, searching and reading through the same permission check a person gets.
+
+## How it works
+
+It is deliberately small and stateless. It speaks MCP over Streamable HTTP, bound to `127.0.0.1` only, and every request carries a bearer token. There is no session to hold and no state to corrupt. Each request authenticates its token to a principal, builds a fresh server scoped to that principal, answers, and tears down.
+
+The token's scopes decide everything. The server hands the same principal to `@hanji/core`, so an agent sees exactly what its token allows and no more, and the permission logic lives in core, not here. This surface only exposes it.
+
+## The tools
+
+Four, and no more than four, because the surface should be small enough to hold in your head.
+
+- `hanji_list_pages`, `hanji_get_page`, and `hanji_search` are the read side.
+- `hanji_propose` is the write side, and it does not write. It proposes a branch.
+
+That last line is the whole design in one tool. An agent contributes by suggesting, never by overwriting. Read [[Agents]] for how to connect one, and [[The core]] for what sits behind these tools.
+
+---
+
+<!-- handbook/architecture/serializer.md -->
+
+---
+title: The serializer
+order: 10
+description: "@hanji/serializer: parse a Markdown file into blocks, splice edits back byte-for-byte."
+---
+
+# The serializer
+
+`@hanji/serializer` is the foundation, and it depends on nothing. Its whole job is the promise in [[Byte-fidelity]]: read a Markdown file, let something edit part of it, and write it back so that every byte you did not touch is exactly where it was.
+
+## Two functions
+
+The public surface is small.
+
+- `parseBlocks` reads a Markdown document into a list of **source blocks**, each one carrying the exact byte range it came from. The parse never loses the original. It keeps a map back to it.
+- `spliceBlocks` takes that list and a set of edits, and produces the new document. Edited blocks are re-serialized from their new content. Untouched blocks are copied back byte-for-byte from the original source. Nothing you left alone is ever reformatted.
+
+Because unchanged blocks are copied and not regenerated, a splice that changes nothing returns the input unchanged, to the byte. That is what makes a no-op save commit nothing.
+
+## The corpus gate
+
+A promise like this is only as good as its test. The serializer carries a corpus gate: point it at a directory of real Markdown with `KB_CORPUS_DIR`, and it round-trips every file through parse and splice, and asserts the output is byte-identical to the input.
+
+```bash
+KB_CORPUS_DIR=/path/to/markdown pnpm vitest run packages/serializer/test/corpus.test.ts
+```
+
+It has run green over 600-plus real files. The rule is simple and absolute: the gate does not get weakened to make a change pass. If a file does not round-trip, the engine is wrong, not the test. Read [[The editor]] for how this same guarantee survives a full WYSIWYG editor sitting on top.
+
+---
+
+<!-- handbook/architecture/web.md -->
+
+---
+title: The web front
+order: 50
+description: "apps/web: the Next.js human front that hides git and renders on warm paper."
+---
+
+# The web front
+
+`apps/web` is the face a person sees. It is a Next.js application, and its entire job is to make a git-backed knowledge base feel like a calm editorial tool, with git nowhere in sight.
+
+## What it does
+
+- **Renders.** Pages are rendered per block through a sanitizing pipeline, so what reaches the browser is safe and clean. Wikilinks are resolved and scoped to what you can read. The result is the warm paper you are reading on.
+- **Edits.** It places [[The editor]] into the page in place, and on Update it asks core to commit. A no-op change commits nothing. A collision with a newer version stops with a conflict rather than clobbering it.
+- **Searches.** One FTS5 backend (bm25 with a heavy title boost, hit-marked snippets, multi-word coverage ranking) serves the `⌘K` palette, the results page, and the agents' `hanji_search` alike.
+- **Organizes.** Sidebar drag & drop is optimistic: pure tree transforms apply instantly while core does the git work behind, and a failure reverts with a toast. A move is `git mv`; a reorder writes `order:` frontmatter as one commit.
+- **Guards the door.** The front is single-owner today, behind a signed session. Every read it makes still goes through core's one permission check, so the front has no private path around permissions.
+
+## What it is not
+
+It is not the source of truth, and it is careful never to become one. It holds no content of its own. Everything it shows comes from core, which reads from git. Turn the front off, and your knowledge is exactly where it was, in your repositories. That is the point of building it this way. See [[The core]] for what it sits on, and [[The two faces]] for the design behind having a human front at all.
+
+---
+
+<!-- handbook/brand/index.md -->
+
+---
+title: The brand
+order: 100
+description: The whole of Hanji's brand in one page: the name, the look, the voice.
+---
+
+# The brand
+
+Hanji's brand is one idea, held consistently: this is paper made to be written on and meant to last, and everything you can see or read should feel that way. Three pieces carry it.
+
+- [[The name]] is where it starts. 한지 is Korean paper that has survived a thousand years, and the name is a promise about longevity.
+- [[The visual language]] is how it looks: warm paper, an editorial serif, one secret color, and the ㅎ mark cut back to its bones.
+- [[Voice]] is how it speaks: plainly, with an edge, honest about its limits.
+
+None of the four is loud. That is the brand. The craft lives in restraint, in what was left out, in one considered color instead of ten. A knowledge base is a quiet place you go to read and to think, and the brand's only job is to keep it quiet and make it feel like it will still be here in ten years.
+
+---
+
+<!-- handbook/brand/visual-language.md -->
+
+---
+title: The visual language
+order: 10
+description: Warm paper, an editorial serif, celadon, and a mark cut back to its bones.
+---
+
+# The visual language
+
+Every visual choice in Hanji answers to one idea: this is paper made to be written on and meant to last. Here is what that produced, and why.
+
+## Warm paper white
+
+The background is a warm off-white, close to a fresh sheet, with the faintest grain laid over everything. Pure white is a screen. Warm white is paper. The difference is small, and you feel it on every page, the way you feel the difference between a glossy flyer and a good book.
+
+## An editorial serif
+
+The reading type is **Newsreader**, a serif drawn for long-form reading, set large with a generous line-height and a comfortable measure. A knowledge base is a place you read, sometimes for a long time, and it should carry the calm of a good magazine rather than the density of a dashboard. The interface itself steps back into a quiet sans, so the writing stays the loudest thing on the page.
+
+## 비색, the secret color
+
+The accent is **celadon (비색, bisaek)**, the blue-green glaze of Goryeo celadon that Korean potters a thousand years ago called *the secret color*. It is calm, it is unmistakably Korean, and it is almost never seen in software. It ties the product to a tradition of objects made by hand and meant to endure, which is the same claim hanji makes about paper.
+
+## The mark
+
+<figure>
+<img src="assets/hanji-mark.svg" alt="The Hanji mark, a hieut reduced to a stroke, a bar, and a ring" class="w-25">
+<figcaption>ㅎ or hieut from the Korean alphabet (한글)</figcaption>
+</figure>
+
+The logo is **ㅎ (hieut)**, the first consonant of 한 in 한지 and Hanji, cut back to its bones: a short top stroke, a horizontal bar, and a ring. The letter was already almost a mark, and we only had to clear away what it did not need. The three parts sit exactly where the letter puts them, so it reads as ㅎ to anyone who knows the alphabet and as a calm, balanced glyph to anyone who does not.
+
+The mark keeps its own deep charcoal rather than taking the celadon of the text around it. Celadon is the accent of the writing surface, and the mark is the object that sits on the surface, so it holds its own weight, the way a seal pressed into paper is darker than the ink of the page. It is the single, deliberate exception to the color rule.
+
+## Restraint as the style
+
+There is no chrome for its own sake, no gradient, no theatre of shadows. The craft lives in the spacing, the type, and one considered color. Elegance here is a matter of what we left out. Read [[Voice]] for how the same restraint shapes the words.
+
+---
+
+<!-- handbook/brand/voice.md -->
+
+---
+title: Voice
+order: 20
+description: "How Hanji speaks: plainly, with an edge, and honest about its limits."
+---
+
+# Voice
+
+Hanji's visual language is restraint, and its voice is the same restraint carried into words. Here is how it speaks, and why.
+
+## Plain
+
+We say the thing. No jargon standing in for a plain word, no sentence that could have come from any product on any landing page. If a claim can be made in a shorter word, it is. The reader is a peer, a working engineer or designer who can smell marketing from a mile off, and they get talked to like one.
+
+## With an edge
+
+Plain does not mean bland. Hanji takes positions. Git is the store, and a backup target is not good enough. An agent is a reader, not a chat box. The day you charge someone for the right to write down what they know is the day you have become the thing this was built against. The voice is willing to be a little sharp, because a product with no point of view is not worth reading about.
+
+## Honest about limits
+
+This is the load-bearing one. When a feature is not built, we say so. When permissions are enforced at the mount and not yet the folder, the page says exactly that. A benchmark we have not run honestly is marked as not run, not rounded up. It is the [[Principles]] page applied to the writing: a promise we cannot keep is worse than no promise, so we do not make it.
+
+## In practice
+
+A page reads like a person wrote it, because one did. Sentences vary. Some run long and accumulating, some are three words. There is a wink now and then, and a number wherever a claim can carry one. What there never is: a summary that restates what you just read, or a conclusion that adds nothing. When the point is made, the page stops.
+
+Read [[The visual language]] for the same restraint in pixels.
+
+---
+
+<!-- handbook/changelog.md -->
+
+---
+title: Changelog
+order: 130
+description: The road behind us, honestly logged.
+---
+
+# Changelog
+
+Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
+
+## The handbook publishes itself
+
+- `hanji export` grew its browsable half: a static site in the hanji look - warm paper, the serif, the sidebar tree - with not one line of JavaScript. Folders collapse with `<details>`, dark mode rides the system preference, and every link is relative, so the site serves from any path.
+- The rendering pipeline moved into its own package, shared verbatim between the web front and the exporter. There is exactly one way Hanji turns Markdown into HTML, and the sanitize rules travel with it.
+- Only assets referenced by exported pages ride along: an image on a restricted page stays as dark as the page.
+- A `rule` command joined the CLI, so a fresh instance can open content to everyone without touching the front - the piece a publish pipeline needs.
+- And this is not hypothetical: the page you are reading is served by that exporter.
+
+## Changes arrive on their own
+
+- Push-to-sync: set one secret, add one webhook to the repository, and a push syncs the matching mount seconds later. Deliveries are signature-verified and answered immediately - the git work happens behind the response, serialized by the same mount lock as every other write. ~~A GitHub App~~ A plain signed webhook: the App, with its registration and installation machinery, was the roadmap's word and would have bought auto-configuration at the price of tying v1 to GitHub. The endpoint speaks to anything that can sign a POST.
+- The poll loop: `HANJI_POLL_SECONDS` syncs everything on an interval, because a tailnet has no inbound path for webhooks and polling stays first-class. It also covers local mounts, so edits made outside Hanji show up without asking.
+
+## The export honors the lock, because it is the lock
+
+- `hanji export <dir>` mirrors the workspace as `llms.txt`, `llms-full.txt`, and a per-page `.md` tree - the shape agents on the open web actually read. What lands on disk is exactly what a person with an account and no grants could see: the everyone regime, computed by the same authz predicate as every read in the product. No flag widens an export; mount names only narrow one.
+- The exporter refuses a directory it didn't write, refuses an empty everyone-set, and re-exports clean over its own output.
+
+## Agents get the same lock people have
+
+- Token scopes grew a path: `hanji token intern notes/reviews=read` grants one folder, `notes/reviews/draft.md=read+propose` exactly one page. Tokens and people now share a single allow-region mechanism in the one authz predicate; the only asymmetry left is deliberate - "everyone" rules speak to people, never to tokens.
+- Old mount-level scopes migrate themselves on the next start; nothing to run.
+
+## The tailnet signs you in
+
+- Tailscale mode: run the instance behind `tailscale serve`, set one variable, and the tailnet's identity signs people in - the owner by env match, everyone else through a login linked on their person sheet. No password typed, no session ceremony. See [[On your tailnet]].
+- The mapping answers who, never what: grants stay exactly what the owner assigned, agents stay bearer-token only, and an unlinked tailnet visitor gets a login page that says who it saw and why they are not in yet.
+- Trust is opt-in and explicit: the headers are only honored when `HANJI_TAILSCALE_OWNER` is set, and the docs state the deployment contract that makes them unforgeable.
+
+## The lock reaches a single page
+
+- Visibility became content-first, the way every knowledge tool taught people to think: general access (everyone reads, everyone suggests, or restricted) set on a mount, folder, or page, inherited downward, deepest rule wins. People are the exceptions that punch through. Agents never inherit "everyone" - tokens see exactly their scopes.
+
+- Grants grew a path: a person can hold a mount, a folder, or exactly one page. The 1:1 note two people share is invisible to everyone else - tree, search, links, all of it - and a locked page still looks identical to one that does not exist.
+- Sharing moved onto the page: a Share button, a name, read or suggest, done. Revoking lands on the person's next request.
+- People can now be added bare, with no access at all, and given pages one Share at a time.
+
+## The sidebar becomes a place you organize
+
+- A second pair of hands: the owner adds people in Settings with a name, a password, and per-mount scopes. Viewers read; contributors propose through the same review card as agents. Owner powers stay the owner's.
+- Suggest-only mounts opened to people: Update becomes Propose in the editor, and the proposal waits in the same review card an agent's would. One ceremony for every writer.
+
+- A + at the end of every mount, folder, and page row creates a new page in that context. The + on a page nests: the page becomes its section's landing and the new page starts inside it.
+- Pages and folders drag: onto a folder or a mount to move there, onto a row's edge to reorder among siblings, onto a page's middle to nest into it. A folder brings its whole subtree, and mounts drag to reorder the rail itself.
+- Drops land instantly. The tree moves first, the git work follows, and a failure snaps back with a toast that says why. Reordering is one commit writing `order:` frontmatter; a move is a real `git mv`, so history follows the page.
+- Pages can be deleted: a quiet trash next to Edit, armed by a second click, backed by `git rm`. Nothing is truly lost; the repository keeps every sheet.
+
+## Search grew into a real feature
+
+- One backend upgrade: bm25 ranking with a heavy title boost, snippets that mark their hits, prefix matching on the word you are still typing, and multi-word queries ranked by how many of your words a page shares, adjacent phrases first.
+- Two surfaces on it: a `⌘K` palette (ranked results, recent pages when empty, keyboard all the way) and a bookmarkable `/kb/search` page with highlighted passages and per-mount filters.
+- Agents search through the same ranking, via `hanji_search`.
+
+## The workspace becomes yours
+
+- A workspace name and logo. An SVG adapts its color to light and dark; any other mark gets a mode-safe plate when contrast demands one.
+- Colors from three seeds, reinterpreted per mode in OKLCH with readability secured for you, plus curated reading fonts. Your seeds are never altered, only reinterpreted, and the settings page shows which is which.
+- Emoji in the editor, three ways: a toolbar picker, `:query` suggestions at the caret, and GitHub-style `:tada:` conversion on the closing colon.
+- Proposals left the content list. A card appears under the search box only while something waits, and disappears when the queue is empty.
+- Versioning starts at 0.1.0, printed quietly at the bottom of the sidebar.
+- A real phone experience: a top bar, a drawer, the same sidebar.
+
+## The agent git flow
+
+- The handbook itself now takes proposals: its mount points at the real repository, so agent contributions to these pages arrive as branches and get reviewed right here.
+- Proposals now land in the front: a pending badge in the sidebar, a line diff, and Merge or Reject. Merging is git all the way down: a merge commit on base, the branch deleted, the page and index updated. See [[Proposals]].
+- A proposal that no longer merges cleanly opens with a warning and a disabled Merge. No conflict screen, by design: re-propose or reject.
+- Along the way the handbook itself found and drove product fixes: sidebar ordering by frontmatter `order`, SVG assets served safely, image width, alignment and captions, local path mounts, a boot smoke test, and an editor that loads only when you edit.
+
+## The editor, and everything around it
+
+- Editable GFM tables, with Notion-style controls: hover handles, boundary insert, drag to move.
+- GFM parity in the editor: interactive task-list checkboxes, strikethrough, bare-URL autolinks.
+- A collapsible nested sidebar built from page paths, plus a middle-collapsing breadcrumb.
+- The editor grew from ~~a block-scoped textarea~~ into a full WYSIWYG surface, with dirty-block byte-fidelity intact.
+- A slash menu to insert, image upload into the repo's own `assets/`, and domain-allowlisted embeds.
+
+## v0.1, the foundation
+
+- The byte-fidelity serializer, its corpus gate green on 600-plus real Markdown files.
+- The git-backed core: mounts, sync, a SQLite and FTS5 index, permissions on a single read path.
+- The MCP agent surface: scoped read tools and propose-as-PR, one bearer token per agent.
+- The first web front. Reading only at first, then editing once the craft was locked.
+
+## Decisions we walked back
+
+- Non-Markdown blocks: ~~custom directives~~ plain HTML blocks, so the files stay portable and you can always walk away.
+- The editor engine: ~~Tiptap~~ ProseMirror with prosemirror-markdown. We chose byte-fidelity over the faster start.
+- The name: ~~kb-rail~~ Hanji. A codename is a placeholder. This one is a promise.
+
+See [[Where we are]] for what is shipping now.
+
+---
+
+<!-- handbook/contributing/conventions.md -->
+
+---
+title: Conventions
+order: 20
+description: How the code and the commits are kept.
+---
+
+# Conventions
+
+Nothing exotic here. The conventions exist so the codebase stays boring, and boring is the goal.
+
+## Code
+
+- **Strict TypeScript**, everywhere, with no exceptions carved out to dodge a type.
+- **Small modules with one job.** The parts of Hanji have clear seams on purpose. A file that grows into two responsibilities gets split.
+- **The security-critical paths are single-sourced.** Permissions live in one module. Byte-fidelity lives in one engine. You do not add a second way to do either, because a second way is a second thing to get wrong.
+- **No new dependency for what a few lines can do**, and never a dependency that pulls in a model or a meter.
+
+## Commits
+
+- **DCO sign-off** on every commit, `git commit -s`.
+- **Clean, human history.** A commit message says what changed and why, in a person's words. No machine trailers, no noise. The point of byte-fidelity is a readable history, and the commits are held to the same bar.
+- **One change per commit.** A one-word fix is a one-line diff, and the commit that carries it should be just as legible.
+
+## Documentation
+
+- **Docs ship with the feature.** A behavior change and its handbook pages land in the same series: the changelog says what changed, [[Where we are]] stays true, and the affected guides get swept for claims the change made false. This handbook is the product documenting itself, so a stale page is a product bug.
+- **A mechanical floor is enforced by the test suite**: every environment variable the product reads is documented, every CLI command is in the [[Command reference]], every guide page is in the reading order. When that test fails, the docs are wrong, not the test.
+
+## Reviews
+
+Changes get reviewed, and the reviews are adversarial where they need to be, on the permission and byte-fidelity paths especially. A finding on those paths is not a nit. It is the product. Read [[Open core]] for the license this all ships under.
+
+---
+
+<!-- handbook/contributing/develop.md -->
+
+---
+title: Developing
+order: 10
+description: Running the project, and the tests that guard it.
+---
+
+# Developing
+
+The project is a pnpm workspace: four packages and one web app, strict TypeScript throughout. Here is how to run it and how to keep it honest.
+
+## Get set up
+
+- [x] Clone the repo
+- [ ] `pnpm install` (this builds the native SQLite driver, so you need a C toolchain)
+- [ ] Set the environment from [[Install Hanji]]
+- [ ] `pnpm dev:web` and `pnpm dev:mcp` to run the two surfaces
+- [ ] `pnpm typecheck` and `pnpm test` before you commit
+
+## The tests that matter
+
+Most of the suite is ordinary unit tests, a little over 200 of them, run with `pnpm test`. Two guards are worth calling out.
+
+**The corpus gate.** The serializer's promise is guarded by round-tripping real Markdown files and asserting byte-identity. It is off by default and turns on with `KB_CORPUS_DIR`. It must stay green, and it never gets weakened to make a change pass.
+
+```bash
+KB_CORPUS_DIR=/path/to/markdown pnpm vitest run packages/serializer/test/corpus.test.ts
+```
+
+**The permission invariant.** Every read flows through one module, and the tests probe it with hostile inputs to make sure a scope can never leak. If you touch reads, you keep them on that one path. Read [[The core]].
+
+## A known gap
+
+The type checker and the unit suite never open the database through the Next app, so a class of runtime binding bug can ship green. A boot smoke test is on the [[Where we are]]. Until it lands, run the front and load a page before you trust a change to the web build.
+
+Read [[Conventions]] for how the code is kept.
+
+---
+
+<!-- handbook/contributing/index.md -->
+
+---
+title: Contributing
+order: 90
+description: How to get involved, and the state of contributions today.
+---
+
+# Contributing
+
+The honest state first. Hanji is pre-release, and it is not accepting external contributions yet. A lightweight contributor agreement will be in place before that opens. So this section is a standing invitation and a map, not an open door quite yet.
+
+## When it opens
+
+Here is what contributing will look like, and what already holds today for anyone building on it.
+
+- Every commit needs a DCO sign-off. Use `git commit -s`. It is the Developer Certificate of Origin, a one-line statement that you wrote the code and can license it.
+- The history stays clean and human. Commits read like a person wrote them, because a person did.
+- Read [[Developing]] for how to run the project and the tests, [[Conventions]] for how the code is kept, and [[Open core]] for the license and what stays free.
+
+## The spirit
+
+Hanji has a small number of beliefs, listed in [[Principles]], and the code is meant to hold them. A contribution that makes the product faster, clearer, or more honest about its limits is welcome. One that bundles a model, meters a feature, or quietly rewrites the user's files is not, however clever it is. The tie-breakers are the principles, for the code as much as the product.
+
+---
+
+<!-- handbook/contributing/open-core.md -->
+
+---
+title: Open core
+order: 30
+description: The license, the open-core model, and the promise about what stays free.
+---
+
+# Open core
+
+Hanji is open core, and the model is chosen deliberately, because the license is a promise you cannot take back later without burning the people who trusted it.
+
+## The license today
+
+The whole project is **AGPL-3.0-only**. That is a strong copyleft license. You can run it, read it, change it, and self-host it freely, and if you offer it as a service, your changes stay open too. It is the terminal license, picked on purpose. There is no plan to relicense, because relicensing is a permanent tax on the trust of everyone who showed up early.
+
+## The seam
+
+Over time, a set of features for administrators will live behind a license key, the way the open-core projects of this era do it. The rule that decides which side of the seam a feature lands on is fixed.
+
+| Free, forever | Paid |
+|---|---|
+| The complete single-team knowledge base | Single sign-on |
+| The editor, history, search | Per-folder granular permissions |
+| Bring-your-own-agent, the MCP surface | Audit and enforcement |
+| Import and export, the API | Priority support |
+
+The line is simple: never gate what an individual needs to write. A student, a solo maintainer, a small team gets the whole writing experience for nothing, forever. The paid tier is for the things an administrator wants when the team gets big, and only those.
+
+## Where it is today
+
+The paid seam is a plan, not yet code. What ships now is the AGPL core. When the license key and the administrator features arrive, they arrive behind the seam described above, and this page will stop describing a plan and start describing a product. Read [[Mission and vision]] for the why, and the [[Where we are]] for the when.
+
+---
+
+<!-- handbook/guide/agents.md -->
+
+---
+title: Agents
+order: 40
+description: Connecting a coding agent through the MCP server.
+---
+
+# Agents
+
+Agents get their own surface. Two of them, really: raw git, which they already know, and a small MCP server for the times a scoped, hosted read helps. Both go through the same permission check a person does.
+
+## Mint a token
+
+An agent authenticates with a bearer token, scoped to what it may touch - a
+whole mount, a folder, or exactly one page, the same path grants people have.
+
+```bash
+pnpm hanji token <name> <mount[/folder|/page.md]=read|read+propose>...
+```
+
+```bash
+# a read-only agent for the handbook
+pnpm hanji token docs-reader handbook=read
+
+# an agent that can also propose changes to two mounts
+pnpm hanji token my-claude handbook=read+propose notes=read+propose
+
+# a narrow one: read one folder, propose to a single page
+pnpm hanji token intern notes/reviews=read notes/reviews/draft.md=read+propose
+```
+
+The command prints the token once. A `read` scope lets the agent search and read within its grant. A `read+propose` scope adds the right to propose changes there. Anything outside its grants the agent cannot see, and cannot even tell exists - a locked page and a missing page answer identically. Content visibility rules never widen a token: an "everyone" rule speaks to people, and an agent holds exactly what it was granted. See [[Permissions]].
+
+<figure><img src="assets/proposal-review.png" alt="An agent's proposal open for review in the front: title, diff, Reject and Merge"><figcaption>Where a propose lands: a title, a diff, and your decision.</figcaption></figure>
+
+## Connect it
+
+The MCP server speaks Streamable HTTP on `127.0.0.1:4101`. Point your agent at it with the token.
+
+```bash
+claude mcp add hanji --transport http http://localhost:4101/mcp \
+  --header "Authorization: Bearer <token>"
+```
+
+## The tools
+
+| Tool | What it does | Needs |
+|---|---|---|
+| `hanji_list_pages` | List every page the token can read, with mount, path, and title | `read` |
+| `hanji_get_page` | Fetch one page's Markdown by mount and path | `read` |
+| `hanji_search` | Full-text search across readable mounts | `read` |
+| `hanji_propose` | Propose a page change as a branch, and a PR where GitHub is connected | `read+propose` |
+
+## Propose, do not overwrite
+
+`hanji_propose` never edits a page in place. It creates a branch named for the change, commits the new content there, and pushes it. If `HANJI_GITHUB_TOKEN` is set, it also opens a pull request and hands back the URL. A person reviews it and merges. That is the whole point. An agent can suggest all day, and nothing lands in your knowledge base until someone says yes.
+
+Where does the suggestion go? Straight into the front: see [[Proposals]] for the review-and-merge side of this loop.
+
+Read [[Command reference]] for the rest of the CLI.
+
+---
+
+<!-- handbook/guide/cli.md -->
+
+---
+title: Command reference
+order: 50
+description: Every Hanji CLI command, in one table.
+---
+
+# Command reference
+
+The whole CLI, run as `pnpm hanji <command>`. It reads `HANJI_DATA_DIR` for where to work, defaulting to `~/.hanji`.
+
+| Command | What it does |
+|---|---|
+| `add-mount <name> <repoUrl> <mountPath> [subpath] [--suggest]` | Add a repository, or a folder of one, as a mount. `--suggest` makes it proposal-only. |
+| `remove-mount <name>` | Remove a mount and its indexed pages. The clone directory stays on disk. |
+| `sync` | Fetch every mount from its remote and reindex what changed. |
+| `rebuild` | Discard the index and rebuild it from the local clones. Always safe. |
+| `token <name> <mount[/folder\|/page.md]=read\|read+propose>...` | Mint a bearer token for an agent, scoped to a mount, a folder, or one page. Prints it once. |
+| `list` | List every mount and how many pages it holds. |
+| `export <outDir> [mount...]` | Publish everything open to everyone: a browsable static site, `llms.txt`, `llms-full.txt`, and every page as plain Markdown. Mount names narrow the set; nothing widens it. |
+| `rule <mount> [path] <everyone-read\|everyone-propose\|restricted\|clear>` | Set or clear a general-access rule from the command line - what Share's select does in the front. |
+| `assets [mount]` | List uploaded images no page references anymore, per mount or everywhere. |
+
+## Examples
+
+```bash
+pnpm hanji add-mount handbook git@github.com:you/product.git handbook docs
+pnpm hanji sync
+pnpm hanji token my-claude handbook=read+propose
+pnpm hanji list
+```
+
+## The environment it reads
+
+| Variable | Used by | For |
+|---|---|---|
+| `HANJI_DATA_DIR` | everything | Where clones and the index live. Defaults to `~/.hanji`. |
+| `HANJI_SESSION_SECRET` | the front | Signs the owner's login session. |
+| `HANJI_OWNER_PASSWORD` | the front | The single owner account's password. |
+| `HANJI_GITHUB_TOKEN` | propose | Lets `hanji_propose` open real pull requests. |
+| `HANJI_GIT_AUTHOR_NAME`, `HANJI_GIT_AUTHOR_EMAIL` | writes | The name and email on the commits Hanji makes. |
+| `PORT` | the MCP server | The port it listens on. Defaults to 4101. |
+| `HANJI_TAILSCALE_OWNER` | the front | Turns on [[On your tailnet]] and names the owner's tailnet login. |
+| `HANJI_WEBHOOK_SECRET` | the front | Turns on push-to-sync at `/api/webhook/git`; deliveries must carry its signature. |
+| `HANJI_POLL_SECONDS` | the front | Sync every mount on this interval. The mechanism for tailnets and local mounts. |
+
+For the agent side of this, read [[Agents]]. For what is coming, read [[Where we are]].
+
+---
+
+<!-- handbook/guide/index.md -->
+
+---
+title: Using Hanji
+order: 70
+description: Getting started, and the order to read these in.
+---
+
+# Using Hanji
+
+This section is the how-to. It is written to be read in order the first time, and dipped into after.
+
+1. [[Install Hanji]] gets it running on your machine in a handful of commands.
+2. [[Mounts]] points it at the repositories you want to read and write.
+3. [[Reading and writing]] covers the human front: reading, editing, history, and making new pages.
+4. [[Agents]] connects a coding agent through the MCP server, with scoped tokens and propose-as-PR.
+5. [[Proposals]] is where those agent suggestions land: review the diff, merge or reject.
+6. [[On your tailnet]] moves the instance onto your tailnet, where the network signs people in and nobody types a password.
+7. [[Command reference]] is the full list of CLI commands, for when you already know what you want.
+
+A note before you start. Hanji is early. It runs today on your machine: one owner, the people you add, and the agents you scope - and the recommended way to share it with a team is [[On your tailnet]]. Hosted sync sits in the later column of [[Where we are]], not in your hands yet. What is here works, and this section documents only what works.
+
+---
+
+<!-- handbook/guide/install.md -->
+
+---
+title: Install Hanji
+order: 10
+description: From clone to a running instance in a handful of commands.
+---
+
+# Install Hanji
+
+Hanji runs today as a local dogfood. One owner, on your machine. Here is the whole path from nothing to a page you can read.
+
+## Before you start
+
+You need a recent Node, `pnpm`, and `git`. One dependency, the SQLite driver, is built from source on install, so you also need a working C toolchain: the Xcode command-line tools on a Mac, or `build-essential` on Linux. That is a known rough edge, and smoothing it out is on the [[Where we are]].
+
+## Get it running
+
+```bash
+# 1. install
+pnpm install
+
+# 2. point it at a data dir and set the front's secrets
+export HANJI_DATA_DIR=~/.hanji
+export HANJI_SESSION_SECRET=$(openssl rand -hex 32)
+export HANJI_OWNER_PASSWORD=choose-one
+
+# 3. mount a repo you own (name, git url, mount path)
+pnpm hanji add-mount notes git@github.com:you/notes.git notes
+
+# 4. clone and index it
+pnpm hanji sync
+
+# 5. run the two surfaces
+pnpm dev:web   # the human front at http://localhost:4100
+pnpm dev:mcp   # the agent surface at http://localhost:4101/mcp
+```
+
+Open `http://localhost:4100`, sign in with the owner password you set, and your notes are there, rendered on warm paper. That is the whole thing running.
+
+<figure>
+<img src="assets/login.png" alt="The login screen: the workspace mark, its name, and one password field" class="w-25">
+<figcaption>The front door. One password for the owner; people you add sign in with their own.</figcaption>
+</figure>
+
+## The three secrets
+
+| Variable | What it is |
+|---|---|
+| `HANJI_DATA_DIR` | Where Hanji keeps its clones and its index. Everything here is disposable and rebuildable from git. |
+| `HANJI_SESSION_SECRET` | The key that signs your login session. Any 32-byte hex string. |
+| `HANJI_OWNER_PASSWORD` | The password for the single owner account, the one that reads and writes everything. |
+
+Two more are optional. `HANJI_GITHUB_TOKEN` lets the propose path open real pull requests, and `HANJI_GIT_AUTHOR_NAME` with `HANJI_GIT_AUTHOR_EMAIL` set the name on the commits Hanji makes. See [[Agents]] for the first and [[Command reference]] for the rest.
+
+Next, point Hanji at the repositories you actually want. Read [[Mounts]].
+
+---
+
+<!-- handbook/guide/mounts.md -->
+
+---
+title: Mounts
+order: 20
+description: Pointing Hanji at repositories, and keeping them in sync.
+---
+
+# Mounts
+
+A **mount** is one git repository, or one folder inside it, brought into Hanji's tree. You can have many. Together they form the single knowledge base that people and agents read.
+
+<figure><img src="assets/sidebar.png" alt="The sidebar: two mounts, their nested folders and pages, and a pending proposal card" class="w-50"><figcaption>Two mounts on the rail. Each is a repository; together they read as one collection.</figcaption></figure>
+
+## Adding one
+
+```bash
+pnpm hanji add-mount <name> <repoUrl> <mountPath> [subpath] [--suggest]
+```
+
+- `name` is how you refer to the mount, and it is the token scope that grants access to it.
+- `repoUrl` is any git URL Hanji can clone: an SSH remote, an HTTPS remote, or a local path.
+- `mountPath` is where it lives in the tree, the first segment of every page's address.
+- `subpath` is optional. Give it to mount only a folder of the repo, so the rest of the repository stays out of the knowledge base.
+
+```bash
+# a whole repo
+pnpm hanji add-mount notes git@github.com:you/notes.git notes
+
+# only the docs/ folder of a larger repo
+pnpm hanji add-mount handbook git@github.com:you/product.git handbook docs
+```
+
+## Keeping in sync
+
+Hanji reads from a local clone and serves from a local index. To pull the latest from a mount's remote and reindex, sync.
+
+```bash
+pnpm hanji sync       # fetch every mount and reindex what changed
+pnpm hanji rebuild    # throw the index away and rebuild it from the clones
+pnpm hanji list       # show every mount and how many pages it holds
+```
+
+`rebuild` is safe to run any time. The index is a cache, so nothing you care about lives only there. If it ever looks wrong, rebuild it and it is correct again.
+
+## Changes arrive on their own
+
+Manual sync works, but a knowledge base should not need asking. Two mechanisms, both optional, both feeding the same sync:
+
+**Push-to-sync.** Set `HANJI_WEBHOOK_SECRET` in the web front's environment, then add a webhook to the repository (GitHub: repo → Settings → Webhooks): payload URL `https://<your-hanji>/api/webhook/git`, content type JSON, the same secret. Every push to the mount's branch syncs the matching mount seconds later. Hanji answers deliveries immediately and does the git work in the background, so a slow clone never trips the sender's timeout. Deliveries are verified against the secret's signature; without the secret set, the endpoint does not exist.
+
+**The poll loop.** Set `HANJI_POLL_SECONDS=300` and the web front syncs every mount on that interval. This is the mechanism for a tailnet, which a webhook cannot reach from the outside - see [[On your tailnet]] - and it also covers local mounts, picking up edits made outside Hanji entirely. A slow sync skips a beat rather than stacking; a failing one logs and tries again next round.
+
+Any mix works: webhooks where the network allows, polling where it doesn't, `pnpm hanji sync` whenever you want it now.
+
+## Direct and suggest mounts
+
+By default a mount is **direct**: the owner's edits in the front are written straight to git as commits. Pass `--suggest` and the mount becomes **suggest-only**: direct writes are refused, and every change has to arrive as a proposal instead.
+
+Suggest mounts are for repositories where nothing should change without review, even from the owner. On a suggest mount the editor's Update reads Propose, for people and agents alike, and every change waits in the same review card. See [[Proposals]].
+
+Once your mounts are in place, read [[Reading and writing]] to use the front, or [[Agents]] to connect a coding agent.
+
+---
+
+<!-- handbook/guide/on-your-tailnet.md -->
+
+---
+title: On your tailnet
+order: 55
+description: Run Hanji on a tailnet and let the tailnet sign people in.
+---
+
+# On your tailnet
+
+The recommended way to share a Hanji instance with a team is not a domain, a
+certificate, and a public endpoint. It is a [tailnet](https://tailscale.com):
+the instance runs on one box, `tailscale serve` fronts it, and it never
+touches the public internet. That sentence is the whole security posture, and
+it is a sentence you can say to an administrator with a straight face.
+
+Tailscale mode adds the part that makes it feel finished: the tailnet already
+knows who is knocking, so Hanji stops asking.
+
+## Turn it on
+
+One variable, plus the serve command:
+
+```bash
+export HANJI_TAILSCALE_OWNER=you@github   # your own tailnet login
+node_modules/.bin/next start -H 127.0.0.1 -p 4100
+tailscale serve --bg 4100
+```
+
+Setting `HANJI_TAILSCALE_OWNER` does two things at once. It tells Hanji to
+trust the identity headers `tailscale serve` attaches, and it names the
+tailnet login that is the owner - you. Open the instance from any device on
+your tailnet and you are simply in, as the owner, no password asked.
+
+## Let people in
+
+Everyone else maps through Settings → People. Open a person's sheet and link
+their tailnet login in the Tailscale field. From then on, that identity signs
+them in with no password - and that is all it does. What they can see and
+propose stays exactly the grants you gave them; the tailnet answers who they
+are, never what they may read. See [[Permissions]].
+
+<figure><img src="assets/person-sheet.png" alt="A person's sheet: their grants, and the Tailscale login field linking their tailnet identity" class="w-50"><figcaption>One person, one sheet: what they hold, and the tailnet identity that signs them in.</figcaption></figure>
+
+An unlinked visitor is told plainly: the login page names the tailnet
+identity it saw and says the owner has not linked it yet. The password form
+still works underneath, always - a linked identity is a convenience on top of
+sessions, not a replacement for them.
+
+This is also how you invite someone from outside your team: share your node
+with them in Tailscale, add them as a person, link their login. Share access,
+not code.
+
+## The contract
+
+The headers are trustworthy for exactly one reason: `tailscale serve` strips
+any inbound `Tailscale-User-*` headers and sets its own. So the mode is safe
+only while the port is reachable exclusively through `tailscale serve` - bind
+`127.0.0.1`, as above. If the app is reachable any other way, anyone on that
+path can type the header themselves, and `HANJI_TAILSCALE_OWNER` must stay
+unset. Hanji will never turn this on by itself.
+
+Two edges worth knowing. Signing out on a tailnet is a shrug: clearing the
+session lands you right back in through the header, because the tailnet still
+knows you. And agents are untouched by all of this - the MCP surface stays
+bearer-token only, and a tailnet identity never grants an agent anything.
+
+## Why this is not SSO
+
+It is better, for the case it covers. On a tailnet you do not integrate an
+identity provider; you already have one, and it is the network itself.
+Single sign-on for organizations that live behind Okta or Google Workspace
+remains where [[Where we are]] puts it: the paid seam, later. This mode is
+for the team that wants the writing surface working today, with nobody
+typing passwords, on infrastructure they already trust.
+
+---
+
+<!-- handbook/guide/proposals.md -->
+
+---
+title: Proposals
+order: 45
+description: Agents propose. You review the diff and merge, right in the front.
+---
+
+# Proposals
+
+This is the page where Hanji stops being a wiki and becomes the thing it was built to be. An agent never edits your pages in place. It proposes a change, the proposal lands in the front, and you decide. The whole loop runs over git, and you never have to see that.
+
+## The loop
+
+1. An agent with `read+propose` scope calls `hanji_propose` (see [[Agents]]). Behind the scenes that becomes a `hanji/*` branch on the mount's remote, carrying one commit with the agent's change.
+2. A card appears in the sidebar, under the search box: how many proposals are waiting, and **Review**. It exists only while something waits; at zero the sidebar stays pure content. The count is cheap to compute, and it refreshes whenever anything talks to the remote.
+3. Open the proposal. You get the title the agent gave it, who proposed it, which page it touches, and a line diff: green for what it adds, red for what it removes.
+4. Press **Merge** or **Reject**. That is the entire ceremony.
+
+<figure><img src="assets/proposal-review.png" alt="A proposal open for review: title, proposer, the line diff, and Reject and Merge buttons"><figcaption>An agent's proposal, waiting. The diff is the whole conversation.</figcaption></figure>
+
+<figure><img src="assets/merge.gif" alt="Opening a pending proposal, pressing Merge, and landing on the merged page with the agent's byline"><figcaption>Merge lands it: the page updates, and the byline says who really wrote it.</figcaption></figure>
+
+## People propose too
+
+Agents are not the only ones held to review. Mount a repository with `--suggest` and the human front follows the same rule: the editor works exactly as everywhere else, but **Update becomes Propose**, and pressing it opens a branch instead of committing. The proposal lands in the same card, gets the same diff, and waits for the same Merge. One review ceremony for every writer, whatever species they are.
+
+## What Merge does
+
+Merge lands the proposal on the page: a merge commit on the base branch, the proposal branch deleted, the page and the search index updated immediately. The agent's own commit survives in history with its name on it, so `git blame` a year from now still tells the truth about who wrote what.
+
+## What Reject does
+
+Reject deletes the branch. Nothing else changes, nothing lingers, and the page never knew it was threatened.
+
+## When the page moved underneath
+
+If someone edited the page after the agent proposed, the two versions may no longer merge cleanly. Hanji checks before you do anything: the proposal opens with a warning and Merge is disabled. There is no conflict-resolution screen, on purpose. The honest move is to ask the agent to re-propose from the current page, or reject. A merge you have to untangle by hand defeats the point of reviewing calmly.
+
+## The honest notes
+
+- The review surface is owner-only. Agents can propose all day; only you merge.
+- A proposal is a branch on the mount's remote, nothing more. There is no separate proposal database to back up or migrate. Walk away and the proposals walk with the repo.
+- Local mounts (a working directory on disk) have no proposal surface. Proposals need a remote to hold branches, so they live on clone mounts.
+- One page per proposal in this version, which is exactly what `hanji_propose` produces.
+
+Read [[Agents]] for minting the token that can propose, and [[Permissions]] for the scopes behind it.
+
+---
+
+<!-- handbook/guide/reading-and-writing.md -->
+
+---
+title: Reading and writing
+order: 30
+description: The human front: reading, editing, history, and new pages.
+---
+
+# Reading and writing
+
+Everything here happens at `http://localhost:4100`, after you sign in as the owner. It is meant to feel like an editorial tool, not a git client.
+
+## Reading
+
+Pages open on warm paper, set in a serif for long reading. The sidebar on the left is your mounts and their folders, nested and collapsible, and it expands to show where you are. A breadcrumb across the top tells you the path, collapsing its middle on deep pages so it never runs off the screen. Wikilinks, written `[[by title]]`, resolve to the page they name, and only to pages you are allowed to open.
+
+Search is a keystroke away. `⌘K` opens the palette: ranked results with the matching passage highlighted, your recently changed pages when the box is still empty, and the keyboard all the way to Enter. When you want to dig, the full results page holds every match with highlighted passages and per-mount filters. Multi-word queries rank pages by how many of your words they share, adjacent phrases first, and the word you are still typing already matches as a prefix.
+
+<figure><img src="assets/search.gif" alt="The search palette opening with ⌘K, results ranking as the query is typed, and Enter opening a page"><figcaption>⌘K, a few letters, Enter. The keyboard the whole way.</figcaption></figure>
+
+## Writing
+
+Editing is deliberate, and it is one gesture.
+
+1. Press **Edit**, or `⌘E`. The page becomes editable in place, on the same measure you were reading.
+2. Change what you came to change. It is a real editor: Markdown shortcuts, a slash menu to insert, tables with handles, task lists, images, embeds, and emoji (the toolbar's picker, or type `:` and a few letters).
+3. Press **Update**. Hanji writes a single commit behind the scenes, with a clean message, and drops you back into reading.
+
+If you changed nothing, nothing is committed. There is no draft state to babysit, and no save button that lies. And because edits are byte-fidelity, the commit for a one-word fix is a one-line diff. See [[Byte-fidelity]].
+
+<figure><img src="assets/edit-update.gif" alt="The whole editing gesture: Edit, a line typed in place, Update, and the fresh byline"><figcaption>The whole gesture: Edit, change, Update. One commit happened behind it.</figcaption></figure>
+
+<figure><img src="assets/input-rules.gif" alt="Markdown shortcuts converting live: hashes into a heading, stars into bold, a dash into a list"><figcaption>Markdown as you type: hashes make headings, stars make bold, a dash starts a list.</figcaption></figure>
+
+<figure><img src="assets/editor-toolbar.png" alt="The editor's floating bottom toolbar: format marks, blocks, inserts, and Update"><figcaption>The whole chrome of edit mode: one floating bar, and the page itself.</figcaption></figure>
+
+<figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
+
+## When two edits collide
+
+Hanji notices if the page changed underneath you between the moment you opened the editor and the moment you pressed Update. Rather than overwrite the newer version, it stops and tells you, so you never clobber a change you did not see. Reload, reapply your edit on top of the current page, and Update again.
+
+## New pages
+
+Making a page is the same gesture pointed at a path that does not exist yet. The fastest way is the + that appears at the end of every sidebar row: on a mount it creates at the root, on a folder it creates inside it, and on a page it nests, converting that page into its section's landing with the new page beneath. Give it a title, write, and Update. That first Update is the commit that creates the file.
+
+<figure><img src="assets/new-page.gif" alt="A new page: a title typed over Untitled, a first line, Update, and the page exists in the tree"><figcaption>A title, a line, Update. The file now exists, and the sidebar already knows.</figcaption></figure>
+
+## Organizing the sheet
+
+The sidebar is not just a map. It is where you arrange the collection.
+
+- **Move**: drag a page or folder onto another folder, or onto a mount's header for its root. A folder brings everything inside it, and the commit behind the drop is a real `git mv`, so history follows the page.
+- **Reorder**: drop on the edge of a sibling row, where the insertion line shows. Hanji writes the new arrangement into the pages' `order:` frontmatter, as one commit.
+- **Nest**: drop onto the middle of a page and it becomes a section landing with the dragged page inside, the same conversion the + performs.
+- **The rail too**: drag one mount header onto another to reorder the mounts themselves.
+
+Drops apply instantly; git catches up behind. If something blocks a move, the tree snaps back and a toast tells you why. And if you were reading the page you just moved, the address quietly follows it.
+
+## Deleting
+
+Next to Edit sits a quiet trash. The first click arms it into an explicit red question, the second deletes: a `git rm` and one commit. Deleting a section landing takes its children with it, the inverse of nesting. Nothing is ever truly gone, though. The repository remembers every sheet, and history can bring one back.
+
+## History
+
+Every page carries its past. Open its history to see who changed it and when, as a list of revisions with a byline, and open any revision to read the page as it was then. Because the store is git, this is not a feature bolted on top. It is the commits, shown well.
+
+<figure><img src="assets/history.gif" alt="Browsing a page's history: the list of revisions with bylines, then reading one as it was"><figcaption>The page's past: every revision, and any of them readable as it was.</figcaption></figure>
+
+Read [[Agents]] next, to let a coding agent read and propose against these same pages.
+
+---
+
+<!-- handbook/hanji.md -->
+
+---
+title: Hanji
+order: 10
+description: Paper-thin documentation tool.
+---
+
+# Hanji
+
+*Paper-thin documentation tool.*
+
+Most knowledge tools are built for the moment you write in them. Hanji is built for every moment after.
+
+We went looking for a place to keep what a team knows, and we kept finding the same shape. A store you cannot read without the app that made it. A model bundled in and metered by the token. A wall between your writing and the agents that, more and more, do the reading. In every case the knowledge was the hostage, and the software was holding it.
+
+So we built the reverse.
+
+Hanji keeps what a team knows as plain Markdown, in a git repository you already own. People read and write through a quiet, well-set web front. Coding agents read and contribute through the same git and a small protocol, at the speed of a local clone. Nothing is bundled. Nothing is metered. Nothing is locked away where only one program can reach it.
+
+That is the whole product in one move. Git is the store, and everything else is a face on top of it.
+
+## Two faces
+
+One face is for people. Pages are Markdown, rendered with care, on a warm sheet meant for long reading. You enter edit mode, make a change, and press Update. That update is a single commit with a full history behind it, and git never once shows itself unless you go looking for it.
+
+The other face is for agents. They already live in git, so Hanji meets them there, plus a small MCP server for scoped search and reading. When an agent wants to write, it does not edit your page. It proposes a change as a branch, and a person decides. An agent can suggest. You merge.
+
+## A lock on the sensitive folders
+
+Some folders hold meeting notes and decisions that are not for everyone. Every read Hanji serves, search and links and the agent tools alike, runs through one permission check, so a reader only ever sees what they are allowed to see. We are honest about what that lock protects today and what it does not. A promise we cannot keep is worse than no promise at all.
+
+## Paper-thin
+
+The name is also a claim about weight. Reads come off a local clone and a small local index, not a round-trip to someone's cloud, so the front stays quick and ships almost nothing to the browser. It is meant to get out of the way. See [[Performance]] for the numbers.
+
+## Why "Hanji"
+
+한지 is Korean paper that has carried writing for a thousand years. The name is a promise about longevity: software comes and goes, and the paper should outlast the app. Read [[The name]] for where it comes from, [[What Hanji is]] for how it works, [[Why Hanji is different]] for what it refuses to do, and [[Mission and vision]] for where it is going.
+
+> Your agents already live in git. Hanji gives the humans a front and the sensitive folders a lock.
+
+---
+
+<!-- handbook/index.md -->
+
+---
+title: The Hanji handbook
+order: 0
+description: Paper-thin documentation tool. Start here.
+---
+
+# The Hanji handbook
+
+*Paper-thin documentation tool.*
+
+This is Hanji's own handbook, written in Hanji, kept in Hanji's repository, and read through the product you are looking at now. 🎉
+
+<figure><img src="assets/reading-view.png" alt="The Hanji reading view: the sidebar of mounts on the left, a page set in serif on warm paper on the right"><figcaption>The front: your repositories on the left, one of their pages on paper.</figcaption></figure>
+
+## Start here
+
+New to Hanji? Read these five, in order. Fifteen minutes, and you will know what it is, how it is different, and whether it is for you.
+
+1. [[Hanji]], the manifesto. What it is, in one read.
+2. [[What Hanji is]], how it actually works.
+3. [[Why Hanji is different]], how it lands differently from other tools.
+4. [[Is Hanji for you?]], an honest look at fit, with better options where they exist.
+5. [[Mission and vision]], why it exists, and where it is going.
+
+Everything below is reference. Read it when you need it.
+
+## Using Hanji
+
+| Page | What it is |
+|---|---|
+| [[Install Hanji]] | From clone to a running instance. |
+| [[Mounts]] | Pointing Hanji at your repositories. |
+| [[Reading and writing]] | The human front, in practice. |
+| [[Agents]] | Connecting a coding agent through MCP. |
+| [[Proposals]] | Reviewing and merging what agents propose. |
+| [[On your tailnet]] | Sharing an instance where the network signs people in. |
+| [[Command reference]] | Every CLI command, in one table. |
+
+## The product, in depth
+
+| Page | What it is |
+|---|---|
+| [[The two faces]] | The human front and the agent surface, over one git. |
+| [[Permissions]] | The two-plane model, and exactly what it enforces today. |
+| [[Byte-fidelity]] | Why a one-word edit is a one-line change. |
+| [[Performance]] | Paper-thin: the speed and size numbers. |
+| [[Features]] | The whole feature list, with honest status. |
+
+## Go deeper
+
+For when you want to see the machine, or build on it.
+
+- **How it's built:** [[How it's built]] · [[The serializer]] · [[The core]] · [[The editor]] · [[The MCP server]] · [[The web front]]
+- **Contributing:** [[Contributing]] · [[Developing]] · [[Conventions]] · [[Open core]]
+- **Brand:** [[The brand]] · [[The visual language]] · [[Voice]]
+
+## Project
+
+| Page | What it is |
+|---|---|
+| [[Principles]] | The beliefs that break the ties. |
+| [[Where we are]] | What is shipped, what is next, and what we are exploring. |
+| [[Changelog]] | The road behind us, honestly logged. |
+
+---
+
+<!-- handbook/is-hanji-for-you.md -->
+
+---
+title: Is Hanji for you?
+order: 40
+description: An honest look at who Hanji fits, and where something else fits better.
+---
+
+# Is Hanji for you?
+
+A tool that claims to be right for everyone is lying to someone. Here is the honest version.
+
+## Hanji fits you well if
+
+- Your team already keeps things in git, and your agents already read code from it.
+- You want people to read and write without ever learning git.
+- You want to bring your own agent, and you refuse to pay by the token for the privilege.
+- You have folders that must stay private, and you need that lock honored everywhere, including by the agents.
+- You want to be able to walk away with everything, because it was always just your files.
+
+That is the center of the target. A 10-to-200-person team, engineering-led, agent-heavy, already paying for a knowledge base its agents cannot read. If that is you, the rest of this handbook is written for you.
+
+## You will be happier somewhere else if
+
+Honesty about limits is one of our [[Principles]], so here it is turned on ourselves. If your need is in the left column, the tool in the middle will serve you better today, and we would rather point you to it.
+
+| If you want | A better fit today | Why it wins there |
+|---|---|---|
+| One app for docs, tasks, databases, and a bundled AI | Notion | It plays the all-in-one game well. You trade portability for it, and often that trade is worth making. |
+| A polished hosted wiki, and git or agents do not matter to you | Docmost, Outline | Excellent open-source wikis with a real team layer today. Hanji only pays off if the git-native part matters. |
+| Personal notes on your own machine, just you | Obsidian | Hard to beat, and free for exactly that. Hanji is built for a team with a shared repo and a permission line down the middle. |
+| To publish external product documentation | GitBook, Mintlify | Shaped for published docs, with the site polish and the SEO Hanji does not chase. |
+| Enterprise SSO, audit, and a filled-in procurement checklist today | Confluence, or Hanji's paid tier later | Hanji is early. Those parts live on the paid tier, and some are still ahead of us. See [[Where we are]]. |
+| Git and agents, but no human front and no permissions | The agent-first newcomers | They move fast in that space. Hanji exists because we wanted the human front and the lock too. |
+
+## The short version
+
+Hanji is the tool built to hold four things at once: git-backed storage, agent-native access, a polished human front, and real permissions. Need all four, and as of today nothing else does the whole set. Need only one or two, and one of the tools above will serve you better, and we would rather tell you that now than sell you the wrong thing.
+
+No bundled model. No credits, ever. See [[Why Hanji is different]] for the longer argument.
+
+---
+
+<!-- handbook/mission-and-vision.md -->
+
+---
+title: Mission and vision
+order: 50
+description: Why Hanji exists, and where it is going.
+---
+
+# Mission and vision
+
+The whole of it in one line: keep what a team knows on a foundation they own, readable by people and agents alike, free to walk away from, and good enough that they stay.
+
+## The mission
+
+Keep what a team knows in a form that outlasts the software holding it, and never hold it hostage to get there.
+
+That is the entire job. A team's knowledge is one of the few things it builds that should still be readable in ten years, and it is usually trapped in the tool least likely to last that long. Hanji's mission is to break that trap. Put the knowledge somewhere durable and yours. Give people a surface calm enough to actually write on. Give agents a native way in. Lock the parts that need locking. If Hanji disappeared tomorrow, you would lose a nice reading experience and nothing else, because the knowledge was never inside it.
+
+## The vision
+
+Most tools grow by pulling more of your work inside their walls, so that leaving costs a little more every year. We want to grow the opposite way, by being worth keeping even though leaving is free.
+
+The order matters, and it is the same order for every decision. Earn trust first. Charge for the parts an administrator wants, the hosted sync and the single sign-on and the per-folder controls a real organization needs. Never gate what one person needs to write. A student, a solo maintainer, a two-person team should get the whole writing experience for nothing, because the day you charge someone for the right to write down what they know is the day you have become the thing Hanji was built against.
+
+Further out, the bet is bigger than a nicer wiki. Documentation is turning into something machines read as much as people do, and the team that owns its knowledge as clean, permissioned, git-native files hands its agents a sharper tool than any bundled chat box can be. The knowledge base stops being a place you visit and becomes infrastructure you own. That is the world Hanji is building toward.
+
+See [[Where we are]] for what is shipped and what is next, and [[Why Hanji is different]] for the refusals that keep this honest.
+
+---
+
+<!-- handbook/principles.md -->
+
+---
+title: Principles
+order: 110
+---
+
+# Principles
+
+A short list of the beliefs Hanji is built on. When a decision is hard, these break the tie.
+
+- **Git is the store.** The repository is the source of truth. The index is a cache we can throw away and rebuild at any time. Anything we cannot rebuild from git, we do not trust.
+- **The human never meets git.** Reading and writing should feel like a good editorial tool. Commits, branches, and conflicts are plumbing, and plumbing stays behind the wall until someone goes looking for it.
+- **Agents are first-class readers.** More than half of documentation is now read by machines. Hanji treats an agent as a reader with an identity and a scope, the same as a person, and lets it propose rather than overwrite.
+- **No bundled intelligence.** We do not sell you a model or meter your tokens. Bring the agent you already trust. Your bill does not grow because your team wrote more this month.
+- **Permissions are honest about their limits.** We say plainly what a lock protects and what it leaves open. A promise we cannot keep is worse than no promise.
+- **Byte-fidelity.** A one-word edit produces a one-line change. Your history stays readable because the tool refuses to rewrite what you did not touch.
+
+None of these is novel on its own. Holding all of them at once, and refusing to trade one away for a feature, is the point.
+
+---
+
+<!-- handbook/product/byte-fidelity.md -->
+
+---
+title: Byte-fidelity
+order: 30
+description: Why a one-word edit is a one-line change, and why that matters.
+---
+
+# Byte-fidelity
+
+Here is a small test most editors fail. Open a document, change one word, and save. Now look at the diff. If four paragraphs you never touched also changed, quotes flipped, list markers rewritten, whitespace reflowed, then the tool has been rewriting your work behind your back. On a knowledge base kept in git, that is not cosmetic. It is the difference between a history you can read and a history that is noise.
+
+Hanji refuses to do that. A one-word edit produces a one-line change. That is the whole promise, and it is harder to keep than it looks.
+
+## How it holds
+
+When Hanji reads a Markdown file, it does not just parse it into a tree and forget the original. It keeps a map from each block back to the exact bytes it came from. When you edit, only the blocks you actually changed are written back from the tree. Every block you left alone is written back byte-for-byte from the original, untouched. The reconciler works at the block level, so a paragraph you did not open never gets the chance to drift.
+
+The result is quiet. A save you make when you changed nothing is byte-identical to the file you started with. There is no commit, because there is nothing to record.
+
+## Why it is the crown jewel
+
+Two reasons, and both are about trust.
+
+The first is your history. When the diff of a one-word fix is one line, `git blame` still means something, a review is still readable, and a year of edits does not turn into a wall of reformatting churn. The people and the agents reading your history can trust that a change shown is a change made.
+
+The second is the walk-away promise. Byte-fidelity is what lets Hanji claim your files are still just your files. If the tool quietly rewrote them, they would slowly become the tool's files, in a shape only it produced. Because it does not, you can leave at any moment and take exactly what you would have had if Hanji had never existed.
+
+This is guarded, not hoped for. A corpus test round-trips more than 600 real Markdown files through the engine and asserts every one comes back byte-identical. That gate stays green, or the build does not ship. See [[Performance]] for the other numbers, and [[Principles]] for where this belief sits among the rest.
+
+---
+
+<!-- handbook/product/features.md -->
+
+---
+title: Features
+order: 50
+description: What Hanji does today, in one table.
+---
+
+# Features
+
+The full list, in one place, with the honest status on each. If a row says shipped, it is tested and live in the front you are reading this on. If it says next, it is being built and not yet true.
+
+## Reading and writing
+
+| Feature | Status | Note |
+|---|---|---|
+| Markdown reading, rendered with care | Shipped | Warm paper, serif, careful spacing |
+| In-place WYSIWYG editor | Shipped | Edit, change, Update, one commit |
+| Byte-fidelity edits | Shipped | A one-word edit is a one-line diff |
+| Tables, with Notion-style controls | Shipped | Hover handles, insert, drag to move |
+| Task lists, interactive | Shipped | Check them off in the page |
+| Strikethrough and bare-URL autolinks | Shipped | Full GFM parity in the editor |
+| Slash menu to insert | Shipped | Blocks, images, embeds |
+| Images uploaded into the repo | Shipped | Into `assets/`, no external link-rot |
+| Embeds, video and iframe | Shipped | Domain allowlist: figma, youtube, loom, vimeo |
+| Page history, byline and revisions | Shipped | View any past version |
+| Nested, collapsible sidebar | Shipped | Built from page paths |
+| Breadcrumb navigation | Shipped | Middle-collapsing on deep pages |
+| Wikilinks, `[[by title]]` | Shipped | Resolved and permission-aware |
+| Full-text search | Shipped | bm25, title-boosted, multi-word aware, scoped to what you can read |
+| Search palette and results page | Shipped | `⌘K` with ranked snippets; `/kb/search` with filters |
+| Emoji, three ways in | Shipped | Toolbar picker, `:query` menu, `:tada:` conversion |
+| Sidebar quick-create | Shipped | A + on every mount, folder, and page |
+| Drag to move, reorder, and nest | Shipped | Instant, git behind, auto-revert on failure |
+| Page delete | Shipped | Two-step trash, `git rm`, recoverable from history |
+| Works on a phone | Shipped | Top bar, drawer, the same sidebar |
+
+## The rail and the agents
+
+| Feature | Status | Note |
+|---|---|---|
+| Git-backed mounts | Shipped | Point at repos or folders, one tree |
+| Sync and a rebuildable index | Shipped | The index is a throwaway cache |
+| MCP server for agents | Shipped | Scoped search and reading |
+| Propose-as-PR writes | Shipped | Agents open branches, people merge |
+| Proposal review and merge, in the front | Shipped | A pending badge, a line diff, Merge and Reject |
+| Per-mount permissions | Shipped | `read` and `read+propose`, one read path |
+| Content-first visibility | Shipped | Everyone / restricted, inherited downward, deepest rule wins |
+| Path grants, down to one page | Shipped | Mount, folder, or a single file - for people and agent tokens alike |
+| Share, on the page itself | Shipped | General access + people, a name, a level, done |
+| `hanji export` | Shipped | llms.txt, llms-full.txt, and a per-page `.md` mirror of what is open to everyone |
+| No bundled model, no metering | Shipped | By design, forever |
+
+## The workspace
+
+| Feature | Status | Note |
+|---|---|---|
+| Name and logo | Shipped | SVG adapts to light and dark; anything else gets a mode-safe plate |
+| Colors and fonts | Shipped | Three OKLCH seeds reinterpreted per mode, contrast secured |
+| Sidebar collapse | Shipped | Automatic by mount count, or your explicit choice |
+| Tailscale zero-login | Shipped | On a tailnet, the network signs people in; grants stay owner-assigned |
+| A phone-ready shell | Shipped | A slim top bar, and a drawer carrying the full sidebar |
+| Version in the footer | Shipped | One source of truth: the repository's own version |
+
+<figure><img src="assets/mobile-drawer.gif" alt="The phone shell: the menu button slides in a drawer holding the full sidebar" class="w-50"><figcaption>The same sidebar, on a phone: one tap, the whole collection.</figcaption></figure>
+
+For what is coming next, see [[Where we are]]. For what shipped when, see [[Changelog]].
+
+---
+
+<!-- handbook/product/index.md -->
+
+---
+title: What Hanji is
+order: 60
+description: How Hanji turns the repos you already have into one permissioned knowledge base.
+---
+
+# What Hanji is
+
+Hanji turns the git repositories a team already has into one shared, permissioned knowledge base with two faces. One for people, one for agents. Nothing moves and nothing is copied into a new store. Hanji reads what is already there and serves it well.
+
+## Mounts
+
+You point Hanji at git repositories, or at folders inside them, and each one becomes a **mount** in a single tree. A repo of engineering docs, a folder of product specs, a private repo of meeting notes, all of it lands in one place to read and search, while each repository stays exactly where it is. Hanji never becomes the owner of your content. Git remains the source of truth, and the index Hanji builds on top is a cache it can throw away and rebuild at any time. See [[Mounts]] for how to add one.
+
+## For people
+
+A quiet reading and writing front. Pages are Markdown, rendered with care on a warm sheet meant for long reading. Editing is deliberate. You enter edit mode, make your changes, and press Update, and that Update is a single commit with a full history behind it. Git stays out of sight unless you go looking for it. There is a full editor under that calm surface, with tables, task lists, images, and embeds, and it never rewrites a line you did not touch. Read [[The two faces]] for how the front is built, and [[Byte-fidelity]] for why your history stays clean.
+
+## For agents
+
+Coding agents read the knowledge the way they read code, as files in a repository, at the speed of a local clone. Where a hosted surface helps, a small MCP server offers scoped search and reading, plus a write path that proposes changes as branches rather than editing pages in place. An agent can suggest. A person decides. That one rule fixes the failure mode everyone with a bundled AI has hit, the model that confidently edited the wrong page. Here it opens a branch, and you merge it or you do not.
+
+## For the sensitive parts
+
+Some folders hold decisions and notes that should not be open to everyone. Every read Hanji serves, search and links and the agent tools alike, runs through a single permission check, so a reader only ever sees what they are allowed to see. A search will not leak a title. A wikilink will not resolve to a page you cannot open. And we are honest about where that check is strict today and where it is still getting finer. Read [[Permissions]] for exactly what is enforced now.
+
+## What it will never do
+
+No bundled model. No per-token credits. No format you cannot walk away from. If you leave, you already have everything, because it was always just your files in your git. Read [[Why Hanji is different]] for the longer version of that promise.
+
+---
+
+<!-- handbook/product/performance.md -->
+
+---
+title: Performance
+order: 40
+description: Paper-thin. The speed and size numbers, measured, and the ones still pending.
+---
+
+# Performance
+
+Paper-thin is not only a metaphor about longevity. It is also a claim about weight. A knowledge base you read all day should be quick and light, and most are neither, because every read is a round-trip to someone's cloud and every page ships a small application to your browser.
+
+Hanji is built the other way. Reads come off a local git clone and a small local index, not a network hop. Here are the numbers, measured on the dogfood instance, with the ones we have not earned yet marked as such. Honesty about limits applies to benchmarks too.
+
+## The agent read path
+
+This is the one that has to be fast, because agents read constantly. Measured against the running instance over 127.0.0.1, five runs each.
+
+| Operation | Time | What it does |
+|---|---|---|
+| Fetch a page | ~2 ms | Return a page's Markdown by mount and path |
+| Full-text search | ~2 to 3 ms | Query the FTS5 index across every mount you can read |
+
+Single-digit milliseconds, because there is no cloud in the loop. The agent reads from a local clone and a local index, the same way it reads your code.
+
+## Weight and dependencies
+
+| Thing | Number |
+|---|---|
+| Bundled LLM SDKs | 0 |
+| AI credits or metering | none, ever |
+| Web app runtime dependencies | 24, all ProseMirror, remark-rehype, React, and Next |
+| Test cases | 212 |
+| Real Markdown files round-tripped byte-identical | 600+ |
+
+The zero on the first row is the point. Hanji ships no model and meters nothing, so nothing about its cost or its weight grows because your team wrote more this month.
+
+## Weight in the browser
+
+Measured on a clean production build, served and loaded through a real request (the `pnpm smoke` boot test).
+
+| Thing | Number |
+|---|---|
+| Shared JavaScript, first load | ~103 kB |
+| Reading a page, first load | ~108 kB |
+| A rendered page, over the wire | ~14 kB of HTML |
+| Time to first byte | ~55 ms |
+
+Reading sits just above the shared floor. The editor is a separate chunk that does not load until you press Edit, so the common case, reading, stays paper-thin, and the writing tools arrive only when you reach for them.
+
+The index itself is worth one honest note. It is a cache. Whatever it costs in space, you can delete it and rebuild it from git, because the repository is the only thing that has to be trusted. Read [[Byte-fidelity]] for the engine underneath, and [[Why Hanji is different]] for why none of this is bundled.
+
+---
+
+<!-- handbook/product/permissions.md -->
+
+---
+title: Permissions
+order: 20
+description: The two-plane model, and exactly what it enforces today.
+---
+
+# Permissions
+
+Permissions are where most knowledge tools get honest too late. Hanji tries to get honest early, which means telling you plainly what the lock does today and what it does not do yet.
+
+## The model
+
+Two planes. One is an open human front, where a team reads and writes in the clear. The other is the set of sensitive areas that must stay closed, the meeting notes and the decisions and anything you would not tack to a shared wall. The whole design rests on one rule: **every surface honors the same check**. Search, wikilinks, page reads, and the agent tools all ask the same question before they show you anything, so there is no back door where a locked title slips out through search, or a link resolves to a page you were never allowed to open.
+
+That is not a claim to make lightly, so here is how it actually works.
+
+## One read path
+
+Every read Hanji serves runs through a single module. The scope check, which mounts may this reader see, is compiled in exactly one place and nowhere else. Search filters to your readable mounts before it runs. A page read returns nothing for a mount you cannot see. Wikilink resolution uses the same filter. This is the boring, load-bearing part. There is one door, and it is the same door for people and for agents.
+
+A locked page and a page that does not exist look identical to a reader who lacks access. Both come back as not found. You cannot probe the shape of what you are not allowed to see.
+
+## Scopes today
+
+Access is granted per mount, in two levels.
+
+| Scope | The reader can | The reader cannot |
+|---|---|---|
+| none | see nothing of the mount, not even that it exists | read, search, or link into it |
+| `read` | read, search, and follow links inside the mount | write, or propose changes |
+| `read+propose` | everything `read` can, plus propose changes as a branch or PR | merge, or write directly |
+
+The owner sees every mount. An agent gets a bearer token whose scopes take the same shape as a person's grants - a whole mount, a folder, or exactly one page - so an agent that helps with the engineering docs never sees the folder of sensitive notes, even when both live in the same repository. See [[Agents]] for how that works in practice.
+
+## Visibility belongs to the content
+
+The model reads the way Notion and Confluence taught everyone to think. Content carries a general access level - **Everyone can read**, **Everyone can suggest**, or **Restricted** - set on a mount, a folder, or a single page, flowing down to everything beneath. Open content is simply open: no per-person bookkeeping. Restricted content is dark by default, and the deepest rule covering a page wins, so one restricted folder inside an open mount goes dark for everyone.
+
+People are the exceptions. A person granted a path - a mount, a folder, or exactly one page - punches through a restriction at or below their grant. That is the 1:1 note: a restricted folder, two names, and nobody else sees it in the tree, in search, or through a wikilink. A locked page still looks identical to a page that does not exist.
+
+Sharing lives where the content lives: a **Share** control on every page, and on every mount and folder in the sidebar, showing the general access (and where it is inherited from), the people with specific access and through which grant, and a one-line way to add someone with read or suggest. Settings keeps the overview: a Mount access tab for general access per mount, and a People tab for everyone's grants in one place. Revoking takes effect on the person's next request. The rule and grant tables are the implementation; the page is the interface.
+
+<figure><img src="assets/share-popover.png" alt="The Share popover on a mount: general access set to Everyone can read, and one person's grant listed beneath" class="w-75"><figcaption>Share, where the content lives: the general rule on top, the exceptions by name.</figcaption></figure>
+
+One deliberate exception: **agents never inherit "everyone"**. A token sees exactly the scopes it was minted with, whatever the content rules say - opening a mount to your team never opens it to a bot.
+
+## People, same scopes
+
+The same two levels now apply to humans. The owner adds a person in Settings with a name, a password, and per-mount scopes: `read` makes a **viewer**, `read+propose` makes a **contributor** whose Update reads Propose and lands in the owner's review card. A user never commits to base, never restructures the tree, and never sees review or settings - those stay the owner's. In user terms: viewers read, contributors suggest, the owner decides. One read path, one review ceremony, whatever species the writer is.
+
+## What is honest about it
+
+The unit of permission is now the path, down to one file, for people and agent tokens alike, and it holds on the same single read path as everything else. What remains honest to say: product privacy is not storage privacy - the bytes are plaintext in a git repo, so the instance owner and the git host can always read them. A 1:1 note is hidden from every other principal; hiding it from the owner would take cryptography, not permissions. The two-plane model is real and enforced on one honest read path, and [[Where we are]] tracks the rest without rounding up.
+
+---
+
+<!-- handbook/product/two-faces.md -->
+
+---
+title: The two faces
+order: 10
+description: One knowledge base, a human face and an agent face, over the same git.
+---
+
+# The two faces
+
+Most tools are built for one reader and then bolt on the other. A wiki built for people adds an AI chat box. An agent tool built for machines adds a rough editor and hopes the humans cope. Hanji starts from the fact that both read the same knowledge, and gives each the surface it actually wants, over the same git underneath.
+
+## The human face
+
+A person should never have to think about git to write down what they know.
+
+So the front hides it completely. You open a page and it reads like a good magazine, warm paper and a serif set for long reading. You click Edit, the page becomes editable in place, you change what you came to change, and you press Update. Behind that one button, Hanji writes a single commit with a clean message and a full history. No staging, no branch names, no merge dialog. And if you change nothing, nothing is committed, because there was nothing to record.
+
+Under the calm surface is a real editor. Tables with the controls you expect, task lists you can check off, a slash menu to insert, images that upload into the repo itself, and embeds for the tools you already use. It stays out of your way, and it never rewrites a line you did not touch. See [[Byte-fidelity]] for why that last part matters more than it sounds.
+
+## The agent face
+
+An agent should not have to pretend to be a browser to read your docs.
+
+Agents already live in git, so the first face for them is git itself. They clone, they read files, they search, all at local speed, with no API throttle and no hosted round-trip. Where a live surface helps, a small MCP server gives them scoped search and reading through the same permission check a person gets. And when an agent wants to contribute, it does not reach into a page and overwrite it. It proposes a change as a branch, and where GitHub is connected, as a pull request. A person reviews it in the front and merges. The agent suggests, you decide, and your history never fills up with edits nobody approved.
+
+## The same git underneath
+
+The point of two faces is that there is one thing behind them. A person edits a page and an agent sees the new bytes on its next read. An agent proposes a branch and a person reviews it on the same warm page they read everything else on. Nobody is working on a copy. It is one knowledge base, and it was your git the whole time.
+
+Read [[What Hanji is]] for the overview, and [[Using Hanji]] when you want to actually drive it.
+
+---
+
+<!-- handbook/status.md -->
+
+---
+title: Where we are
+order: 120
+description: What is shipped, what is next, and what we are still exploring.
+---
+
+# Where we are now
+
+Hanji is early, and built in the open with its own tools. This page is written in Hanji, kept in Hanji's repository, and read through the product you are looking at now. It is honest to a fault, because pretending to be further along than you are is its own kind of lock-in. There are no dates here, because a solo, early project that promises dates is lying. The order is real, though, and it follows the rule in [[Mission and vision]]: earn trust first, charge for what an administrator wants, never gate what one person needs to write.
+
+## Now, shipped and live
+
+- [x] Byte-fidelity Markdown engine, guarded by a corpus gate
+- [x] Git-backed mounts, sync, and a rebuildable index
+- [x] The human front: reading, in-place WYSIWYG editing, history, nested navigation
+- [x] The agent surface: MCP scoped read tools and propose-as-PR
+- [x] Per-mount permissions on a single read path
+- [x] The agent git flow, end to end: an agent proposes, you review the diff in the front, and merge (see [[Proposals]])
+- [x] Search worth the name: a title-boosted, multi-word-aware backend under a `⌘K` palette and a full results page
+- [x] The sidebar as an organizer: quick-create, drag to move, reorder, nest, and delete, all real git behind an instant UI
+- [x] A workspace made yours: name, logo, OKLCH theming with secured contrast, fonts, and a phone-ready shell
+- [x] Proposal from the human front: on a suggest-only mount, Update becomes Propose, landing in the same review card
+- [x] Several human principals: viewers and contributors with per-mount scopes, added by the owner in Settings
+- [x] The lock, down to a single page: path grants (mount, folder, or one file) and a Share button on the page itself
+- [x] Content-first visibility: general access inherited downward, restrictions that go dark, people as the exceptions
+- [x] Tailscale mode: run on a tailnet and the network signs people in, no password, grants untouched (see [[On your tailnet]])
+- [x] Path grants for agent tokens: a token holds a mount, a folder, or one page - the same mechanism people have
+- [x] `hanji export`: the everyone-visible content mirrored as `llms.txt` plus per-page Markdown, for the agents that read the open web
+- [x] Changes arrive on their own: a signed push-to-sync webhook, and an opt-in poll loop for tailnets and local mounts
+- [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
+
+Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.
+
+## Next, in build
+
+The agent git flow shipped; what remains of the real test is a second pair of hands living on it.
+
+- [ ] **A second human**, living on a shared instance - the thing no more code can produce
+
+## Later, the paid seam
+
+Everything an administrator needs to trust Hanji with a whole organization. This is where the revenue is, and it is deliberately not where the writing is.
+
+| Area | What it adds |
+|---|---|
+| Hosted sync | A managed instance, for teams who would rather not run their own |
+| Single sign-on | Log in with your identity provider |
+| Audit | Who read and wrote what, and when, read straight from the git history |
+| Hardening | The operational harnesses that keep an organization-size instance honest at scale |
+
+## Exploring, not promised
+
+Ideas we like and have not committed to.
+
+- Real-time collaboration, reconciled with git as the source of truth
+- Serving a folder as an installable agent skill
+- The HTML half of publishing: `hanji export` rendered as a browsable static site
+
+Read [[Mission and vision]] for the why behind the order.
+
+---
+
+<!-- handbook/the-name.md -->
+
+---
+title: The name
+order: 20
+---
+
+# The name
+
+한지 (hanji) is traditional Korean handmade paper. It is made from the inner bark of the mulberry tree, laid and pressed by hand, and it is known above all for one thing: it lasts.
+
+Documents written on hanji have survived a thousand years. The oldest surviving woodblock print in the world sits on Korean paper from the eighth century, and it is still legible today. The paper was made to be written on, and made to keep what was written on it, which is a rarer pairing than it sounds, because most surfaces you can write on freely will not hold the writing for long, and most surfaces that endure a millennium were never meant to take ink in the first place. Hanji does both.
+
+That is also the whole thesis of the product in a single word.
+
+A knowledge base should be a surface that holds your writing for as long as you need it, in a form you can always read, on a foundation you control. Software comes and goes. Formats fall out of fashion, companies get acquired, apps stop shipping updates and quietly rot. The writing should not go down with them. The paper should outlast the app.
+
+We kept the metaphor close in the craft too. The reading surface is warm, like a fresh sheet. The color is drawn from Korean tradition. The mark is a Korean letter, cut back to its bones. None of that is decoration. It is the same claim the paper makes, carried into the pixels: made by hand, meant to endure. See [[The visual language]].
+
+---
+
+<!-- handbook/why-hanji-is-different.md -->
+
+---
+title: Why Hanji is different
+order: 30
+description: What Hanji refuses to do, and why that is the point.
+---
+
+# Why Hanji is different
+
+Open five knowledge tools and four of them share the same shape. The knowledge lives in a database only their app can read, intelligence comes bundled and metered so the more your team writes the more you pay, permissions are an afterthought bolted to the side, and leaving is a migration project because your writing was never really yours to carry.
+
+Hanji is built against that shape, on purpose. Here is where it lands differently.
+
+| | The common shape | Hanji |
+|---|---|---|
+| Where knowledge lives | A proprietary store, read through the app | Plain Markdown in a git repo you already own |
+| Intelligence | A bundled model, metered by the token | Bring the agent you already trust. None bundled, nothing metered |
+| Who reads it | People, with agents bolted on as a chat box | People and agents, both first-class, both scoped |
+| Permissions | One flat space, or an afterthought | Two planes: an open human front, locked sensitive folders |
+| Edit history | Opaque blocks, a diff you cannot read | Byte-fidelity: a one-word edit is a one-line change |
+| Leaving | An export, a migration, a loss | Nothing to do. It was always your files in your git |
+
+None of these axes is novel on its own. Plenty of tools keep files in git. A few take permissions seriously. The point is holding four things at once, git-backed storage, agent-native access, a polished human front, and real permissions, and refusing to trade any of them away for a feature. As of today, nothing else holds the whole set. That is the gap Hanji was built to sit in.
+
+## Git is the store, not a backup
+
+Most tools that "support git" treat it as an export target. The truth lives in their database, and git gets a copy when you remember to sync. Hanji reverses that. The repository is the source of truth, and the index is a cache we can throw away and rebuild at any time. That single choice is what makes leaving free. There is no export, because there was never anything to export from.
+
+## Agents are readers, not a chat box
+
+More than half of documentation today is read by a machine, not a person. Most tools answer that by adding a chat box that reads everything and replies in a blur. Hanji treats an agent the way it treats a person: a reader with an identity and a scope. It reads through git at the speed of a local clone, and when it wants to write, it proposes a branch. A person still decides. Your knowledge base does not quietly get rewritten by a model at 3am.
+
+## The lock is honest about its limits
+
+A two-plane model is simple to say and hard to do. The human front is open and inviting, the sensitive folders are locked, and every surface honors the lock. Search will not leak a title. A wikilink will not resolve to a page you cannot open. The agent tools see exactly what you see, nothing more. And where the lock has a limit, we say so plainly, because a promise we cannot keep is worse than none.
+
+No bundled model. No credits, ever. That line is a promise, and every choice above is what keeps it.
+
+Read [[Principles]] for the beliefs underneath these choices, [[Is Hanji for you?]] for an honest look at where something else fits better, and [[What Hanji is]] for how they fit together.

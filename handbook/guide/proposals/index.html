@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposals · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../../hanji/">Hanji</a><a href="../../the-name/">The name</a><a href="../../why-hanji-is-different/">Why Hanji is different</a><a href="../../is-hanji-for-you/">Is Hanji for you?</a><a href="../../mission-and-vision/">Mission and vision</a><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details open><summary><a href="../">Using Hanji</a></summary><a href="../install/">Install Hanji</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../agents/">Agents</a><a aria-current="page" href="./">Proposals</a><a href="../cli/">Command reference</a><a href="../on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../brand/">The brand</a></summary><a href="../../brand/visual-language/">The visual language</a><a href="../../brand/voice/">Voice</a></details><a href="../../principles/">Principles</a><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / guide / proposals</p>
+<article><h1>Proposals</h1>
+<p>This is the page where Hanji stops being a wiki and becomes the thing it was built to be. An agent never edits your pages in place. It proposes a change, the proposal lands in the front, and you decide. The whole loop runs over git, and you never have to see that.</p>
+<h2>The loop</h2>
+<ol>
+<li>An agent with <code>read+propose</code> scope calls <code>hanji_propose</code> (see <a href="../agents/">Agents</a>). Behind the scenes that becomes a <code>hanji/*</code> branch on the mount's remote, carrying one commit with the agent's change.</li>
+<li>A card appears in the sidebar, under the search box: how many proposals are waiting, and <strong>Review</strong>. It exists only while something waits; at zero the sidebar stays pure content. The count is cheap to compute, and it refreshes whenever anything talks to the remote.</li>
+<li>Open the proposal. You get the title the agent gave it, who proposed it, which page it touches, and a line diff: green for what it adds, red for what it removes.</li>
+<li>Press <strong>Merge</strong> or <strong>Reject</strong>. That is the entire ceremony.</li>
+</ol>
+<figure><img src="../../assets/proposal-review.png" alt="A proposal open for review: title, proposer, the line diff, and Reject and Merge buttons"><figcaption>An agent's proposal, waiting. The diff is the whole conversation.</figcaption></figure>
+<figure><img src="../../assets/merge.gif" alt="Opening a pending proposal, pressing Merge, and landing on the merged page with the agent&#x27;s byline"><figcaption>Merge lands it: the page updates, and the byline says who really wrote it.</figcaption></figure>
+<h2>People propose too</h2>
+<p>Agents are not the only ones held to review. Mount a repository with <code>--suggest</code> and the human front follows the same rule: the editor works exactly as everywhere else, but <strong>Update becomes Propose</strong>, and pressing it opens a branch instead of committing. The proposal lands in the same card, gets the same diff, and waits for the same Merge. One review ceremony for every writer, whatever species they are.</p>
+<h2>What Merge does</h2>
+<p>Merge lands the proposal on the page: a merge commit on the base branch, the proposal branch deleted, the page and the search index updated immediately. The agent's own commit survives in history with its name on it, so <code>git blame</code> a year from now still tells the truth about who wrote what.</p>
+<h2>What Reject does</h2>
+<p>Reject deletes the branch. Nothing else changes, nothing lingers, and the page never knew it was threatened.</p>
+<h2>When the page moved underneath</h2>
+<p>If someone edited the page after the agent proposed, the two versions may no longer merge cleanly. Hanji checks before you do anything: the proposal opens with a warning and Merge is disabled. There is no conflict-resolution screen, on purpose. The honest move is to ask the agent to re-propose from the current page, or reject. A merge you have to untangle by hand defeats the point of reviewing calmly.</p>
+<h2>The honest notes</h2>
+<ul>
+<li>The review surface is owner-only. Agents can propose all day; only you merge.</li>
+<li>A proposal is a branch on the mount's remote, nothing more. There is no separate proposal database to back up or migrate. Walk away and the proposals walk with the repo.</li>
+<li>Local mounts (a working directory on disk) have no proposal surface. Proposals need a remote to hold branches, so they live on clone mounts.</li>
+<li>One page per proposal in this version, which is exactly what <code>hanji_propose</code> produces.</li>
+</ul>
+<p>Read <a href="../agents/">Agents</a> for minting the token that can propose, and <a href="../../product/permissions/">Permissions</a> for the scopes behind it.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

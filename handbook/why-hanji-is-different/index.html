@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Hanji is different · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../hanji/">Hanji</a><a href="../the-name/">The name</a><a aria-current="page" href="./">Why Hanji is different</a><a href="../is-hanji-for-you/">Is Hanji for you?</a><a href="../mission-and-vision/">Mission and vision</a><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../brand/">The brand</a></summary><a href="../brand/visual-language/">The visual language</a><a href="../brand/voice/">Voice</a></details><a href="../principles/">Principles</a><a href="../status/">Where we are</a><a href="../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../">handbook</a> / why-hanji-is-different</p>
+<article><h1>Why Hanji is different</h1>
+<p>Open five knowledge tools and four of them share the same shape. The knowledge lives in a database only their app can read, intelligence comes bundled and metered so the more your team writes the more you pay, permissions are an afterthought bolted to the side, and leaving is a migration project because your writing was never really yours to carry.</p>
+<p>Hanji is built against that shape, on purpose. Here is where it lands differently.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>The common shape</th><th>Hanji</th></tr></thead><tbody><tr><td>Where knowledge lives</td><td>A proprietary store, read through the app</td><td>Plain Markdown in a git repo you already own</td></tr><tr><td>Intelligence</td><td>A bundled model, metered by the token</td><td>Bring the agent you already trust. None bundled, nothing metered</td></tr><tr><td>Who reads it</td><td>People, with agents bolted on as a chat box</td><td>People and agents, both first-class, both scoped</td></tr><tr><td>Permissions</td><td>One flat space, or an afterthought</td><td>Two planes: an open human front, locked sensitive folders</td></tr><tr><td>Edit history</td><td>Opaque blocks, a diff you cannot read</td><td>Byte-fidelity: a one-word edit is a one-line change</td></tr><tr><td>Leaving</td><td>An export, a migration, a loss</td><td>Nothing to do. It was always your files in your git</td></tr></tbody></table>
+<p>None of these axes is novel on its own. Plenty of tools keep files in git. A few take permissions seriously. The point is holding four things at once, git-backed storage, agent-native access, a polished human front, and real permissions, and refusing to trade any of them away for a feature. As of today, nothing else holds the whole set. That is the gap Hanji was built to sit in.</p>
+<h2>Git is the store, not a backup</h2>
+<p>Most tools that "support git" treat it as an export target. The truth lives in their database, and git gets a copy when you remember to sync. Hanji reverses that. The repository is the source of truth, and the index is a cache we can throw away and rebuild at any time. That single choice is what makes leaving free. There is no export, because there was never anything to export from.</p>
+<h2>Agents are readers, not a chat box</h2>
+<p>More than half of documentation today is read by a machine, not a person. Most tools answer that by adding a chat box that reads everything and replies in a blur. Hanji treats an agent the way it treats a person: a reader with an identity and a scope. It reads through git at the speed of a local clone, and when it wants to write, it proposes a branch. A person still decides. Your knowledge base does not quietly get rewritten by a model at 3am.</p>
+<h2>The lock is honest about its limits</h2>
+<p>A two-plane model is simple to say and hard to do. The human front is open and inviting, the sensitive folders are locked, and every surface honors the lock. Search will not leak a title. A wikilink will not resolve to a page you cannot open. The agent tools see exactly what you see, nothing more. And where the lock has a limit, we say so plainly, because a promise we cannot keep is worse than none.</p>
+<p>No bundled model. No credits, ever. That line is a promise, and every choice above is what keeps it.</p>
+<p>Read <a href="../principles/">Principles</a> for the beliefs underneath these choices, <a href="../is-hanji-for-you/">Is Hanji for you?</a> for an honest look at where something else fits better, and <a href="../product/">What Hanji is</a> for how they fit together.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

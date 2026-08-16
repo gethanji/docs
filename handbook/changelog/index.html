@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../hanji/">Hanji</a><a href="../the-name/">The name</a><a href="../why-hanji-is-different/">Why Hanji is different</a><a href="../is-hanji-for-you/">Is Hanji for you?</a><a href="../mission-and-vision/">Mission and vision</a><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../brand/">The brand</a></summary><a href="../brand/visual-language/">The visual language</a><a href="../brand/voice/">Voice</a></details><a href="../principles/">Principles</a><a href="../status/">Where we are</a><a aria-current="page" href="./">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../">handbook</a> / changelog</p>
+<article><h1>Changelog</h1>
+<p>Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.</p>
+<h2>The handbook publishes itself</h2>
+<ul>
+<li><code>hanji export</code> grew its browsable half: a static site in the hanji look - warm paper, the serif, the sidebar tree - with not one line of JavaScript. Folders collapse with <code>&#x3C;details></code>, dark mode rides the system preference, and every link is relative, so the site serves from any path.</li>
+<li>The rendering pipeline moved into its own package, shared verbatim between the web front and the exporter. There is exactly one way Hanji turns Markdown into HTML, and the sanitize rules travel with it.</li>
+<li>Only assets referenced by exported pages ride along: an image on a restricted page stays as dark as the page.</li>
+<li>A <code>rule</code> command joined the CLI, so a fresh instance can open content to everyone without touching the front - the piece a publish pipeline needs.</li>
+<li>And this is not hypothetical: the page you are reading is served by that exporter.</li>
+</ul>
+<h2>Changes arrive on their own</h2>
+<ul>
+<li>Push-to-sync: set one secret, add one webhook to the repository, and a push syncs the matching mount seconds later. Deliveries are signature-verified and answered immediately - the git work happens behind the response, serialized by the same mount lock as every other write. <del>A GitHub App</del> A plain signed webhook: the App, with its registration and installation machinery, was the roadmap's word and would have bought auto-configuration at the price of tying v1 to GitHub. The endpoint speaks to anything that can sign a POST.</li>
+<li>The poll loop: <code>HANJI_POLL_SECONDS</code> syncs everything on an interval, because a tailnet has no inbound path for webhooks and polling stays first-class. It also covers local mounts, so edits made outside Hanji show up without asking.</li>
+</ul>
+<h2>The export honors the lock, because it is the lock</h2>
+<ul>
+<li><code>hanji export &#x3C;dir></code> mirrors the workspace as <code>llms.txt</code>, <code>llms-full.txt</code>, and a per-page <code>.md</code> tree - the shape agents on the open web actually read. What lands on disk is exactly what a person with an account and no grants could see: the everyone regime, computed by the same authz predicate as every read in the product. No flag widens an export; mount names only narrow one.</li>
+<li>The exporter refuses a directory it didn't write, refuses an empty everyone-set, and re-exports clean over its own output.</li>
+</ul>
+<h2>Agents get the same lock people have</h2>
+<ul>
+<li>Token scopes grew a path: <code>hanji token intern notes/reviews=read</code> grants one folder, <code>notes/reviews/draft.md=read+propose</code> exactly one page. Tokens and people now share a single allow-region mechanism in the one authz predicate; the only asymmetry left is deliberate - "everyone" rules speak to people, never to tokens.</li>
+<li>Old mount-level scopes migrate themselves on the next start; nothing to run.</li>
+</ul>
+<h2>The tailnet signs you in</h2>
+<ul>
+<li>Tailscale mode: run the instance behind <code>tailscale serve</code>, set one variable, and the tailnet's identity signs people in - the owner by env match, everyone else through a login linked on their person sheet. No password typed, no session ceremony. See <a href="../guide/on-your-tailnet/">On your tailnet</a>.</li>
+<li>The mapping answers who, never what: grants stay exactly what the owner assigned, agents stay bearer-token only, and an unlinked tailnet visitor gets a login page that says who it saw and why they are not in yet.</li>
+<li>Trust is opt-in and explicit: the headers are only honored when <code>HANJI_TAILSCALE_OWNER</code> is set, and the docs state the deployment contract that makes them unforgeable.</li>
+</ul>
+<h2>The lock reaches a single page</h2>
+<ul>
+<li>
+<p>Visibility became content-first, the way every knowledge tool taught people to think: general access (everyone reads, everyone suggests, or restricted) set on a mount, folder, or page, inherited downward, deepest rule wins. People are the exceptions that punch through. Agents never inherit "everyone" - tokens see exactly their scopes.</p>
+</li>
+<li>
+<p>Grants grew a path: a person can hold a mount, a folder, or exactly one page. The 1:1 note two people share is invisible to everyone else - tree, search, links, all of it - and a locked page still looks identical to one that does not exist.</p>
+</li>
+<li>
+<p>Sharing moved onto the page: a Share button, a name, read or suggest, done. Revoking lands on the person's next request.</p>
+</li>
+<li>
+<p>People can now be added bare, with no access at all, and given pages one Share at a time.</p>
+</li>
+</ul>
+<h2>The sidebar becomes a place you organize</h2>
+<ul>
+<li>
+<p>A second pair of hands: the owner adds people in Settings with a name, a password, and per-mount scopes. Viewers read; contributors propose through the same review card as agents. Owner powers stay the owner's.</p>
+</li>
+<li>
+<p>Suggest-only mounts opened to people: Update becomes Propose in the editor, and the proposal waits in the same review card an agent's would. One ceremony for every writer.</p>
+</li>
+<li>
+<p>A + at the end of every mount, folder, and page row creates a new page in that context. The + on a page nests: the page becomes its section's landing and the new page starts inside it.</p>
+</li>
+<li>
+<p>Pages and folders drag: onto a folder or a mount to move there, onto a row's edge to reorder among siblings, onto a page's middle to nest into it. A folder brings its whole subtree, and mounts drag to reorder the rail itself.</p>
+</li>
+<li>
+<p>Drops land instantly. The tree moves first, the git work follows, and a failure snaps back with a toast that says why. Reordering is one commit writing <code>order:</code> frontmatter; a move is a real <code>git mv</code>, so history follows the page.</p>
+</li>
+<li>
+<p>Pages can be deleted: a quiet trash next to Edit, armed by a second click, backed by <code>git rm</code>. Nothing is truly lost; the repository keeps every sheet.</p>
+</li>
+</ul>
+<h2>Search grew into a real feature</h2>
+<ul>
+<li>One backend upgrade: bm25 ranking with a heavy title boost, snippets that mark their hits, prefix matching on the word you are still typing, and multi-word queries ranked by how many of your words a page shares, adjacent phrases first.</li>
+<li>Two surfaces on it: a <code>⌘K</code> palette (ranked results, recent pages when empty, keyboard all the way) and a bookmarkable <code>/kb/search</code> page with highlighted passages and per-mount filters.</li>
+<li>Agents search through the same ranking, via <code>hanji_search</code>.</li>
+</ul>
+<h2>The workspace becomes yours</h2>
+<ul>
+<li>A workspace name and logo. An SVG adapts its color to light and dark; any other mark gets a mode-safe plate when contrast demands one.</li>
+<li>Colors from three seeds, reinterpreted per mode in OKLCH with readability secured for you, plus curated reading fonts. Your seeds are never altered, only reinterpreted, and the settings page shows which is which.</li>
+<li>Emoji in the editor, three ways: a toolbar picker, <code>:query</code> suggestions at the caret, and GitHub-style <code>:tada:</code> conversion on the closing colon.</li>
+<li>Proposals left the content list. A card appears under the search box only while something waits, and disappears when the queue is empty.</li>
+<li>Versioning starts at 0.1.0, printed quietly at the bottom of the sidebar.</li>
+<li>A real phone experience: a top bar, a drawer, the same sidebar.</li>
+</ul>
+<h2>The agent git flow</h2>
+<ul>
+<li>The handbook itself now takes proposals: its mount points at the real repository, so agent contributions to these pages arrive as branches and get reviewed right here.</li>
+<li>Proposals now land in the front: a pending badge in the sidebar, a line diff, and Merge or Reject. Merging is git all the way down: a merge commit on base, the branch deleted, the page and index updated. See <a href="../guide/proposals/">Proposals</a>.</li>
+<li>A proposal that no longer merges cleanly opens with a warning and a disabled Merge. No conflict screen, by design: re-propose or reject.</li>
+<li>Along the way the handbook itself found and drove product fixes: sidebar ordering by frontmatter <code>order</code>, SVG assets served safely, image width, alignment and captions, local path mounts, a boot smoke test, and an editor that loads only when you edit.</li>
+</ul>
+<h2>The editor, and everything around it</h2>
+<ul>
+<li>Editable GFM tables, with Notion-style controls: hover handles, boundary insert, drag to move.</li>
+<li>GFM parity in the editor: interactive task-list checkboxes, strikethrough, bare-URL autolinks.</li>
+<li>A collapsible nested sidebar built from page paths, plus a middle-collapsing breadcrumb.</li>
+<li>The editor grew from <del>a block-scoped textarea</del> into a full WYSIWYG surface, with dirty-block byte-fidelity intact.</li>
+<li>A slash menu to insert, image upload into the repo's own <code>assets/</code>, and domain-allowlisted embeds.</li>
+</ul>
+<h2>v0.1, the foundation</h2>
+<ul>
+<li>The byte-fidelity serializer, its corpus gate green on 600-plus real Markdown files.</li>
+<li>The git-backed core: mounts, sync, a SQLite and FTS5 index, permissions on a single read path.</li>
+<li>The MCP agent surface: scoped read tools and propose-as-PR, one bearer token per agent.</li>
+<li>The first web front. Reading only at first, then editing once the craft was locked.</li>
+</ul>
+<h2>Decisions we walked back</h2>
+<ul>
+<li>Non-Markdown blocks: <del>custom directives</del> plain HTML blocks, so the files stay portable and you can always walk away.</li>
+<li>The editor engine: <del>Tiptap</del> ProseMirror with prosemirror-markdown. We chose byte-fidelity over the faster start.</li>
+<li>The name: <del>kb-rail</del> Hanji. A codename is a placeholder. This one is a promise.</li>
+</ul>
+<p>See <a href="../status/">Where we are</a> for what is shipping now.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

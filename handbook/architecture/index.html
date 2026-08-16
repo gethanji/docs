@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it's built · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../hanji/">Hanji</a><a href="../the-name/">The name</a><a href="../why-hanji-is-different/">Why Hanji is different</a><a href="../is-hanji-for-you/">Is Hanji for you?</a><a href="../mission-and-vision/">Mission and vision</a><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details open><summary><a href="./">How it's built</a></summary><a href="serializer/">The serializer</a><a href="core/">The core</a><a href="editor/">The editor</a><a href="mcp/">The MCP server</a><a href="web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../brand/">The brand</a></summary><a href="../brand/visual-language/">The visual language</a><a href="../brand/voice/">Voice</a></details><a href="../principles/">Principles</a><a href="../status/">Where we are</a><a href="../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../">handbook</a> / architecture</p>
+<article><h1>How it's built</h1>
+<p>Hanji is a small pile of parts with clear seams. Four packages and one web app, each doing one thing, each testable on its own. Here is the whole map.</p>
+<h2>The parts</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Part</th><th>What it is</th><th>Depends on</th></tr></thead><tbody><tr><td><code>@hanji/serializer</code></td><td>The byte-fidelity Markdown engine: parse a file into blocks, splice edits back without touching what you left alone</td><td>nothing</td></tr><tr><td><code>@hanji/core</code></td><td>The rail: mounts, git, the SQLite index, search, permissions, propose, history</td><td>the serializer</td></tr><tr><td><code>@hanji/editor</code></td><td>The WYSIWYG surface: a ProseMirror editor that edits Markdown and preserves byte-fidelity per block</td><td>the serializer</td></tr><tr><td><code>@hanji/mcp</code></td><td>The agent surface: a small Streamable HTTP server exposing scoped tools</td><td>core</td></tr><tr><td><code>apps/web</code></td><td>The human front: a Next.js app that composes the editor and core into a reading and writing experience</td><td>core, editor</td></tr></tbody></table>
+<p>Two things stand out on that table. The serializer depends on nothing, because byte-fidelity is the foundation everything else trusts. And nowhere in the column is a model, an AI SDK, or a metering client, because there is none.</p>
+<h2>How a read flows</h2>
+<ol>
+<li>A repository is a <strong>mount</strong>. <code>@hanji/core</code> clones it and walks the tree, indexing each Markdown file into SQLite, with a full-text index and a table of wikilinks.</li>
+<li>A read, from a person or an agent, names a mount and a path. It goes through the one permission check in core, which filters to the mounts the caller may see.</li>
+<li>The bytes come back from the index, rendered on the front or handed to the agent as Markdown.</li>
+</ol>
+<p>The index is a cache. Delete it, run <code>rebuild</code>, and it comes back from the clones, because git is the only thing that has to be trusted.</p>
+<h2>How a write flows</h2>
+<p>A person edits on the front, and <code>apps/web</code> asks <code>@hanji/editor</code> for the new Markdown, block-fidelity intact, then core commits it to git. An agent instead calls <code>hanji_propose</code>, and core opens a branch. One path writes, the other suggests, and both end in git.</p>
+<p>Read the parts in depth: <a href="serializer/">The serializer</a>, <a href="core/">The core</a>, <a href="editor/">The editor</a>, <a href="mcp/">The MCP server</a>, and <a href="web/">The web front</a>.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

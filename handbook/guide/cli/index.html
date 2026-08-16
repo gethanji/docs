@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Command reference · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../../hanji/">Hanji</a><a href="../../the-name/">The name</a><a href="../../why-hanji-is-different/">Why Hanji is different</a><a href="../../is-hanji-for-you/">Is Hanji for you?</a><a href="../../mission-and-vision/">Mission and vision</a><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details open><summary><a href="../">Using Hanji</a></summary><a href="../install/">Install Hanji</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a aria-current="page" href="./">Command reference</a><a href="../on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../brand/">The brand</a></summary><a href="../../brand/visual-language/">The visual language</a><a href="../../brand/voice/">Voice</a></details><a href="../../principles/">Principles</a><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / guide / cli</p>
+<article><h1>Command reference</h1>
+<p>The whole CLI, run as <code>pnpm hanji &#x3C;command></code>. It reads <code>HANJI_DATA_DIR</code> for where to work, defaulting to <code>~/.hanji</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>add-mount &#x3C;name> &#x3C;repoUrl> &#x3C;mountPath> [subpath] [--suggest]</code></td><td>Add a repository, or a folder of one, as a mount. <code>--suggest</code> makes it proposal-only.</td></tr><tr><td><code>remove-mount &#x3C;name></code></td><td>Remove a mount and its indexed pages. The clone directory stays on disk.</td></tr><tr><td><code>sync</code></td><td>Fetch every mount from its remote and reindex what changed.</td></tr><tr><td><code>rebuild</code></td><td>Discard the index and rebuild it from the local clones. Always safe.</td></tr><tr><td><code>token &#x3C;name> &#x3C;mount[/folder|/page.md]=read|read+propose>...</code></td><td>Mint a bearer token for an agent, scoped to a mount, a folder, or one page. Prints it once.</td></tr><tr><td><code>list</code></td><td>List every mount and how many pages it holds.</td></tr><tr><td><code>export &#x3C;outDir> [mount...]</code></td><td>Publish everything open to everyone: a browsable static site, <code>llms.txt</code>, <code>llms-full.txt</code>, and every page as plain Markdown. Mount names narrow the set; nothing widens it.</td></tr><tr><td><code>rule &#x3C;mount> [path] &#x3C;everyone-read|everyone-propose|restricted|clear></code></td><td>Set or clear a general-access rule from the command line - what Share's select does in the front.</td></tr><tr><td><code>assets [mount]</code></td><td>List uploaded images no page references anymore, per mount or everywhere.</td></tr></tbody></table>
+<h2>Examples</h2>
+<pre><code class="language-bash">pnpm hanji add-mount handbook git@github.com:you/product.git handbook docs
+pnpm hanji sync
+pnpm hanji token my-claude handbook=read+propose
+pnpm hanji list
+</code></pre>
+<h2>The environment it reads</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Used by</th><th>For</th></tr></thead><tbody><tr><td><code>HANJI_DATA_DIR</code></td><td>everything</td><td>Where clones and the index live. Defaults to <code>~/.hanji</code>.</td></tr><tr><td><code>HANJI_SESSION_SECRET</code></td><td>the front</td><td>Signs the owner's login session.</td></tr><tr><td><code>HANJI_OWNER_PASSWORD</code></td><td>the front</td><td>The single owner account's password.</td></tr><tr><td><code>HANJI_GITHUB_TOKEN</code></td><td>propose</td><td>Lets <code>hanji_propose</code> open real pull requests.</td></tr><tr><td><code>HANJI_GIT_AUTHOR_NAME</code>, <code>HANJI_GIT_AUTHOR_EMAIL</code></td><td>writes</td><td>The name and email on the commits Hanji makes.</td></tr><tr><td><code>PORT</code></td><td>the MCP server</td><td>The port it listens on. Defaults to 4101.</td></tr><tr><td><code>HANJI_TAILSCALE_OWNER</code></td><td>the front</td><td>Turns on <a href="../on-your-tailnet/">On your tailnet</a> and names the owner's tailnet login.</td></tr><tr><td><code>HANJI_WEBHOOK_SECRET</code></td><td>the front</td><td>Turns on push-to-sync at <code>/api/webhook/git</code>; deliveries must carry its signature.</td></tr><tr><td><code>HANJI_POLL_SECONDS</code></td><td>the front</td><td>Sync every mount on this interval. The mechanism for tailnets and local mounts.</td></tr></tbody></table>
+<p>For the agent side of this, read <a href="../agents/">Agents</a>. For what is coming, read <a href="../../status/">Where we are</a>.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

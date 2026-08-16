@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agents · Hanji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="../../..">Hanji</a></p>
+<nav><p class="crumbs">handbook</p><a href="../../hanji/">Hanji</a><a href="../../the-name/">The name</a><a href="../../why-hanji-is-different/">Why Hanji is different</a><a href="../../is-hanji-for-you/">Is Hanji for you?</a><a href="../../mission-and-vision/">Mission and vision</a><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details open><summary><a href="../">Using Hanji</a></summary><a href="../install/">Install Hanji</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a aria-current="page" href="./">Agents</a><a href="../proposals/">Proposals</a><a href="../cli/">Command reference</a><a href="../on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../brand/">The brand</a></summary><a href="../../brand/visual-language/">The visual language</a><a href="../../brand/voice/">Voice</a></details><a href="../../principles/">Principles</a><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / guide / agents</p>
+<article><h1>Agents</h1>
+<p>Agents get their own surface. Two of them, really: raw git, which they already know, and a small MCP server for the times a scoped, hosted read helps. Both go through the same permission check a person does.</p>
+<h2>Mint a token</h2>
+<p>An agent authenticates with a bearer token, scoped to what it may touch - a
+whole mount, a folder, or exactly one page, the same path grants people have.</p>
+<pre><code class="language-bash">pnpm hanji token &#x3C;name> &#x3C;mount[/folder|/page.md]=read|read+propose>...
+</code></pre>
+<pre><code class="language-bash"># a read-only agent for the handbook
+pnpm hanji token docs-reader handbook=read
+
+# an agent that can also propose changes to two mounts
+pnpm hanji token my-claude handbook=read+propose notes=read+propose
+
+# a narrow one: read one folder, propose to a single page
+pnpm hanji token intern notes/reviews=read notes/reviews/draft.md=read+propose
+</code></pre>
+<p>The command prints the token once. A <code>read</code> scope lets the agent search and read within its grant. A <code>read+propose</code> scope adds the right to propose changes there. Anything outside its grants the agent cannot see, and cannot even tell exists - a locked page and a missing page answer identically. Content visibility rules never widen a token: an "everyone" rule speaks to people, and an agent holds exactly what it was granted. See <a href="../../product/permissions/">Permissions</a>.</p>
+<figure><img src="../../assets/proposal-review.png" alt="An agent&#x27;s proposal open for review in the front: title, diff, Reject and Merge"><figcaption>Where a propose lands: a title, a diff, and your decision.</figcaption></figure>
+<h2>Connect it</h2>
+<p>The MCP server speaks Streamable HTTP on <code>127.0.0.1:4101</code>. Point your agent at it with the token.</p>
+<pre><code class="language-bash">claude mcp add hanji --transport http http://localhost:4101/mcp \
+  --header "Authorization: Bearer &#x3C;token>"
+</code></pre>
+<h2>The tools</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Tool</th><th>What it does</th><th>Needs</th></tr></thead><tbody><tr><td><code>hanji_list_pages</code></td><td>List every page the token can read, with mount, path, and title</td><td><code>read</code></td></tr><tr><td><code>hanji_get_page</code></td><td>Fetch one page's Markdown by mount and path</td><td><code>read</code></td></tr><tr><td><code>hanji_search</code></td><td>Full-text search across readable mounts</td><td><code>read</code></td></tr><tr><td><code>hanji_propose</code></td><td>Propose a page change as a branch, and a PR where GitHub is connected</td><td><code>read+propose</code></td></tr></tbody></table>
+<h2>Propose, do not overwrite</h2>
+<p><code>hanji_propose</code> never edits a page in place. It creates a branch named for the change, commits the new content there, and pushes it. If <code>HANJI_GITHUB_TOKEN</code> is set, it also opens a pull request and hands back the URL. A person reviews it and merges. That is the whole point. An agent can suggest all day, and nothing lands in your knowledge base until someone says yes.</p>
+<p>Where does the suggestion go? Straight into the front: see <a href="../proposals/">Proposals</a> for the review-and-merge side of this loop.</p>
+<p>Read <a href="../cli/">Command reference</a> for the rest of the CLI.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

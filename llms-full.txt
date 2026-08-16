@@ -966,16 +966,14 @@ Read [[Agents]] next, to let a coding agent read and propose against these same 
 <!-- handbook/index.md -->
 
 ---
-title: The Hanji handbook
+title: Start here
 order: 0
 description: Paper-thin documentation tool. Start here.
 ---
 
-# The Hanji handbook
+# Start here
 
-*Paper-thin documentation tool.*
-
-This is Hanji's own handbook - written in Hanji, kept in Hanji's repository, and read through the product itself. 🎉
+This handbook is written in Hanji, kept in Hanji's repository, and read through the product itself. 🎉
 
 ## Quick start
 
@@ -1018,15 +1016,9 @@ How to use it, and how it actually works. Written to serve you mid-task.
 | [[Performance]] | Paper-thin: the speed and size numbers. |
 | [[Features]] | The whole list, with honest status. |
 
-## The handbook
+## The story
 
-The why. What makes this more than a wiki - read these five in order, fifteen minutes.
-
-1. [[Hanji]], the manifesto.
-2. [[What Hanji is]], how it actually works.
-3. [[Why Hanji is different]], how it lands differently from other tools.
-4. [[Is Hanji for you?]], an honest look at fit, with better options where they exist.
-5. [[Mission and vision]], why it exists and where it is going.
+The why. What makes this more than a wiki - [[The story]] opens with the manifesto and carries the rest: the name, the difference, the fit, the mission, the principles, the brand.
 
 Deeper still: **how it's built** ([[How it's built]] · [[The serializer]] · [[The core]] · [[The editor]] · [[The MCP server]] · [[The web front]]), **contributing** ([[Contributing]] · [[Developing]] · [[Conventions]] · [[Open core]]), **the brand** ([[The brand]] · [[The visual language]] · [[Voice]]), and **the project** ([[Principles]] · [[Where we are]] · [[Changelog]]).
 
@@ -1523,15 +1515,16 @@ Read [[The visual language]] for the same restraint in pixels.
 
 ---
 
-<!-- handbook/story/hanji.md -->
+<!-- handbook/story/index.md -->
 
 ---
-title: Hanji
-order: 10
-description: Paper-thin documentation tool.
+title: The story
+order: 60
+description: The manifesto, and the why behind every decision.
 ---
 
-# Hanji
+
+# The story
 
 *Paper-thin documentation tool.*
 
@@ -1567,25 +1560,14 @@ The name is also a claim about weight. Reads come off a local clone and a small 
 
 ---
 
-<!-- handbook/story/index.md -->
+The rest of the story, in reading order:
 
----
-title: The story
-order: 60
-description: The why behind the product - what makes this more than a wiki.
----
-
-# The story
-
-Everything here is the why. None of it is required to use Hanji - but it is the fifteen minutes that explain every decision in the pages above.
-
-1. [[Hanji]], the manifesto. What it is, in one read.
-2. [[The name]] - 한지, the paper this is named for.
-3. [[Why Hanji is different]], how it lands differently from other tools.
-4. [[Is Hanji for you?]], an honest look at fit, with better options where they exist.
-5. [[Mission and vision]], why it exists and where it is going.
-6. [[Principles]], the beliefs that break the ties.
-7. [[The brand]] - the visual language and the voice, for anyone writing as Hanji.
+1. [[The name]] - 한지, the paper this is named for.
+2. [[Why Hanji is different]], how it lands differently from other tools.
+3. [[Is Hanji for you?]], an honest look at fit, with better options where they exist.
+4. [[Mission and vision]], why it exists and where it is going.
+5. [[Principles]], the beliefs that break the ties.
+6. [[The brand]] - the visual language and the voice, for anyone writing as Hanji.
 
 ---
 

@@ -1,14 +1,12 @@
 ---
-title: The Hanji handbook
+title: Start here
 order: 0
 description: Paper-thin documentation tool. Start here.
 ---
 
-# The Hanji handbook
+# Start here
 
-*Paper-thin documentation tool.*
-
-This is Hanji's own handbook - written in Hanji, kept in Hanji's repository, and read through the product itself. 🎉
+This handbook is written in Hanji, kept in Hanji's repository, and read through the product itself. 🎉
 
 ## Quick start
 
@@ -51,14 +49,8 @@ How to use it, and how it actually works. Written to serve you mid-task.
 | [[Performance]] | Paper-thin: the speed and size numbers. |
 | [[Features]] | The whole list, with honest status. |
 
-## The handbook
+## The story
 
-The why. What makes this more than a wiki - read these five in order, fifteen minutes.
-
-1. [[Hanji]], the manifesto.
-2. [[What Hanji is]], how it actually works.
-3. [[Why Hanji is different]], how it lands differently from other tools.
-4. [[Is Hanji for you?]], an honest look at fit, with better options where they exist.
-5. [[Mission and vision]], why it exists and where it is going.
+The why. What makes this more than a wiki - [[The story]] opens with the manifesto and carries the rest: the name, the difference, the fit, the mission, the principles, the brand.
 
 Deeper still: **how it's built** ([[How it's built]] · [[The serializer]] · [[The core]] · [[The editor]] · [[The MCP server]] · [[The web front]]), **contributing** ([[Contributing]] · [[Developing]] · [[Conventions]] · [[Open core]]), **the brand** ([[The brand]] · [[The visual language]] · [[Voice]]), and **the project** ([[Principles]] · [[Where we are]] · [[Changelog]]).

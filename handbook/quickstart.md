@@ -16,25 +16,19 @@ exactly what day one looks like.*
 ## The five minutes
 
 ```bash
-# 1. get it running
 git clone https://github.com/gethanji/hanji && cd hanji
 pnpm install
-
-# 2. tell it who you are
-export HANJI_DATA_DIR=~/.hanji
-export HANJI_SESSION_SECRET=$(openssl rand -hex 32)
-export HANJI_OWNER_PASSWORD=choose-one
-
-# 3. point it at a repo you own
-pnpm hanji add-mount notes git@github.com:you/notes.git notes
-pnpm hanji sync
-
-# 4. open the front
-pnpm dev:web   # http://localhost:4100
+pnpm dev:web   # → http://localhost:4100
 ```
 
-Sign in, and your notes are there, rendered on warm paper. Click **Edit**,
-change something, press **Update** - you just made a clean git commit without
+The first visit greets you with a short welcome: name the place, choose your
+password, and point it at your first pages - a folder of Markdown on your
+machine, or a git URL to clone. That is the whole setup. No environment
+variables, nothing to configure by hand. (Prefer configuring by env, for a
+server? [[Install Hanji]] keeps that path.)
+
+Then your notes are there, rendered on warm paper. Click **Edit**, change
+something, press **Update** - you just made a clean git commit without
 thinking about git once. That is the whole trick, and it never gets more
 complicated than that.
 

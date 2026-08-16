@@ -34,8 +34,8 @@ pnpm hanji list
 | Variable | Used by | For |
 |---|---|---|
 | `HANJI_DATA_DIR` | everything | Where clones and the index live. Defaults to `~/.hanji`. |
-| `HANJI_SESSION_SECRET` | the front | Signs the owner's login session. |
-| `HANJI_OWNER_PASSWORD` | the front | The single owner account's password. |
+| `HANJI_SESSION_SECRET` | the front | Signs login sessions. Optional - first run generates and stores one; env overrides. |
+| `HANJI_OWNER_PASSWORD` | the front | The owner's password. Optional - the welcome screen stores one on first run; env overrides. |
 | `HANJI_GITHUB_TOKEN` | propose | Lets `hanji_propose` open real pull requests. |
 | `HANJI_GIT_AUTHOR_NAME`, `HANJI_GIT_AUTHOR_EMAIL` | writes | The name and email on the commits Hanji makes. |
 | `PORT` | the MCP server | The port it listens on. Defaults to 4101. |

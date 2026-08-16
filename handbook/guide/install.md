@@ -6,7 +6,7 @@ description: From clone to a running instance in a handful of commands.
 
 # Install Hanji
 
-Hanji runs today on a machine you own - the same way we run it ourselves, daily. Here is the whole path from nothing to a page you can read.
+Hanji runs today on a machine you own - the same way we run it ourselves, daily. The short version: install, `pnpm dev:web`, and the first visit walks you through everything on a welcome screen. This page keeps the explicit path - environment variables and CLI - for servers, scripts, and the people who like to see the wiring. Anything set by env always wins over what the welcome screen stored.
 
 ## Before you start
 

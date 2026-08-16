@@ -291,6 +291,13 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## The first run lost its terminal
+
+- A brand-new instance now greets you with a welcome screen: name the place, choose the owner's password, point it at a folder of Markdown or a git URL - and land signed in, on your pages. No environment variables, no CLI, nothing to wire by hand.
+- One shot, by design: the moment an owner exists, the welcome endpoint is gone. A configured instance cannot be taken over through it, and a failed attempt never leaves you configured-but-broken - the password is stored last, after everything fallible succeeded.
+- Env still wins everywhere, so server deployments keep their exact shape. The session secret heals itself too: absent from the env, one is generated once and kept.
+- This is the soul of the Mac app taking shape: the shell will only launch the servers and open the window - the welcome belongs to the product, so every self-hoster gets it.
+
 ## The front door serves you first
 
 - The handbook's home now leads with what every reader actually came for: a five-minute [[Quick start]], then a door for each shape Hanji is lived in - solo, tailnet, agents, publishing. The manifesto still matters; it just stops standing in front of the person mid-task.
@@ -630,8 +637,8 @@ pnpm hanji list
 | Variable | Used by | For |
 |---|---|---|
 | `HANJI_DATA_DIR` | everything | Where clones and the index live. Defaults to `~/.hanji`. |
-| `HANJI_SESSION_SECRET` | the front | Signs the owner's login session. |
-| `HANJI_OWNER_PASSWORD` | the front | The single owner account's password. |
+| `HANJI_SESSION_SECRET` | the front | Signs login sessions. Optional - first run generates and stores one; env overrides. |
+| `HANJI_OWNER_PASSWORD` | the front | The owner's password. Optional - the welcome screen stores one on first run; env overrides. |
 | `HANJI_GITHUB_TOKEN` | propose | Lets `hanji_propose` open real pull requests. |
 | `HANJI_GIT_AUTHOR_NAME`, `HANJI_GIT_AUTHOR_EMAIL` | writes | The name and email on the commits Hanji makes. |
 | `PORT` | the MCP server | The port it listens on. Defaults to 4101. |
@@ -679,7 +686,7 @@ description: From clone to a running instance in a handful of commands.
 
 # Install Hanji
 
-Hanji runs today on a machine you own - the same way we run it ourselves, daily. Here is the whole path from nothing to a page you can read.
+Hanji runs today on a machine you own - the same way we run it ourselves, daily. The short version: install, `pnpm dev:web`, and the first visit walks you through everything on a welcome screen. This page keeps the explicit path - environment variables and CLI - for servers, scripts, and the people who like to see the wiring. Anything set by env always wins over what the welcome screen stored.
 
 ## Before you start
 
@@ -1113,10 +1120,10 @@ Five minutes from a repo full of Markdown to a place worth reading:
 
 ```bash
 git clone https://github.com/gethanji/hanji && cd hanji && pnpm install
-export HANJI_DATA_DIR=~/.hanji HANJI_SESSION_SECRET=$(openssl rand -hex 32) HANJI_OWNER_PASSWORD=choose-one
-pnpm hanji add-mount notes git@github.com:you/notes.git notes && pnpm hanji sync
 pnpm dev:web   # → http://localhost:4100
 ```
+
+First visit, a short welcome takes it from there: your name for the place, your password, your first folder of Markdown.
 
 The full walk, with what each line does for you: [[Quick start]].
 
@@ -1559,25 +1566,19 @@ exactly what day one looks like.*
 ## The five minutes
 
 ```bash
-# 1. get it running
 git clone https://github.com/gethanji/hanji && cd hanji
 pnpm install
-
-# 2. tell it who you are
-export HANJI_DATA_DIR=~/.hanji
-export HANJI_SESSION_SECRET=$(openssl rand -hex 32)
-export HANJI_OWNER_PASSWORD=choose-one
-
-# 3. point it at a repo you own
-pnpm hanji add-mount notes git@github.com:you/notes.git notes
-pnpm hanji sync
-
-# 4. open the front
-pnpm dev:web   # http://localhost:4100
+pnpm dev:web   # → http://localhost:4100
 ```
 
-Sign in, and your notes are there, rendered on warm paper. Click **Edit**,
-change something, press **Update** - you just made a clean git commit without
+The first visit greets you with a short welcome: name the place, choose your
+password, and point it at your first pages - a folder of Markdown on your
+machine, or a git URL to clone. That is the whole setup. No environment
+variables, nothing to configure by hand. (Prefer configuring by env, for a
+server? [[Install Hanji]] keeps that path.)
+
+Then your notes are there, rendered on warm paper. Click **Edit**, change
+something, press **Update** - you just made a clean git commit without
 thinking about git once. That is the whole trick, and it never gets more
 complicated than that.
 
@@ -1627,6 +1628,7 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] Path grants for agent tokens: a token holds a mount, a folder, or one page - the same mechanism people have
 - [x] `hanji export`: the everyone-visible content mirrored as `llms.txt` plus per-page Markdown, for the agents that read the open web
 - [x] Changes arrive on their own: a signed push-to-sync webhook, and an opt-in poll loop for tailnets and local mounts
+- [x] A first run without a terminal: the welcome screen names the workspace, sets the owner, mounts the first content, and signs you in
 - [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
 
 Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.

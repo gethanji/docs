@@ -16,10 +16,10 @@ Five minutes from a repo full of Markdown to a place worth reading:
 
 ```bash
 git clone https://github.com/gethanji/hanji && cd hanji && pnpm install
-export HANJI_DATA_DIR=~/.hanji HANJI_SESSION_SECRET=$(openssl rand -hex 32) HANJI_OWNER_PASSWORD=choose-one
-pnpm hanji add-mount notes git@github.com:you/notes.git notes && pnpm hanji sync
 pnpm dev:web   # → http://localhost:4100
 ```
+
+First visit, a short welcome takes it from there: your name for the place, your password, your first folder of Markdown.
 
 The full walk, with what each line does for you: [[Quick start]].
 

@@ -18,7 +18,7 @@ Plain does not mean bland. Hanji takes positions. Git is the store, and a backup
 
 ## Honest about limits
 
-This is the load-bearing one. When a feature is not built, we say so. When permissions are enforced at the mount and not yet the folder, the page says exactly that. A benchmark we have not run honestly is marked as not run, not rounded up. It is the [[Principles]] page applied to the writing: a promise we cannot keep is worse than no promise, so we do not make it.
+This is the load-bearing one. When a feature is not built, we say so. When product privacy is real but storage privacy is not - the bytes stay plaintext in your git, readable by whoever holds the repository - the page says exactly that. A benchmark we have not run honestly is marked as not run, not rounded up. It is the [[Principles]] page applied to the writing: a promise we cannot keep is worse than no promise, so we do not make it.
 
 ## In practice
 

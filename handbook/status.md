@@ -33,9 +33,9 @@ Reading and writing both feel like paper. That was the first thing that had to b
 
 ## Next, in build
 
-The agent git flow shipped; what remains of the real test is a second pair of hands living on it.
+The agent git flow shipped; what remains of the real test is a team living on it daily.
 
-- [ ] **A second human**, living on a shared instance - the thing no more code can produce
+- [ ] **A proper team on a shared instance** - people and agents writing side by side, the proof no more code can produce
 
 ## Later, the paid seam
 

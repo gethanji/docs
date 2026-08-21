@@ -73,6 +73,20 @@ pnpm hanji token intern notes/reviews=read notes/reviews/draft.md=read+propose
 
 
 <table><thead><tr><th>Tool</th><th>What it does</th><th>Needs</th></tr></thead><tbody><tr><td><code>hanji_list_pages</code></td><td>List every page the token can read, with mount, path, and title</td><td><code>read</code></td></tr><tr><td><code>hanji_get_page</code></td><td>Fetch one page's Markdown by mount and path</td><td><code>read</code></td></tr><tr><td><code>hanji_search</code></td><td>Full-text search across readable mounts</td><td><code>read</code></td></tr><tr><td><code>hanji_propose</code></td><td>Propose a page change as a branch, and a PR where GitHub is connected</td><td><code>read+propose</code></td></tr></tbody></table>
+<h2>No MCP client? curl works</h2>
+<p>Every tool is also a plain HTTP endpoint on the same port, same token, no
+JSON-RPC envelope and no streaming to parse. For scripts, cron jobs, and
+agents that can run a shell but not an MCP client:</p>
+<pre><code class="language-bash">curl -H "Authorization: Bearer &#x3C;token>" "http://localhost:4101/pages"
+curl -H "Authorization: Bearer &#x3C;token>" "http://localhost:4101/page?mount=handbook&#x26;path=install.md"
+curl -H "Authorization: Bearer &#x3C;token>" "http://localhost:4101/search?q=permissions&#x26;limit=5"
+curl -H "Authorization: Bearer &#x3C;token>" "http://localhost:4101/propose" \
+  -d '{"mount":"notes","path":"ideas/from-cron.md","title":"An idea","content":"# It\n"}'
+</code></pre>
+<p><code>/pages</code> and <code>/search</code> answer JSON, <code>/page</code> answers raw Markdown, <code>/propose</code>
+answers the branch (and PR URL where GitHub is connected). The permission
+check is the same one the MCP tools run; an unknown path answers with a map
+of the surface.</p>
 <h2>Propose, do not overwrite</h2>
 <p><code>hanji_propose</code> never edits a page in place. It creates a branch named for the change, commits the new content there, and pushes it. If <code>HANJI_GITHUB_TOKEN</code> is set, it also opens a pull request and hands back the URL. A person reviews it and merges. That is the whole point. An agent can suggest all day, and nothing lands in your knowledge base until someone says yes.</p>
 <p>Where does the suggestion go? Straight into the front: see <a href="../proposals/">Proposals</a> for the review-and-merge side of this loop.</p>

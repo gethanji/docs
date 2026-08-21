@@ -40,6 +40,7 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Git-backed mounts | Shipped | Point at repos or folders, one tree |
 | Sync and a rebuildable index | Shipped | The index is a throwaway cache |
 | MCP server for agents | Shipped | Scoped search and reading |
+| Plain-HTTP aliases beside MCP | Shipped | `GET /pages`, `/page`, `/search`, `POST /propose` - curl counts as an agent |
 | Propose-as-PR writes | Shipped | Agents open branches, people merge |
 | Proposal review and merge, in the front | Shipped | A pending badge, a line diff, Merge and Reject |
 | Per-mount permissions | Shipped | `read` and `read+propose`, one read path |
@@ -56,6 +57,7 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Name and logo | Shipped | SVG adapts to light and dark; anything else gets a mode-safe plate |
 | Colors and fonts | Shipped | Three OKLCH seeds reinterpreted per mode, contrast secured |
 | Sidebar collapse | Shipped | Automatic by mount count, or your explicit choice |
+| Content width and text size | Shipped | Three measures, and a size slider that scales the whole reading surface |
 | Solo and team modes | Shipped | Solo keeps the sharing chrome away; team brings Share, People, and general access |
 | Tailscale zero-login | Shipped | On a tailnet, the network signs people in; grants stay owner-assigned |
 | A phone-ready shell | Shipped | A slim top bar, and a drawer carrying the full sidebar |

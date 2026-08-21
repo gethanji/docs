@@ -50,6 +50,25 @@ claude mcp add hanji --transport http http://localhost:4101/mcp \
 | `hanji_search` | Full-text search across readable mounts | `read` |
 | `hanji_propose` | Propose a page change as a branch, and a PR where GitHub is connected | `read+propose` |
 
+## No MCP client? curl works
+
+Every tool is also a plain HTTP endpoint on the same port, same token, no
+JSON-RPC envelope and no streaming to parse. For scripts, cron jobs, and
+agents that can run a shell but not an MCP client:
+
+```bash
+curl -H "Authorization: Bearer <token>" "http://localhost:4101/pages"
+curl -H "Authorization: Bearer <token>" "http://localhost:4101/page?mount=handbook&path=install.md"
+curl -H "Authorization: Bearer <token>" "http://localhost:4101/search?q=permissions&limit=5"
+curl -H "Authorization: Bearer <token>" "http://localhost:4101/propose" \
+  -d '{"mount":"notes","path":"ideas/from-cron.md","title":"An idea","content":"# It\n"}'
+```
+
+`/pages` and `/search` answer JSON, `/page` answers raw Markdown, `/propose`
+answers the branch (and PR URL where GitHub is connected). The permission
+check is the same one the MCP tools run; an unknown path answers with a map
+of the surface.
+
 ## Propose, do not overwrite
 
 `hanji_propose` never edits a page in place. It creates a branch named for the change, commits the new content there, and pushes it. If `HANJI_GITHUB_TOKEN` is set, it also opens a pull request and hands back the URL. A person reviews it and merges. That is the whole point. An agent can suggest all day, and nothing lands in your knowledge base until someone says yes.

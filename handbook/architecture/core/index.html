@@ -25,7 +25,7 @@
 <li><strong>Mounts and git.</strong> Core clones each mount, keeps it current, and writes through it. Git is driven as a subprocess, the same git you already have, so there is no reimplementation of version control to trust.</li>
 <li><strong>The index.</strong> A SQLite database with full-text search and a table of wikilinks, split in two: a config database for mounts and tokens, and an index database for pages. The index is a cache, rebuildable at any time from the clones.</li>
 <li><strong>Permissions.</strong> One module, and one rule: every read the app serves flows through it, and the scope check is compiled in exactly one place. Search, page reads, and link resolution all pass through the same door. A page you cannot see is indistinguishable from one that does not exist. Read <a href="../../product/permissions/">Permissions</a>.</li>
-<li><strong>Writes.</strong> <code>saveFile</code> commits directly, with read-your-own-writes, guarded by a per-mount lock so two writes cannot race. <code>proposeSave</code> instead opens a branch, and where GitHub is connected, a pull request.</li>
+<li><strong>Writes.</strong> <code>saveFile</code> commits directly, with read-your-own-writes, guarded by a per-mount lock so two writes cannot race - and the lock holds across processes, so the web front, the MCP server, and the CLI sharing one data directory cannot wedge a clone between them. <code>proposeSave</code> instead opens a branch, and where GitHub is connected, a pull request.</li>
 <li><strong>History.</strong> Because the store is git, a page's past is just its commits. Core reads them into a list of revisions, and can hand back any past version.</li>
 </ul>
 <h2>Why SQLite, and why a subprocess git</h2>

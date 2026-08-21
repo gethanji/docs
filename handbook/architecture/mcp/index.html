@@ -29,7 +29,9 @@
 <li><code>hanji_list_pages</code>, <code>hanji_get_page</code>, and <code>hanji_search</code> are the read side.</li>
 <li><code>hanji_propose</code> is the write side, and it does not write. It proposes a branch.</li>
 </ul>
-<p>That last line is the whole design in one tool. An agent contributes by suggesting, never by overwriting. Read <a href="../../guide/agents/">Agents</a> for how to connect one, and <a href="../core/">The core</a> for what sits behind these tools.</p></article>
+<p>That last line is the whole design in one tool. An agent contributes by suggesting, never by overwriting. Read <a href="../../guide/agents/">Agents</a> for how to connect one, and <a href="../core/">The core</a> for what sits behind these tools.</p>
+<h2>The curl aliases</h2>
+<p>The same four operations exist as plain HTTP endpoints beside <code>/mcp</code> - <code>GET /pages</code>, <code>GET /page</code>, <code>GET /search</code>, <code>POST /propose</code> - same bearer token, same principal, same permission check, only the wire dialect differs. They exist because the Streamable HTTP dialect is a poor fit for a shell one-liner, and half the point of an agent-native surface is that a bash script counts as an agent.</p></article>
 <footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
 </main>
 </div>

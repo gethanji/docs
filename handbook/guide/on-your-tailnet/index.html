@@ -61,6 +61,21 @@ unset. Hanji will never turn this on by itself.</p>
 session lands you right back in through the header, because the tailnet still
 knows you. And agents are untouched by all of this - the MCP surface stays
 bearer-token only, and a tailnet identity never grants an agent anything.</p>
+<h2>Belt and suspenders: ask tailscaled itself</h2>
+<p>The contract above is a deployment shape. If you want the instance to verify
+it rather than assume it, set one more variable:</p>
+<pre><code class="language-bash">export HANJI_TAILSCALE_WHOIS=1
+</code></pre>
+<p>On every header sign-in, Hanji now asks the local tailscaled who owns the
+connecting address (<code>tailscale whois</code>, one lookup per address per minute) and
+refuses the header unless the answers match. A forged header alone no longer
+signs anyone in; it would take tailscaled itself vouching for the forger's
+address, which the tailnet does not do. The check needs the <code>tailscale</code> CLI
+on the PATH of the user running Hanji; point <code>HANJI_TAILSCALE_BIN</code> at the
+binary when it lives elsewhere (on a Mac,
+<code>/Applications/Tailscale.app/Contents/MacOS/Tailscale</code>). When in doubt, turn
+it on: the cost is one process spawn per new visitor address, and the failure
+mode is a login page instead of a wrongly trusted header.</p>
 <h2>Why this is not SSO</h2>
 <p>It is better, for the case it covers. On a tailnet you do not integrate an
 identity provider; you already have one, and it is the network itself.

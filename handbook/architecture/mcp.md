@@ -22,3 +22,7 @@ Four, and no more than four, because the surface should be small enough to hold 
 - `hanji_propose` is the write side, and it does not write. It proposes a branch.
 
 That last line is the whole design in one tool. An agent contributes by suggesting, never by overwriting. Read [[Agents]] for how to connect one, and [[The core]] for what sits behind these tools.
+
+## The curl aliases
+
+The same four operations exist as plain HTTP endpoints beside `/mcp` - `GET /pages`, `GET /page`, `GET /search`, `POST /propose` - same bearer token, same principal, same permission check, only the wire dialect differs. They exist because the Streamable HTTP dialect is a poor fit for a shell one-liner, and half the point of an agent-native surface is that a bash script counts as an agent.

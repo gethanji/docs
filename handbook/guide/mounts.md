@@ -12,6 +12,8 @@ A **mount** is one git repository, or one folder inside it, brought into Hanji's
 
 ## Adding one
 
+An empty workspace offers this right on its front page: mount a folder or clone a repository, no terminal involved. The welcome screen does the same for your first content. The CLI is the explicit path, and the only one with the full set of knobs:
+
 ```bash
 pnpm hanji add-mount <name> <repoUrl> <mountPath> [subpath] [--suggest]
 ```

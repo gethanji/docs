@@ -27,7 +27,7 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] Path grants for agent tokens: a token holds a mount, a folder, or one page - the same mechanism people have
 - [x] `hanji export`: the everyone-visible content mirrored as `llms.txt` plus per-page Markdown, for the agents that read the open web
 - [x] Changes arrive on their own: a signed push-to-sync webhook, and an opt-in poll loop for tailnets and local mounts
-- [x] A first run without a terminal: the welcome screen names the workspace, sets the owner, mounts the first content, and signs you in
+- [x] A first run without a terminal: the welcome walks three soft steps - source, details, name and owner - suggesting the name from what you picked, and signs you in
 - [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
 
 Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.
@@ -55,6 +55,6 @@ Ideas we like and have not committed to.
 
 - Real-time collaboration, reconciled with git as the source of truth
 - Serving a folder as an installable agent skill
-- The HTML half of publishing: `hanji export` rendered as a browsable static site
+- A desktop shell around the web plane, once it can be distributed properly
 
 Read [[Mission and vision]] for the why behind the order.

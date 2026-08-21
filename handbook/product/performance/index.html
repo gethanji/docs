@@ -45,6 +45,36 @@
 
 <table><thead><tr><th>Operation</th><th>Time</th><th>What it does</th></tr></thead><tbody><tr><td>Fetch a page</td><td>~2 ms</td><td>Return a page's Markdown by mount and path</td></tr><tr><td>Full-text search</td><td>~2 to 3 ms</td><td>Query the FTS5 index across every mount you can read</td></tr></tbody></table>
 <p>Single-digit milliseconds, because there is no cloud in the loop. The agent reads from a local clone and a local index, the same way it reads your code.</p>
+<h2>Indexing at scale</h2>
+<p>The first sync is the expensive moment: every page is parsed, stored, and
+full-text indexed. Measured on a real corpus, on the same machine as above.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Operation</th><th>Time</th><th>What it does</th></tr></thead><tbody><tr><td>First sync, 5,500 pages</td><td>~13 s</td><td>Clone-to-searchable, one mid-size team KB</td></tr><tr><td>First sync, 35,000 pages</td><td>~2.5 min</td><td>The same pipeline at stress-test size</td></tr></tbody></table>
+<p>The cost stays near-linear because index writes run in batched transactions
+and the full-text rows are addressed by rowid; an earlier build paid a scan
+of the whole growing index per page, which turned the 35,000-page sync into
+half an hour. Re-syncs only pull what changed in git first, and the indexing
+pass yields to the event loop as it runs, so a big sync never freezes the
+instance serving it.</p>
 <h2>Weight and dependencies</h2>
 
 
@@ -75,7 +105,7 @@
 
 
 
-<table><thead><tr><th>Thing</th><th>Number</th></tr></thead><tbody><tr><td>Bundled LLM SDKs</td><td>0</td></tr><tr><td>AI credits or metering</td><td>none, ever</td></tr><tr><td>Web app runtime dependencies</td><td>24, all ProseMirror, remark-rehype, React, and Next</td></tr><tr><td>Test cases</td><td>361</td></tr><tr><td>Real Markdown files round-tripped byte-identical</td><td>600+</td></tr></tbody></table>
+<table><thead><tr><th>Thing</th><th>Number</th></tr></thead><tbody><tr><td>Bundled LLM SDKs</td><td>0</td></tr><tr><td>AI credits or metering</td><td>none, ever</td></tr><tr><td>Web app runtime dependencies</td><td>24, all ProseMirror, remark-rehype, React, and Next</td></tr><tr><td>Test cases</td><td>409</td></tr><tr><td>Real Markdown files round-tripped byte-identical</td><td>600+</td></tr></tbody></table>
 <p>The zero on the first row is the point. Hanji ships no model and meters nothing, so nothing about its cost or its weight grows because your team wrote more this month.</p>
 <h2>Weight in the browser</h2>
 <p>Measured on a clean production build, served and loaded through a real request (the <code>pnpm smoke</code> boot test).</p>

@@ -21,6 +21,23 @@ This is the one that has to be fast, because agents read constantly. Measured ag
 
 Single-digit milliseconds, because there is no cloud in the loop. The agent reads from a local clone and a local index, the same way it reads your code.
 
+## Indexing at scale
+
+The first sync is the expensive moment: every page is parsed, stored, and
+full-text indexed. Measured on a real corpus, on the same machine as above.
+
+| Operation | Time | What it does |
+|---|---|---|
+| First sync, 5,500 pages | ~13 s | Clone-to-searchable, one mid-size team KB |
+| First sync, 35,000 pages | ~2.5 min | The same pipeline at stress-test size |
+
+The cost stays near-linear because index writes run in batched transactions
+and the full-text rows are addressed by rowid; an earlier build paid a scan
+of the whole growing index per page, which turned the 35,000-page sync into
+half an hour. Re-syncs only pull what changed in git first, and the indexing
+pass yields to the event loop as it runs, so a big sync never freezes the
+instance serving it.
+
 ## Weight and dependencies
 
 | Thing | Number |
@@ -28,7 +45,7 @@ Single-digit milliseconds, because there is no cloud in the loop. The agent read
 | Bundled LLM SDKs | 0 |
 | AI credits or metering | none, ever |
 | Web app runtime dependencies | 24, all ProseMirror, remark-rehype, React, and Next |
-| Test cases | 361 |
+| Test cases | 409 |
 | Real Markdown files round-tripped byte-identical | 600+ |
 
 The zero on the first row is the point. Hanji ships no model and meters nothing, so nothing about its cost or its weight grows because your team wrote more this month.

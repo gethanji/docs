@@ -20,6 +20,31 @@
 <p class="crumbs"><a href="../">handbook</a> / changelog</p>
 <article><h1>Changelog</h1>
 <p>Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.</p>
+<h2>Settings, in four calm rooms</h2>
+<ul>
+<li>Appearance itself found its order: <strong>Mode</strong>, <strong>Colors</strong> (light and dark palettes as quiet labeled rows), <strong>Reading font</strong>, and <strong>Reading surface</strong> - width and text size together at last, sharing one live specimen instead of each section carrying its own.</li>
+<li>The dense Customization tab split in two: <strong>General</strong> (workspace, working mode, sidebar) and <strong>Appearance</strong> (mode, colors, reading surface), beside People and Mount access. Each room saves itself; the divider between the page header and the tabs retired - space does that job.</li>
+<li>The color controls went on a diet: circular swatches, and one quiet line naming only what the contrast pass actually adjusted. <del>A per-mode card restating every color that was "kept as given"</del> - the page itself is the live preview, and a card full of nothing-happened rows was noise.</li>
+</ul>
+<h2>The sidebar finds its depth</h2>
+<ul>
+<li>The sidebar sits on its own surface now: a breath darker than the page in both modes, derived from the same background seed - panels told apart by tone, with the hairline kept only at the scroll boundary.</li>
+<li>The workspace lockup calmed down: one steady size at medium weight beside the mark, both on the same 24px line, so the pair centers optically at any name length. <del>Two sizes stepped by name length</del> - the step was why long names never quite aligned.</li>
+<li>The page's delete button joined its neighbors: the same bordered chip family as Share, with a danger tint drawn from one token that reads in both modes. <del>hover:bg-red-50</del> was a light-mode assumption glowing in the dark.</li>
+</ul>
+<h2>Night gets a personality, fields get a hand</h2>
+<ul>
+<li>Every workspace's dark background was the same cool slate, no matter what its light background said - the derivation used a constant. Auto-dark now keeps the light background's own hue at a quiet fraction of its chroma, anchored deep: a warm workspace has a warm night, a green one a green night. Detached dark seeds are untouched.</li>
+<li>Fields and dropdowns wear the full-round pill now, one silhouette and one height across the app - a small Korean hand in the chrome. Selects drop the native arrow for a quiet chevron with honest room on the right.</li>
+<li>Fewer hairlines, more air: the settings sections separate by space and their serif headings, table rows drop their per-row rules for a soft ink-tint hover, and dividers remain only where they mark a real boundary - the sidebar's scroll limits, the tab bar, the action row.</li>
+</ul>
+<h2>The details pass</h2>
+<ul>
+<li>Search snippets read as prose now: frontmatter fences, heading marks, wikilink brackets, table pipes, and backticks are quieted before display - in the palette, on the results page, and in what agents receive.</li>
+<li>Closing a sheet no longer leaves an invisible wall behind: the scrim stops catching clicks the moment the exit animation starts, so the next click lands where you aimed it.</li>
+<li>Redirects after sign-in and settings saves stay on the exact host you are on. Rebuilding them from the request could respell 127.0.0.1 as localhost, and the session cookie does not follow a respelled host.</li>
+<li>Smaller courtesies: people rows wear their initial on a small paper seal, the logo uploader lost the browser's "No file chosen" caption, the editor's source card holds its label inside itself in both modes, the emoji button became an outline glyph in the toolbar's own ink, a page with no history yet stops holding an empty seat where the byline would sit, and keyboard focus shows one quiet accent ring everywhere.</li>
+</ul>
 <h2>curl counts as an agent</h2>
 <ul>
 <li>The MCP port grew plain-HTTP aliases for all four tools: <code>GET /pages</code>, <code>GET /page</code>, <code>GET /search</code>, <code>POST /propose</code> - same bearer token, same principal, same permission check, no JSON-RPC envelope and no stream framing to parse. A cron job with curl and a token is now a first-class agent; an unknown path answers with a map of the surface.</li>

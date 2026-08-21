@@ -202,6 +202,31 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## Settings, in four calm rooms
+
+- Appearance itself found its order: **Mode**, **Colors** (light and dark palettes as quiet labeled rows), **Reading font**, and **Reading surface** - width and text size together at last, sharing one live specimen instead of each section carrying its own.
+- The dense Customization tab split in two: **General** (workspace, working mode, sidebar) and **Appearance** (mode, colors, reading surface), beside People and Mount access. Each room saves itself; the divider between the page header and the tabs retired - space does that job.
+- The color controls went on a diet: circular swatches, and one quiet line naming only what the contrast pass actually adjusted. ~~A per-mode card restating every color that was "kept as given"~~ - the page itself is the live preview, and a card full of nothing-happened rows was noise.
+
+## The sidebar finds its depth
+
+- The sidebar sits on its own surface now: a breath darker than the page in both modes, derived from the same background seed - panels told apart by tone, with the hairline kept only at the scroll boundary.
+- The workspace lockup calmed down: one steady size at medium weight beside the mark, both on the same 24px line, so the pair centers optically at any name length. ~~Two sizes stepped by name length~~ - the step was why long names never quite aligned.
+- The page's delete button joined its neighbors: the same bordered chip family as Share, with a danger tint drawn from one token that reads in both modes. ~~hover:bg-red-50~~ was a light-mode assumption glowing in the dark.
+
+## Night gets a personality, fields get a hand
+
+- Every workspace's dark background was the same cool slate, no matter what its light background said - the derivation used a constant. Auto-dark now keeps the light background's own hue at a quiet fraction of its chroma, anchored deep: a warm workspace has a warm night, a green one a green night. Detached dark seeds are untouched.
+- Fields and dropdowns wear the full-round pill now, one silhouette and one height across the app - a small Korean hand in the chrome. Selects drop the native arrow for a quiet chevron with honest room on the right.
+- Fewer hairlines, more air: the settings sections separate by space and their serif headings, table rows drop their per-row rules for a soft ink-tint hover, and dividers remain only where they mark a real boundary - the sidebar's scroll limits, the tab bar, the action row.
+
+## The details pass
+
+- Search snippets read as prose now: frontmatter fences, heading marks, wikilink brackets, table pipes, and backticks are quieted before display - in the palette, on the results page, and in what agents receive.
+- Closing a sheet no longer leaves an invisible wall behind: the scrim stops catching clicks the moment the exit animation starts, so the next click lands where you aimed it.
+- Redirects after sign-in and settings saves stay on the exact host you are on. Rebuilding them from the request could respell 127.0.0.1 as localhost, and the session cookie does not follow a respelled host.
+- Smaller courtesies: people rows wear their initial on a small paper seal, the logo uploader lost the browser's "No file chosen" caption, the editor's source card holds its label inside itself in both modes, the emoji button became an outline glyph in the toolbar's own ink, a page with no history yet stops holding an empty seat where the byline would sit, and keyboard focus shows one quiet accent ring everywhere.
+
 ## curl counts as an agent
 
 - The MCP port grew plain-HTTP aliases for all four tools: `GET /pages`, `GET /page`, `GET /search`, `POST /propose` - same bearer token, same principal, same permission check, no JSON-RPC envelope and no stream framing to parse. A cron job with curl and a token is now a first-class agent; an unknown path answers with a map of the surface.

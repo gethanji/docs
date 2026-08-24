@@ -8,6 +8,25 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## The lockup opens, the footer retires
+
+- The workspace name is a door now: Settings and Log out lead, Documentation and Report an issue follow as real rows, and the project meta fades below - the version beside a What's new link to this page, then Contribute and Support, quietest last. The mark alone stays the one-click way home. Members see "Signed in as" where owners see Settings.
+- The sidebar's bottom chrome is gone entirely - no action row, no links row, no version line, no closing hairline. The page tree gets the whole rail.
+- Page history moved up beside Delete and Edit as a quiet bordered chip - and it shows for every reader now, not just principals who could edit. The byline keeps saying who and when; ~~Browse page history~~ as a trailing text link made history look like metadata instead of an action.
+- The sidebar's search trigger grew into a proper field - the rail's search matters more than its old whisper suggested.
+- With the footer gone and the header calm, the rail's last rule retired too: the list slides beneath the search bar edge to edge, and the gradient alone says there is more.
+- The byline learned the whole paper trail: **Created by** whom and when, **updated** by whom and when - the Confluence answer, one quiet line. The creation is the page's actual first commit, followed through renames and past the history list's cap; a repeated name is not repeated.
+- Appearance's reading controls merged into one room, **Reading experience**: font, width, and text size sit over the same live specimen, because that is what they always previewed on.
+
+## The search sheds its lines
+
+- The palette arrives instead of appearing: the scrim leads, the card settles with a quiet rise on the same curves the sheets ride. Dismissal stays instant - a keyboard surface leaves at keyboard speed.
+- The palette's strokes retired - no frame, no rule under the box, no line above the footer. One calm card held by shadow and tone; the query reads in serif at reading size, and the active row is a soft inset tint instead of an edge-to-edge bar.
+- The sidebar's search trigger: ~~a tonal pill with no stroke~~ - stroke-less read as unfinished at field size, so it keeps its discreet hairline; the ⌘K chip is a tint rather than a box.
+- The full results page's field became the app's one emphasized field - taller, serif, full-round - because search is that page's whole job. One height everywhere else still stands; this is the deliberate exception.
+- Settings tabs turned into pilled labels, the active room a quiet accent tint; the underline bar and the divider above Save both retired - space does those jobs.
+- The rule between a page's header and its prose retired too, on the reading view and the history list alike: the byline's small sans already marks the boundary, and the prose opens after honest air.
+
 ## Settings, in four calm rooms
 
 - Appearance itself found its order: **Mode**, **Colors** (light and dark palettes as quiet labeled rows), **Reading font**, and **Reading surface** - width and text size together at last, sharing one live specimen instead of each section carrying its own.
@@ -24,7 +43,7 @@ Reverse chronological. Struck-through text is a decision we made and then moved 
 
 - Every workspace's dark background was the same cool slate, no matter what its light background said - the derivation used a constant. Auto-dark now keeps the light background's own hue at a quiet fraction of its chroma, anchored deep: a warm workspace has a warm night, a green one a green night. Detached dark seeds are untouched.
 - Fields and dropdowns wear the full-round pill now, one silhouette and one height across the app - a small Korean hand in the chrome. Selects drop the native arrow for a quiet chevron with honest room on the right.
-- Fewer hairlines, more air: the settings sections separate by space and their serif headings, table rows drop their per-row rules for a soft ink-tint hover, and dividers remain only where they mark a real boundary - the sidebar's scroll limits, the tab bar, the action row.
+- Fewer hairlines, more air: the settings sections separate by space and their serif headings, table rows drop their per-row rules for a soft ink-tint hover, and dividers remain only where they mark a real boundary - the sidebar's scroll limits, ~~the tab bar, the action row~~.
 
 ## The details pass
 

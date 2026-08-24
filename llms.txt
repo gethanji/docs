@@ -1,4 +1,4 @@
-# Hanji
+# Hanji handbook
 
 > Everything in this knowledge base that is open to everyone, mirrored as plain Markdown for agents and people alike.
 

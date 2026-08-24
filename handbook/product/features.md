@@ -61,7 +61,7 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Solo and team modes | Shipped | Solo keeps the sharing chrome away; team brings Share, People, and general access |
 | Tailscale zero-login | Shipped | On a tailnet, the network signs people in; grants stay owner-assigned |
 | A phone-ready shell | Shipped | A slim top bar, and a drawer carrying the full sidebar |
-| Version in the footer | Shipped | One source of truth: the repository's own version |
+| Version in the workspace menu | Shipped | One source of truth: the repository's own version |
 
 <figure><img src="assets/mobile-drawer.gif" alt="The phone shell: the menu button slides in a drawer holding the full sidebar" class="w-50"><figcaption>The same sidebar, on a phone: one tap, the whole collection.</figcaption></figure>
 

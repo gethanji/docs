@@ -16,7 +16,7 @@ The whole CLI, run as `pnpm hanji <command>`. It reads `HANJI_DATA_DIR` for wher
 | `rebuild` | Discard the index and rebuild it from the local clones. Always safe. |
 | `token <name> <mount[/folder\|/page.md]=read\|read+propose>...` | Mint a bearer token for an agent, scoped to a mount, a folder, or one page. Prints it once. |
 | `list` | List every mount and how many pages it holds. |
-| `export <outDir> [mount...]` | Publish everything open to everyone: a browsable static site, `llms.txt`, `llms-full.txt`, and every page as plain Markdown. Mount names narrow the set; nothing widens it. |
+| `export <outDir> [mount...] [--okf]` | Publish everything open to everyone: a browsable static site, `llms.txt`, `llms-full.txt`, and every page as plain Markdown. Mount names narrow the set; nothing widens it. `--okf` also shapes the Markdown mirror into an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) bundle, described in [[Publish to the web]]. |
 | `rule <mount> [path] <everyone-read\|everyone-propose\|restricted\|clear>` | Set or clear a general-access rule from the command line - what Share's select does in the front. |
 | `set <key> <value>` | Write an instance setting - the workspace name, or the export settings [[Publish to the web]] describes. |
 | `assets [mount]` | List uploaded images no page references anymore, per mount or everywhere. |

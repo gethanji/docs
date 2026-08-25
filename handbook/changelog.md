@@ -8,6 +8,30 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## Finding things: sort a section by date or name
+
+- A folder or mount can now sort its own children four ways: **Manual** (your curated `order:`, the default and unchanged), **Newest first**, **Oldest first**, or **A–Z** by title. The control lives on the section's row and appears once it is open; a re-sorted section stays lit so it reads at a glance.
+- The date it sorts by is the one that actually means something: a date in the filename if the page carries one (notes are often `YYYY-MM-DD`-named), the page's last-commit date otherwise. So a bulk rename or re-commit that flattens git's own dates does not flatten the order - the filename's date survives it.
+- The choice is per section and per person, kept in the browser: it never touches the repository or what anyone else sees. Drag-to-reorder pauses while a section is sorted, because the visible order is no longer the stored one — switch back to Manual to curate.
+- Under it: every page's last-commit date is now indexed (one git pass per sync), so date order is instant to read and doesn't walk history on every render. The same date powers the page byline.
+
+## The editor sharpens
+
+- Code blocks take the workspace's own accent hue instead of a fixed slate, so a warm workspace gets a warm block and a green one a green block - a deep panel that reads as part of the theme, in both modes.
+- Selecting an image no longer pops the text formatting bubble over it: bold/italic have nothing to act on there, and the image's own controls own that moment.
+- The image controls give their chips more room, and left/right alignment show real alignment icons rather than the empty rectangles the old glyphs left where a font had no character.
+- The slash menu gained **Code** - a code block was insertable by typing ``` but had no entry in the menu until now.
+- The page's YAML frontmatter no longer shows as a raw "source" card while editing: it is metadata, not body content, so it stays in the file (round-tripped untouched) but out of the editor's way. Raw HTML and other unsupported blocks still show their source card, since there is nowhere else for them to live. Frontmatter is guarded, too - clear the whole page and it survives, because losing a title or an order to a stray select-all is not an edit anyone means to make.
+
+## Small breaths
+
+- A page's header opens up: more air between the breadcrumb and the title, and between the title and its byline, so the top of every page reads calmer.
+- Images sit a touch inside the measure now instead of edge to edge, and take a wider gap above them than a paragraph does - so a figure reads as placed, not pasted.
+
+## Export speaks Open Knowledge Format
+
+- `hanji export --okf` shapes the Markdown mirror into an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) bundle: every concept doc gets a `type` in its frontmatter (yours wins if you set one), the reserved `index.md` and `log.md` stay frontmatter-free, and the bundle root declares `okf_version`. The static site and `llms.txt` ride along unchanged, and the source in git is never touched, the shaping lives only in the copy on disk. Mounting an OKF bundle already worked, because a bundle is just Markdown on git.
+
 ## The lockup opens, the footer retires
 
 - The workspace name is a door now: Settings and Log out lead, Documentation and Report an issue follow as real rows, and the project meta fades below - the version beside a What's new link to this page, then Contribute and Support, quietest last. The mark alone stays the one-click way home. Members see "Signed in as" where owners see Settings.

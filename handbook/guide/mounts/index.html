@@ -37,6 +37,7 @@ pnpm hanji add-mount notes git@github.com:you/notes.git notes
 # only the docs/ folder of a larger repo
 pnpm hanji add-mount handbook git@github.com:you/product.git handbook docs
 </code></pre>
+<p>An <a href="https://github.com/GoogleCloudPlatform/open-knowledge-format">Open Knowledge Format</a> bundle mounts like any other repository, because that is all it is: Markdown concept documents on git, each with a <code>type</code> in its frontmatter. Hanji indexes every concept, keeps its frontmatter byte-for-byte, and serves the bundle to people and agents like the rest of your tree. Nothing to configure.</p>
 <h2>Keeping in sync</h2>
 <p>Hanji reads from a local clone and serves from a local index. To pull the latest from a mount's remote and reindex, sync.</p>
 <pre><code class="language-bash">pnpm hanji sync       # fetch every mount and reindex what changed

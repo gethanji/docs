@@ -30,6 +30,7 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Emoji, three ways in | Shipped | Toolbar picker, `:query` menu, `:tada:` conversion |
 | Sidebar quick-create | Shipped | A + on every mount, folder, and page |
 | Drag to move, reorder, and nest | Shipped | Instant, git behind, auto-revert on failure |
+| Per-section sort | Shipped | Manual, Newest, Oldest, or A–Z — by filename or commit date, per folder, per person |
 | Page delete | Shipped | Two-step trash, `git rm`, recoverable from history |
 | Works on a phone | Shipped | Top bar, drawer, the same sidebar |
 

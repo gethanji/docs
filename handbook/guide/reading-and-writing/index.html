@@ -23,7 +23,10 @@
 <h2>Reading</h2>
 <p>Pages open on warm paper, set in a serif for long reading. The sidebar on the left is your mounts and their folders, nested and collapsible, and it expands to show where you are. A breadcrumb across the top tells you the path, collapsing its middle on deep pages so it never runs off the screen. Wikilinks, written <code>[[by title]]</code>, resolve to the page they name, and only to pages you are allowed to open.</p>
 <p>Search is a keystroke away. <code>⌘K</code> opens the palette: ranked results with the matching passage highlighted, your recently changed pages when the box is still empty, and the keyboard all the way to Enter. When you want to dig, the full results page holds every match with highlighted passages and per-mount filters. Multi-word queries rank pages by how many of your words they share, adjacent phrases first, and the word you are still typing already matches as a prefix.</p>
-<figure><img src="../../assets/search.gif" alt="The search palette opening with ⌘K, results ranking as the query is typed, and Enter opening a page"><figcaption>⌘K, a few letters, Enter. The keyboard the whole way.</figcaption></figure>
+<figure>
+<img src="../../assets/search.gif" alt="The search palette opening with ⌘K, results ranking as the query is typed, and Enter opening a page">
+<figcaption>⌘K, a few letters, Enter. The keyboard the whole way.</figcaption>
+</figure>
 <h2>Writing</h2>
 <p>Editing is deliberate, and it is one gesture.</p>
 <ol>
@@ -35,7 +38,7 @@
 <figure><img src="../../assets/edit-update.gif" alt="The whole editing gesture: Edit, a line typed in place, Update, and the fresh byline"><figcaption>The whole gesture: Edit, change, Update. One commit happened behind it.</figcaption></figure>
 <figure><img src="../../assets/input-rules.gif" alt="Markdown shortcuts converting live: hashes into a heading, stars into bold, a dash into a list"><figcaption>Markdown as you type: hashes make headings, stars make bold, a dash starts a list.</figcaption></figure>
 <figure><img src="../../assets/editor-toolbar.png" alt="The editor&#x27;s floating bottom toolbar: format marks, blocks, inserts, and Update"><figcaption>The whole chrome of edit mode: one floating bar, and the page itself.</figcaption></figure>
-<figure><img src="../../assets/slash-menu.png" alt="The slash menu open in the editor, offering Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
+<figure><img src="../../assets/slash-menu.png" alt="The slash menu open in the editor, offering Code, Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
 <h2>When two edits collide</h2>
 <p>Hanji notices if the page changed underneath you between the moment you opened the editor and the moment you pressed Update. Rather than overwrite the newer version, it stops and tells you, so you never clobber a change you did not see. Reload, reapply your edit on top of the current page, and Update again.</p>
 <h2>New pages</h2>
@@ -45,11 +48,13 @@
 <p>The sidebar is not just a map. It is where you arrange the collection.</p>
 <ul>
 <li><strong>Move</strong>: drag a page or folder onto another folder, or onto a mount's header for its root. A folder brings everything inside it, and the commit behind the drop is a real <code>git mv</code>, so history follows the page.</li>
-<li><strong>Reorder</strong>: drop on the edge of a sibling row, where the insertion line shows. Hanji writes the new arrangement into the pages' <code>order:</code> frontmatter, as one commit.</li>
+<li><strong>Reorder</strong>: drop on the edge of a sibling row, where the insertion line shows. Hanji writes the new arrangement into the pages' <code>order:</code> frontmatter, as one commit. This is the <em>manual</em> order, and it is the default the sidebar shows.</li>
 <li><strong>Nest</strong>: drop onto the middle of a page and it becomes a section landing with the dragged page inside, the same conversion the + performs.</li>
 <li><strong>The rail too</strong>: drag one mount header onto another to reorder the mounts themselves.</li>
 </ul>
 <p>Drops apply instantly; git catches up behind. If something blocks a move, the tree snaps back and a toast tells you why. And if you were reading the page you just moved, the address quietly follows it.</p>
+<h3>Sorting a section</h3>
+<p>The curated <code>order:</code> is not the only way to read a folder. Open a folder (or a mount) and a small sort control appears on its row: leave it <strong>Manual</strong> to keep your arrangement, or switch that section to <strong>Newest first</strong>, <strong>Oldest first</strong>, or <strong>A–Z</strong> by title. The date it sorts by is the one in the filename when a page has one (a <code>2026-04-24-…</code> note sorts by that), and the page's last-commit date otherwise — so a bulk rename that resets git's dates does not scramble the order. The choice is per folder and per person, kept in your browser, so it never changes what anyone else sees or writes anything to the repository. A re-sorted section keeps its control lit so you can tell at a glance. While a section is sorted, drag-to-reorder pauses there: the order you see is not the stored one, so switch back to Manual to curate again.</p>
 <h2>Deleting</h2>
 <p>Next to Edit sits a quiet trash. The first click arms it into an explicit red question, the second deletes: a <code>git rm</code> and one commit. Deleting a section landing takes its children with it, the inverse of nesting. Nothing is ever truly gone, though. The repository remembers every sheet, and history can bring one back.</p>
 <h2>History</h2>

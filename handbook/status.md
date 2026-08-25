@@ -18,6 +18,8 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] The agent git flow, end to end: an agent proposes, you review the diff in the front, and merge (see [[Proposals]])
 - [x] Search worth the name: a title-boosted, multi-word-aware backend under a `⌘K` palette and a full results page
 - [x] The sidebar as an organizer: quick-create, drag to move, reorder, nest, and delete, all real git behind an instant UI
+- [x] Per-section sorting: a folder or mount sorts its own children by date (newest or oldest, from the filename or the commit) or A-Z - a personal, per-section choice kept in the browser
+- [x] Every page's paper trail: a byline of who began it and who last changed it, read from git history, shown on the page and powering the recency sort
 - [x] A workspace made yours: name, logo, OKLCH theming with secured contrast, fonts, and a phone-ready shell
 - [x] Proposal from the human front: on a suggest-only mount, Update becomes Propose, landing in the same review card
 - [x] Several human principals: viewers and contributors with per-mount scopes, added by the owner in Settings
@@ -29,6 +31,7 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] Changes arrive on their own: a signed push-to-sync webhook, and an opt-in poll loop for tailnets and local mounts
 - [x] A first run without a terminal: the welcome walks three soft steps - source, details, name and owner - suggesting the name from what you picked, and signs you in
 - [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
+- [x] Open Knowledge Format interop: any OKF bundle mounts as-is, and `hanji export --okf` emits a conformant one - typed concept docs, reserved index files, an `okf_version` root
 
 Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.
 

@@ -56,6 +56,11 @@ pnpm hanji set export_edit_base_url https://github.com/you/repo/edit/main/docs
 edit</strong> link straight into your repository's web editor - a reader spots a
 typo, clicks, and a pull request is two clicks away. The cheapest
 contribution funnel there is.</p>
+<h2>As an OKF bundle</h2>
+<p>Add <code>--okf</code> and the export is also an <a href="https://github.com/GoogleCloudPlatform/open-knowledge-format">Open Knowledge Format</a> bundle, the vendor-neutral Markdown-on-git shape other agent tools read:</p>
+<pre><code class="language-bash">pnpm hanji export ./bundle --okf
+</code></pre>
+<p>Every page ships as a concept document with a <code>type</code> in its frontmatter (<code>Page</code> by default; a page that sets its own <code>type:</code> keeps it), the reserved <code>index.md</code> files carry no frontmatter, and the bundle root declares <code>okf_version</code>. The static site and <code>llms.txt</code> still ride along. Your source in git is untouched, the OKF shaping happens only in the copy on disk.</p>
 <h2>What stays private</h2>
 <p>Everything without an everyone rule. A restricted folder inside an open mount
 stays dark, its pages and even its images never leave the building. If

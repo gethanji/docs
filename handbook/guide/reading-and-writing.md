@@ -14,7 +14,10 @@ Pages open on warm paper, set in a serif for long reading. The sidebar on the le
 
 Search is a keystroke away. `⌘K` opens the palette: ranked results with the matching passage highlighted, your recently changed pages when the box is still empty, and the keyboard all the way to Enter. When you want to dig, the full results page holds every match with highlighted passages and per-mount filters. Multi-word queries rank pages by how many of your words they share, adjacent phrases first, and the word you are still typing already matches as a prefix.
 
-<figure><img src="assets/search.gif" alt="The search palette opening with ⌘K, results ranking as the query is typed, and Enter opening a page"><figcaption>⌘K, a few letters, Enter. The keyboard the whole way.</figcaption></figure>
+<figure>
+<img src="assets/search.gif" alt="The search palette opening with ⌘K, results ranking as the query is typed, and Enter opening a page">
+<figcaption>⌘K, a few letters, Enter. The keyboard the whole way.</figcaption>
+</figure>
 
 ## Writing
 
@@ -32,7 +35,7 @@ If you changed nothing, nothing is committed. There is no draft state to babysit
 
 <figure><img src="assets/editor-toolbar.png" alt="The editor's floating bottom toolbar: format marks, blocks, inserts, and Update"><figcaption>The whole chrome of edit mode: one floating bar, and the page itself.</figcaption></figure>
 
-<figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
+<figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Code, Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
 
 ## When two edits collide
 
@@ -49,11 +52,15 @@ Making a page is the same gesture pointed at a path that does not exist yet. The
 The sidebar is not just a map. It is where you arrange the collection.
 
 - **Move**: drag a page or folder onto another folder, or onto a mount's header for its root. A folder brings everything inside it, and the commit behind the drop is a real `git mv`, so history follows the page.
-- **Reorder**: drop on the edge of a sibling row, where the insertion line shows. Hanji writes the new arrangement into the pages' `order:` frontmatter, as one commit.
+- **Reorder**: drop on the edge of a sibling row, where the insertion line shows. Hanji writes the new arrangement into the pages' `order:` frontmatter, as one commit. This is the *manual* order, and it is the default the sidebar shows.
 - **Nest**: drop onto the middle of a page and it becomes a section landing with the dragged page inside, the same conversion the + performs.
 - **The rail too**: drag one mount header onto another to reorder the mounts themselves.
 
 Drops apply instantly; git catches up behind. If something blocks a move, the tree snaps back and a toast tells you why. And if you were reading the page you just moved, the address quietly follows it.
+
+### Sorting a section
+
+The curated `order:` is not the only way to read a folder. Open a folder (or a mount) and a small sort control appears on its row: leave it **Manual** to keep your arrangement, or switch that section to **Newest first**, **Oldest first**, or **A–Z** by title. The date it sorts by is the one in the filename when a page has one (a `2026-04-24-…` note sorts by that), and the page's last-commit date otherwise — so a bulk rename that resets git's dates does not scramble the order. The choice is per folder and per person, kept in your browser, so it never changes what anyone else sees or writes anything to the repository. A re-sorted section keeps its control lit so you can tell at a glance. While a section is sorted, drag-to-reorder pauses there: the order you see is not the stored one, so switch back to Manual to curate again.
 
 ## Deleting
 

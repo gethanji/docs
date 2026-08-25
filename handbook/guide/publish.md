@@ -58,6 +58,16 @@ edit** link straight into your repository's web editor - a reader spots a
 typo, clicks, and a pull request is two clicks away. The cheapest
 contribution funnel there is.
 
+## As an OKF bundle
+
+Add `--okf` and the export is also an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) bundle, the vendor-neutral Markdown-on-git shape other agent tools read:
+
+```bash
+pnpm hanji export ./bundle --okf
+```
+
+Every page ships as a concept document with a `type` in its frontmatter (`Page` by default; a page that sets its own `type:` keeps it), the reserved `index.md` files carry no frontmatter, and the bundle root declares `okf_version`. The static site and `llms.txt` still ride along. Your source in git is untouched, the OKF shaping happens only in the copy on disk.
+
 ## What stays private
 
 Everything without an everyone rule. A restricted folder inside an open mount

@@ -202,6 +202,30 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## Finding things: sort a section by date or name
+
+- A folder or mount can now sort its own children four ways: **Manual** (your curated `order:`, the default and unchanged), **Newest first**, **Oldest first**, or **A–Z** by title. The control lives on the section's row and appears once it is open; a re-sorted section stays lit so it reads at a glance.
+- The date it sorts by is the one that actually means something: a date in the filename if the page carries one (notes are often `YYYY-MM-DD`-named), the page's last-commit date otherwise. So a bulk rename or re-commit that flattens git's own dates does not flatten the order - the filename's date survives it.
+- The choice is per section and per person, kept in the browser: it never touches the repository or what anyone else sees. Drag-to-reorder pauses while a section is sorted, because the visible order is no longer the stored one — switch back to Manual to curate.
+- Under it: every page's last-commit date is now indexed (one git pass per sync), so date order is instant to read and doesn't walk history on every render. The same date powers the page byline.
+
+## The editor sharpens
+
+- Code blocks take the workspace's own accent hue instead of a fixed slate, so a warm workspace gets a warm block and a green one a green block - a deep panel that reads as part of the theme, in both modes.
+- Selecting an image no longer pops the text formatting bubble over it: bold/italic have nothing to act on there, and the image's own controls own that moment.
+- The image controls give their chips more room, and left/right alignment show real alignment icons rather than the empty rectangles the old glyphs left where a font had no character.
+- The slash menu gained **Code** - a code block was insertable by typing ``` but had no entry in the menu until now.
+- The page's YAML frontmatter no longer shows as a raw "source" card while editing: it is metadata, not body content, so it stays in the file (round-tripped untouched) but out of the editor's way. Raw HTML and other unsupported blocks still show their source card, since there is nowhere else for them to live. Frontmatter is guarded, too - clear the whole page and it survives, because losing a title or an order to a stray select-all is not an edit anyone means to make.
+
+## Small breaths
+
+- A page's header opens up: more air between the breadcrumb and the title, and between the title and its byline, so the top of every page reads calmer.
+- Images sit a touch inside the measure now instead of edge to edge, and take a wider gap above them than a paragraph does - so a figure reads as placed, not pasted.
+
+## Export speaks Open Knowledge Format
+
+- `hanji export --okf` shapes the Markdown mirror into an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) bundle: every concept doc gets a `type` in its frontmatter (yours wins if you set one), the reserved `index.md` and `log.md` stay frontmatter-free, and the bundle root declares `okf_version`. The static site and `llms.txt` ride along unchanged, and the source in git is never touched, the shaping lives only in the copy on disk. Mounting an OKF bundle already worked, because a bundle is just Markdown on git.
+
 ## The lockup opens, the footer retires
 
 - The workspace name is a door now: Settings and Log out lead, Documentation and Report an issue follow as real rows, and the project meta fades below - the version beside a What's new link to this page, then Contribute and Support, quietest last. The mark alone stays the one-click way home. Members see "Signed in as" where owners see Settings.
@@ -657,7 +681,7 @@ The whole CLI, run as `pnpm hanji <command>`. It reads `HANJI_DATA_DIR` for wher
 | `rebuild` | Discard the index and rebuild it from the local clones. Always safe. |
 | `token <name> <mount[/folder\|/page.md]=read\|read+propose>...` | Mint a bearer token for an agent, scoped to a mount, a folder, or one page. Prints it once. |
 | `list` | List every mount and how many pages it holds. |
-| `export <outDir> [mount...]` | Publish everything open to everyone: a browsable static site, `llms.txt`, `llms-full.txt`, and every page as plain Markdown. Mount names narrow the set; nothing widens it. |
+| `export <outDir> [mount...] [--okf]` | Publish everything open to everyone: a browsable static site, `llms.txt`, `llms-full.txt`, and every page as plain Markdown. Mount names narrow the set; nothing widens it. `--okf` also shapes the Markdown mirror into an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) bundle, described in [[Publish to the web]]. |
 | `rule <mount> [path] <everyone-read\|everyone-propose\|restricted\|clear>` | Set or clear a general-access rule from the command line - what Share's select does in the front. |
 | `set <key> <value>` | Write an instance setting - the workspace name, or the export settings [[Publish to the web]] describes. |
 | `assets [mount]` | List uploaded images no page references anymore, per mount or everywhere. |
@@ -808,6 +832,8 @@ pnpm hanji add-mount notes git@github.com:you/notes.git notes
 # only the docs/ folder of a larger repo
 pnpm hanji add-mount handbook git@github.com:you/product.git handbook docs
 ```
+
+An [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) bundle mounts like any other repository, because that is all it is: Markdown concept documents on git, each with a `type` in its frontmatter. Hanji indexes every concept, keeps its frontmatter byte-for-byte, and serves the bundle to people and agents like the rest of your tree. Nothing to configure.
 
 ## Keeping in sync
 
@@ -1051,6 +1077,16 @@ edit** link straight into your repository's web editor - a reader spots a
 typo, clicks, and a pull request is two clicks away. The cheapest
 contribution funnel there is.
 
+## As an OKF bundle
+
+Add `--okf` and the export is also an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) bundle, the vendor-neutral Markdown-on-git shape other agent tools read:
+
+```bash
+pnpm hanji export ./bundle --okf
+```
+
+Every page ships as a concept document with a `type` in its frontmatter (`Page` by default; a page that sets its own `type:` keeps it), the reserved `index.md` files carry no frontmatter, and the bundle root declares `okf_version`. The static site and `llms.txt` still ride along. Your source in git is untouched, the OKF shaping happens only in the copy on disk.
+
 ## What stays private
 
 Everything without an everyone rule. A restricted folder inside an open mount
@@ -1078,7 +1114,10 @@ Pages open on warm paper, set in a serif for long reading. The sidebar on the le
 
 Search is a keystroke away. `⌘K` opens the palette: ranked results with the matching passage highlighted, your recently changed pages when the box is still empty, and the keyboard all the way to Enter. When you want to dig, the full results page holds every match with highlighted passages and per-mount filters. Multi-word queries rank pages by how many of your words they share, adjacent phrases first, and the word you are still typing already matches as a prefix.
 
-<figure><img src="assets/search.gif" alt="The search palette opening with ⌘K, results ranking as the query is typed, and Enter opening a page"><figcaption>⌘K, a few letters, Enter. The keyboard the whole way.</figcaption></figure>
+<figure>
+<img src="assets/search.gif" alt="The search palette opening with ⌘K, results ranking as the query is typed, and Enter opening a page">
+<figcaption>⌘K, a few letters, Enter. The keyboard the whole way.</figcaption>
+</figure>
 
 ## Writing
 
@@ -1096,7 +1135,7 @@ If you changed nothing, nothing is committed. There is no draft state to babysit
 
 <figure><img src="assets/editor-toolbar.png" alt="The editor's floating bottom toolbar: format marks, blocks, inserts, and Update"><figcaption>The whole chrome of edit mode: one floating bar, and the page itself.</figcaption></figure>
 
-<figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
+<figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Code, Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
 
 ## When two edits collide
 
@@ -1113,11 +1152,15 @@ Making a page is the same gesture pointed at a path that does not exist yet. The
 The sidebar is not just a map. It is where you arrange the collection.
 
 - **Move**: drag a page or folder onto another folder, or onto a mount's header for its root. A folder brings everything inside it, and the commit behind the drop is a real `git mv`, so history follows the page.
-- **Reorder**: drop on the edge of a sibling row, where the insertion line shows. Hanji writes the new arrangement into the pages' `order:` frontmatter, as one commit.
+- **Reorder**: drop on the edge of a sibling row, where the insertion line shows. Hanji writes the new arrangement into the pages' `order:` frontmatter, as one commit. This is the *manual* order, and it is the default the sidebar shows.
 - **Nest**: drop onto the middle of a page and it becomes a section landing with the dragged page inside, the same conversion the + performs.
 - **The rail too**: drag one mount header onto another to reorder the mounts themselves.
 
 Drops apply instantly; git catches up behind. If something blocks a move, the tree snaps back and a toast tells you why. And if you were reading the page you just moved, the address quietly follows it.
+
+### Sorting a section
+
+The curated `order:` is not the only way to read a folder. Open a folder (or a mount) and a small sort control appears on its row: leave it **Manual** to keep your arrangement, or switch that section to **Newest first**, **Oldest first**, or **A–Z** by title. The date it sorts by is the one in the filename when a page has one (a `2026-04-24-…` note sorts by that), and the page's last-commit date otherwise — so a bulk rename that resets git's dates does not scramble the order. The choice is per folder and per person, kept in your browser, so it never changes what anyone else sees or writes anything to the repository. A re-sorted section keeps its control lit so you can tell at a glance. While a section is sorted, drag-to-reorder pauses there: the order you see is not the stored one, so switch back to Manual to curate again.
 
 ## Deleting
 
@@ -1260,6 +1303,7 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Emoji, three ways in | Shipped | Toolbar picker, `:query` menu, `:tada:` conversion |
 | Sidebar quick-create | Shipped | A + on every mount, folder, and page |
 | Drag to move, reorder, and nest | Shipped | Instant, git behind, auto-revert on failure |
+| Per-section sort | Shipped | Manual, Newest, Oldest, or A–Z — by filename or commit date, per folder, per person |
 | Page delete | Shipped | Two-step trash, `git rm`, recoverable from history |
 | Works on a phone | Shipped | Top bar, drawer, the same sidebar |
 
@@ -1569,6 +1613,8 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] The agent git flow, end to end: an agent proposes, you review the diff in the front, and merge (see [[Proposals]])
 - [x] Search worth the name: a title-boosted, multi-word-aware backend under a `⌘K` palette and a full results page
 - [x] The sidebar as an organizer: quick-create, drag to move, reorder, nest, and delete, all real git behind an instant UI
+- [x] Per-section sorting: a folder or mount sorts its own children by date (newest or oldest, from the filename or the commit) or A-Z - a personal, per-section choice kept in the browser
+- [x] Every page's paper trail: a byline of who began it and who last changed it, read from git history, shown on the page and powering the recency sort
 - [x] A workspace made yours: name, logo, OKLCH theming with secured contrast, fonts, and a phone-ready shell
 - [x] Proposal from the human front: on a suggest-only mount, Update becomes Propose, landing in the same review card
 - [x] Several human principals: viewers and contributors with per-mount scopes, added by the owner in Settings
@@ -1580,6 +1626,7 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] Changes arrive on their own: a signed push-to-sync webhook, and an opt-in poll loop for tailnets and local mounts
 - [x] A first run without a terminal: the welcome walks three soft steps - source, details, name and owner - suggesting the name from what you picked, and signs you in
 - [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
+- [x] Open Knowledge Format interop: any OKF bundle mounts as-is, and `hanji export --okf` emits a conformant one - typed concept docs, reserved index files, an `okf_version` root
 
 Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.
 

@@ -12,7 +12,7 @@ This is the page where Hanji stops being a wiki and becomes the thing it was bui
 
 1. An agent with `read+propose` scope calls `hanji_propose` (see [[Agents]]). Behind the scenes that becomes a `hanji/*` branch on the mount's remote, carrying one commit with the agent's change.
 2. A card appears in the sidebar, under the search box: how many proposals are waiting, and **Review**. It exists only while something waits; at zero the sidebar stays pure content. The count is cheap to compute, and it refreshes whenever anything talks to the remote.
-3. Open the proposal. You get the title the agent gave it, who proposed it, which page it touches, and a line diff: green for what it adds, red for what it removes.
+3. Open the proposal. You get the title the agent gave it, who proposed it, which page it touches, its weight (+added/−removed), and a line diff: green for what it adds, red for what it removes. If the agent left a self-review note on the proposal, it sits beside the diff - the agent telling you where it is confident and where it is not, before you read a line. The queue itself reads like a triage view: each row carries the note, the diff's weight, and how long it has waited.
 4. Press **Merge** or **Reject**. That is the entire ceremony.
 
 <figure><img src="assets/proposal-review.png" alt="A proposal open for review: title, proposer, the line diff, and Reject and Merge buttons"><figcaption>An agent's proposal, waiting. The diff is the whole conversation.</figcaption></figure>
@@ -29,7 +29,7 @@ Merge lands the proposal on the page: a merge commit on the base branch, the pro
 
 ## What Reject does
 
-Reject deletes the branch. Nothing else changes, nothing lingers, and the page never knew it was threatened.
+Reject deletes the branch, and keeps the record. Who refused what, and when, is written down; the proposal's tip commit survives under a kept ref in the clone, so the agent's diff never silently ceases to exist. The page itself never knew it was threatened, and rejections appear on the Activity page for the owner - a refusal is a decision, and decisions deserve a trace.
 
 ## When the page moved underneath
 
@@ -41,5 +41,6 @@ If someone edited the page after the agent proposed, the two versions may no lon
 - A proposal is a branch on the mount's remote, nothing more. There is no separate proposal database to back up or migrate. Walk away and the proposals walk with the repo.
 - Local mounts (a working directory on disk) have no proposal surface. Proposals need a remote to hold branches, so they live on clone mounts.
 - One page per proposal in this version, which is exactly what `hanji_propose` produces.
+- An agent can attach a self-review note to a proposal (what it is confident about, what it is not). The note rides the proposal's commit body and shows with the diff - read it before the diff, it usually tells you where to look.
 
 Read [[Agents]] for minting the token that can propose, and [[Permissions]] for the scopes behind it.

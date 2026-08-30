@@ -37,9 +37,13 @@ If you changed nothing, nothing is committed. There is no draft state to babysit
 
 <figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Code, Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
 
+## Fresh by the time you look
+
+A page you are reading keeps itself current. When an agent (or anyone) edits the underlying files, the page refreshes in place the next time Hanji checks - switching back to the tab is enough - and a one-line note says it happened. The byline carries the trust surface: "checked just now" or "checked 4m ago" - when the index last agreed with the files, a different claim than the page's own "updated", which is about content - ticking as you read, with a quiet retry when a sync fails. Silence means nothing changed; nothing here ever interrupts.
+
 ## When two edits collide
 
-Hanji notices if the page changed underneath you between the moment you opened the editor and the moment you pressed Update. Rather than overwrite the newer version, it stops and tells you, so you never clobber a change you did not see. Reload, reapply your edit on top of the current page, and Update again.
+Hanji notices if the page changed underneath you - and it notices early. If the files change while your editor is open, the warning appears before you ever press Update; and the save itself re-checks the file on disk at the last moment, so even an edit that lands in the same breath cannot be overwritten unseen. This holds on plain folders too, where no git history could bring an overwritten change back. Rather than merge silently, Hanji stops and tells you: reload, reapply your edit on top of the current page, and Update again.
 
 ## New pages
 
@@ -60,7 +64,7 @@ Drops apply instantly; git catches up behind. If something blocks a move, the tr
 
 ### Sorting a section
 
-The curated `order:` is not the only way to read a folder. Open a folder (or a mount) and a small sort control appears on its row: leave it **Manual** to keep your arrangement, or switch that section to **Newest first**, **Oldest first**, or **A–Z** by title. The date it sorts by is the one in the filename when a page has one (a `2026-04-24-…` note sorts by that), and the page's last-commit date otherwise — so a bulk rename that resets git's dates does not scramble the order. The choice is per folder and per person, kept in your browser, so it never changes what anyone else sees or writes anything to the repository. A re-sorted section keeps its control lit so you can tell at a glance. While a section is sorted, drag-to-reorder pauses there: the order you see is not the stored one, so switch back to Manual to curate again.
+The curated `order:` is not the only way to read a folder. Open a folder (or a mount) and a small sort control appears on its row: leave it **Manual** to keep your arrangement, or switch that section to **Newest first**, **Oldest first**, or **A–Z** by title. The date it sorts by is the one in the filename when a page has one (a `2026-04-24-…` note sorts by that), and the page's last-commit date otherwise - so a bulk rename that resets git's dates does not scramble the order. The choice is per folder and per person, kept in your browser, so it never changes what anyone else sees or writes anything to the repository. A re-sorted section keeps its control lit so you can tell at a glance. While a section is sorted, drag-to-reorder pauses there: the order you see is not the stored one, so switch back to Manual to curate again.
 
 ## Deleting
 

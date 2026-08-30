@@ -22,6 +22,9 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Images uploaded into the repo | Shipped | Into `assets/`, no external link-rot |
 | Embeds, video and iframe | Shipped | Domain allowlist: figma, youtube, loom, vimeo |
 | Page history, byline and revisions | Shipped | View any past version |
+| Page comments | Shipped | A thread at the foot of every page, for anyone who can read it |
+| Anchored comments | Shipped | Highlight a word or sentence; a side panel gathers them, filter and resolve in place |
+| Comments stay out of git | Shipped | In Hanji's own store, never a commit and never in an export |
 | Nested, collapsible sidebar | Shipped | Built from page paths |
 | Breadcrumb navigation | Shipped | Middle-collapsing on deep pages |
 | Wikilinks, `[[by title]]` | Shipped | Resolved and permission-aware |
@@ -41,7 +44,8 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Git-backed mounts | Shipped | Point at repos or folders, one tree |
 | Sync and a rebuildable index | Shipped | The index is a throwaway cache |
 | MCP server for agents | Shipped | Scoped search and reading |
-| Plain-HTTP aliases beside MCP | Shipped | `GET /pages`, `/page`, `/search`, `POST /propose` - curl counts as an agent |
+| Agents can read comments | Shipped | Opt-in `read+comments` scope, page-scoped by the same lock |
+| Plain-HTTP aliases beside MCP | Shipped | `GET /pages`, `/page`, `/search`, `/comments`, `POST /propose` - curl counts as an agent |
 | Propose-as-PR writes | Shipped | Agents open branches, people merge |
 | Proposal review and merge, in the front | Shipped | A pending badge, a line diff, Merge and Reject |
 | Per-mount permissions | Shipped | `read` and `read+propose`, one read path |

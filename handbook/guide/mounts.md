@@ -53,6 +53,8 @@ Manual sync works, but a knowledge base should not need asking. Two mechanisms, 
 
 **The poll loop.** Set `HANJI_POLL_SECONDS=300` and the web front syncs every mount on that interval. This is the mechanism for a tailnet, which a webhook cannot reach from the outside - see [[On your tailnet]] - and it also covers local mounts, picking up edits made outside Hanji entirely. A slow sync skips a beat rather than stacking; a failing one logs and tries again next round.
 
+**The front syncs itself.** The web app freshens local mounts the moment attention arrives: switching back to the tab triggers a sync, and a quiet interval keeps checking while a page is open. A sync that finds nothing costs milliseconds - Hanji stats the tree and stops when nothing moved - so by the time you are looking, the page already shows what your agent just wrote. The byline says so: a small "checked just now" affix, with "sync failed - retry" when a mount cannot be read.
+
 Any mix works: webhooks where the network allows, polling where it doesn't, `pnpm hanji sync` whenever you want it now.
 
 ## Direct and suggest mounts

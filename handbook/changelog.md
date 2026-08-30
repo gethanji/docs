@@ -8,11 +8,56 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## The queue triages, the strip counts hands, the digest writes itself
+
+- The Activity page grew a strip: eight weeks of days, human work rising above a baseline in ink, agent work hanging below in the accent, outside writes worn a shade fainter on the human side - the workspace's balance of authorship at a glance. Under it, the feed takes filters (humans / agents / outside, edits / comments / reviews), by URL, bookmarkable.
+- The proposals queue reads like triage now: every row carries the agent's self-review note, the diff's weight (+added/−removed), and its age; the proposal page shows the note beside the diff. The cheapest trust signal an agent can send, finally shown where the decision happens.
+- `hanji digest <mount>` writes "what changed, what awaits you" as a Markdown page into the workspace - web-readable, agent-readable, carried by git like everything else, committed by Hanji under its own name. Each digest covers since the last one; a quiet window with a clear queue writes nothing at all, because the system must never notify about its own notifications. Cron it and the artifact is your morning briefing - no mail server, no push service, no channel to own.
+
+## Agents can read comments, if you let them
+
+- A new capability joins the token grammar: `read+comments` (stackable, so `read+propose+comments` works too). Grant it, and `hanji_list_comments` and the `GET /comments` alias hand back a page's threads - quote, author, body, resolved state, one level of replies - shaped for an agent to read, not to write. Nothing about a comment's DOM anchor internals leaks out.
+- Comments stay opt-in and page-scoped: a token still needs ordinary read access to the page itself, and the capability only reaches as far as the grant that carries it. Without `+comments`, a token gets back the same "Not found" a missing page would - the opacity people already get from a locked page holds for agents and comments too. See [[Comments]] and [[Agents]].
+
+## The version catches up
+
+- Hanji sat at 0.1 through forty-odd arcs of work; it reads 0.5 now, closer to honest. The number keeps one home - the repository's own version - and the reading surface and the agent surface both take it from there, so what the sidebar shows can never drift from what shipped.
+
+## The comment surface settles
+
+- The way into a page's annotations is a comment icon in the page header now, in one row with history, share, and edit, rather than a pill floating over the prose.
+- A thread reads as one unit: each on its own soft card, the author on a small accent label, the quiet actions - edit, resolve, delete - held back until you hover, and a reply tucked under its parent behind a hairline.
+- The quote at the head of an anchored thread wears the very highlight its phrase wears in the page, so the panel and the prose show one mark, not two treatments of it.
+
+## The comment box becomes a small editor
+
+- The comment composer is a real WYSIWYG surface now, the same editing engine as the page itself in miniature: **⌘B** and **⌘I** toggle bold and italic, a line starting with `-` or `1.` still becomes a list as you type, and `:name:` completes to an emoji through the same menu the page editor uses. Enter still sends and Shift+Enter still starts a new line - the composer keeps a visible **Comment**/**Reply**/**Save** button too, so a mouse or a touch screen works exactly as well as the keyboard.
+- You can edit your own comment: an Edit link swaps it back into the composer, pre-filled with its current text, and Save or Cancel take Comment's place. An edited comment carries a quiet "edited" mark next to its time, so a reader can tell a note changed after it was first written. The workspace owner can edit any comment, the same reach they already had to resolve or delete one.
+
+## Comments read like comments
+
+- Comment bodies support light formatting: **bold**, *italic*, and `-`/`1.` lists render for real now, instead of every note flattening to one plain paragraph. It is a small, safe renderer built as React elements, not raw HTML - there is no way a comment's body becomes markup another reader's browser executes.
+- Enter sends a comment, Shift+Enter starts a new line - reaching for the mouse to click **Comment** is optional now, not the only way.
+- The composer that opens on a fresh text selection focuses itself: selecting a phrase is already the intent to write about it.
+- A comment's time reads like the rest of the app: "3 hours ago" rather than a bare `2026-08-25`, with the exact moment on hover.
+
+## A place to talk about a page
+
+- A sidebar for the marks in a page: click a highlighted phrase and the note it belongs to opens in a panel beside the prose, scrolled to and lit. Browse every annotation on the page there, filter by open or resolved, reply or resolve without leaving your place in the text.
+- Select a word or sentence to comment on exactly that, not just the page: the quote gets a shared highlight in the prose for every reader. Edit the underlying text and the note detaches to "On an earlier version" at the foot of the page, quote intact, rather than pointing at words that no longer exist.
+- Comments: a thread at the foot of every page, open to anyone who can read it. Reply one level deep, resolve a thread or delete a comment as its author or the owner. Comments live in Hanji's own store, never in git and never in an export - move a page and its comments follow, delete one and they go with it. See [[Comments]].
+
+## Navigation, quick
+
+- Moving between pages is near-instant now. The page byline was quietly walking git history on every navigation to find who touched the page and when - hundreds of milliseconds on a deep-history mount, regardless of how little history a page had. That reading is now indexed at sync time and read from the index, so a navigation costs only what the page takes to render.
+- Back and forward controls sit at the top of every page, with `⌘[` and `⌘]` - a standard way through your recent trail that does not lean on the browser's own chrome.
+- Clicking a page shows its shape immediately - a light skeleton where the content will land - instead of holding the previous page still until the next is ready.
+
 ## Finding things: sort a section by date or name
 
 - A folder or mount can now sort its own children four ways: **Manual** (your curated `order:`, the default and unchanged), **Newest first**, **Oldest first**, or **A–Z** by title. The control lives on the section's row and appears once it is open; a re-sorted section stays lit so it reads at a glance.
 - The date it sorts by is the one that actually means something: a date in the filename if the page carries one (notes are often `YYYY-MM-DD`-named), the page's last-commit date otherwise. So a bulk rename or re-commit that flattens git's own dates does not flatten the order - the filename's date survives it.
-- The choice is per section and per person, kept in the browser: it never touches the repository or what anyone else sees. Drag-to-reorder pauses while a section is sorted, because the visible order is no longer the stored one — switch back to Manual to curate.
+- The choice is per section and per person, kept in the browser: it never touches the repository or what anyone else sees. Drag-to-reorder pauses while a section is sorted, because the visible order is no longer the stored one - switch back to Manual to curate.
 - Under it: every page's last-commit date is now indexed (one git pass per sync), so date order is instant to read and doesn't walk history on every render. The same date powers the page byline.
 
 ## The editor sharpens
@@ -27,6 +72,16 @@ Reverse chronological. Struck-through text is a decision we made and then moved 
 
 - A page's header opens up: more air between the breadcrumb and the title, and between the title and its byline, so the top of every page reads calmer.
 - Images sit a touch inside the measure now instead of edge to edge, and take a wider gap above them than a paragraph does - so a figure reads as placed, not pasted.
+
+## The page you are looking at is the page that exists
+
+- The screen notices now. Coming back to the tab syncs your local mounts and refreshes the open page in place when something changed - client state survives, one quiet line says it happened. A sync that finds nothing costs milliseconds: Hanji stats the tree and stops.
+- The byline wears a freshness line: "checked just now / 4m ago / syncing… / sync failed - retry" - when the index last agreed with the files, deliberately a different word than the page's own "updated". The mechanisms deliver freshness; the line delivers confidence in it. The toast names the mounts that moved and wears inverted paper: ink surface on light, paper on dark - ephemeral UI earns its six seconds by contrast.
+- An open editor is never refreshed out from under you. It warns early - "This page changed while you were editing" appears before Update is pressed - and the save itself re-reads the disk at the last moment, so an outside edit cannot be overwritten unseen. Plain folders get the same guard, where no git history could bring an overwritten change back.
+- Agents stopped reading stale: every MCP and curl read freshens local mounts first (throttled, cheap by construction).
+- The Activity page: what moved across your mounts, straight from the history - edits, comments, and reviews, grouped by day, actors labeled honestly (an outside commit is never dressed as an in-app one). A "seen up to here" line rides a per-reader cursor; nothing anywhere is marked read by being seen.
+- `hanji_changes` and `GET /changes?since=…`: an agent's first question at session start - what moved since I last read? - answered from the same authz-filtered feed. `GET /feed.atom` is the Atom projection; a token rides the URL, and no token means the everyone regime, exactly like a published site.
+- Proposals carry the agent's self-review note (the commit body, shown with the diff), and Reject finally leaves a trace: who refused what and when, with the proposal's tip kept under a ref instead of drifting toward garbage collection.
 
 ## Export speaks Open Knowledge Format
 

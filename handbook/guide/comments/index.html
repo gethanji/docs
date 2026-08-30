@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comments · Hanji</title>
+<link rel="icon" href="../../../hanji-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../hanji.css">
+</head>
+<body>
+<div class="frame">
+<aside>
+<p class="lockup"><a href="https://gethanji.github.io/"><img class="mark" src="../../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../../..">Handbook</a></p>
+<nav><p class="mount-label">handbook</p><a href="../../">Start here</a><a href="../../quickstart/">Quick start</a><details open><summary><a href="../">Using Hanji</a></summary><a href="../install/">Install Hanji</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a aria-current="page" href="./">Comments</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a href="../publish/">Publish to the web</a><a href="../cli/">Command reference</a><a href="../on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../story/">The story</a></summary><a href="../../story/the-name/">The name</a><a href="../../story/why-hanji-is-different/">Why Hanji is different</a><a href="../../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../../story/mission-and-vision/">Mission and vision</a><a href="../../story/principles/">Principles</a><details><summary><a href="../../story/brand/">The brand</a></summary><a href="../../story/brand/visual-language/">The visual language</a><a href="../../story/brand/voice/">Voice</a></details></details><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+</aside>
+<main>
+<p class="crumbs"><a href="../../">handbook</a> / guide / comments</p>
+<article><h1>Comments</h1>
+<p>Every page ends in a quiet thread. Anyone who can read the page can read what is said there, and add to it too - comments are discussion, not page content, so reading is the only right that gates them.</p>
+<h2>What a comment is</h2>
+<p>A comment sits at the bottom of the page, under its own heading, separate from the prose above it. Write a note - <strong>⌘B</strong> and <strong>⌘I</strong> format as you go, a line starting with <code>-</code> or <code>1.</code> becomes a list, and <code>:</code> opens the same emoji menu the page editor uses - then press <strong>Comment</strong>, or just press Enter (Shift+Enter starts a new line). It appears with your name and when you wrote it. Reply to any comment once - replies are one level deep, so a thread stays a conversation, not a maze. The comment's author, or the workspace owner, can edit it afterward (an edited comment carries a quiet "edited" mark), resolve a thread (it fades but stays readable), or delete a comment outright; everyone else reads.</p>
+<p>This is Hanji's version of the sticky note on a shared page: for the aside that is not worth its own edit, the question for a reader before you make a change, the "looks good" that closes a loop. It is not a change to the page and never a substitute for one.</p>
+<h2>What a comment is not</h2>
+<p>Comments never enter git. They live in Hanji's own metadata store, next to mounts, users, and permissions, and they never become a commit, a file, or a line anyone <code>git blame</code>s. Export a mount to the static site or <code>llms.txt</code>, and comments do not ride along - the export, and the open web it feeds, carry the page alone. (An agent on the live MCP can read them, but only with an explicit grant - see below.)</p>
+<p>That also means a comment follows the page's own life in git: move a page and its comments move with it, delete a page and its comments go too. Nothing is ever left pointing at a path that no longer exists.</p>
+<h2>Commenting on a word or a sentence</h2>
+<p>A comment does not have to be about the whole page. Select a run of prose - a word, a sentence, a paragraph - and a small composer opens right there, already focused, ready to type. Post it, and the selection carries a highlight from then on: every reader sees the same quiet wash of color over that exact phrase.</p>
+<p>These anchored notes live in a panel beside the page, not in the thread at its foot. Open it from the comment icon in the page header, or just click a highlighted phrase and the panel opens with that note scrolled to and lit. It lists every annotation on the page, filters by open or resolved, and lets you reply or resolve without leaving your place in the text. Each thread leads with the quote it was written against, wearing the same highlight the phrase wears in the prose, so the note reads clearly even with the page scrolled away.</p>
+<p>That link is best-effort, not permanent. Edit the block the quote lives in, and if the quote no longer matches what is there, the note detaches: it moves down into "On an earlier version" at the foot of the panel, still showing the exact words it was written against, but no longer painted into the prose. The note is not lost, only its anchor is - the words it once pointed at have moved on.</p>
+<p>Inline highlights use the browser's CSS Custom Highlight API, which needs a fairly current engine (recent Chrome, Edge, or Safari). On an older browser without it, the panel and its quoted text still read fine - only the painted highlight in the prose is missing.</p>
+<h2>Agents and comments</h2>
+<p>Comments are a human side-channel by default. An agent reads them only through an explicit <code>read+comments</code> scope on its token (or <code>read+propose+comments</code>), and only on pages it can already read - a token without the capability sees nothing, the same as a page that does not exist. See <a href="../agents/">Agents</a> for the token grammar and <code>hanji_list_comments</code>.</p>
+<h2>What's here now</h2>
+<p>Both forms of comment ship: a thread at the foot of the page for the page as a whole, and anchored threads for a specific word or sentence - highlighted right where they were written, and gathered in a panel beside the prose, reached from the page header or by clicking any highlight.</p></article>
+<footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
+</main>
+</div>
+</body>
+</html>

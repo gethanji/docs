@@ -1,4 +1,4 @@
-# Hanji handbook
+# Hanji
 
 > Everything in this knowledge base that is open to everyone, mirrored as plain Markdown for agents and people alike.
 
@@ -118,10 +118,11 @@ The token's scopes decide everything. The server hands the same principal to `@h
 
 ## The tools
 
-Four, and no more than four, because the surface should be small enough to hold in your head.
+Four for everyone, and a fifth you opt into - the surface stays small enough to hold in your head.
 
 - `hanji_list_pages`, `hanji_get_page`, and `hanji_search` are the read side.
 - `hanji_propose` is the write side, and it does not write. It proposes a branch.
+- `hanji_list_comments` reads a page's comments, but only for a token minted with the opt-in `read+comments` capability - comments are a human side-channel, off by default.
 
 That last line is the whole design in one tool. An agent contributes by suggesting, never by overwriting. Read [[Agents]] for how to connect one, and [[The core]] for what sits behind these tools.
 
@@ -202,11 +203,56 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## The queue triages, the strip counts hands, the digest writes itself
+
+- The Activity page grew a strip: eight weeks of days, human work rising above a baseline in ink, agent work hanging below in the accent, outside writes worn a shade fainter on the human side - the workspace's balance of authorship at a glance. Under it, the feed takes filters (humans / agents / outside, edits / comments / reviews), by URL, bookmarkable.
+- The proposals queue reads like triage now: every row carries the agent's self-review note, the diff's weight (+added/−removed), and its age; the proposal page shows the note beside the diff. The cheapest trust signal an agent can send, finally shown where the decision happens.
+- `hanji digest <mount>` writes "what changed, what awaits you" as a Markdown page into the workspace - web-readable, agent-readable, carried by git like everything else, committed by Hanji under its own name. Each digest covers since the last one; a quiet window with a clear queue writes nothing at all, because the system must never notify about its own notifications. Cron it and the artifact is your morning briefing - no mail server, no push service, no channel to own.
+
+## Agents can read comments, if you let them
+
+- A new capability joins the token grammar: `read+comments` (stackable, so `read+propose+comments` works too). Grant it, and `hanji_list_comments` and the `GET /comments` alias hand back a page's threads - quote, author, body, resolved state, one level of replies - shaped for an agent to read, not to write. Nothing about a comment's DOM anchor internals leaks out.
+- Comments stay opt-in and page-scoped: a token still needs ordinary read access to the page itself, and the capability only reaches as far as the grant that carries it. Without `+comments`, a token gets back the same "Not found" a missing page would - the opacity people already get from a locked page holds for agents and comments too. See [[Comments]] and [[Agents]].
+
+## The version catches up
+
+- Hanji sat at 0.1 through forty-odd arcs of work; it reads 0.5 now, closer to honest. The number keeps one home - the repository's own version - and the reading surface and the agent surface both take it from there, so what the sidebar shows can never drift from what shipped.
+
+## The comment surface settles
+
+- The way into a page's annotations is a comment icon in the page header now, in one row with history, share, and edit, rather than a pill floating over the prose.
+- A thread reads as one unit: each on its own soft card, the author on a small accent label, the quiet actions - edit, resolve, delete - held back until you hover, and a reply tucked under its parent behind a hairline.
+- The quote at the head of an anchored thread wears the very highlight its phrase wears in the page, so the panel and the prose show one mark, not two treatments of it.
+
+## The comment box becomes a small editor
+
+- The comment composer is a real WYSIWYG surface now, the same editing engine as the page itself in miniature: **⌘B** and **⌘I** toggle bold and italic, a line starting with `-` or `1.` still becomes a list as you type, and `:name:` completes to an emoji through the same menu the page editor uses. Enter still sends and Shift+Enter still starts a new line - the composer keeps a visible **Comment**/**Reply**/**Save** button too, so a mouse or a touch screen works exactly as well as the keyboard.
+- You can edit your own comment: an Edit link swaps it back into the composer, pre-filled with its current text, and Save or Cancel take Comment's place. An edited comment carries a quiet "edited" mark next to its time, so a reader can tell a note changed after it was first written. The workspace owner can edit any comment, the same reach they already had to resolve or delete one.
+
+## Comments read like comments
+
+- Comment bodies support light formatting: **bold**, *italic*, and `-`/`1.` lists render for real now, instead of every note flattening to one plain paragraph. It is a small, safe renderer built as React elements, not raw HTML - there is no way a comment's body becomes markup another reader's browser executes.
+- Enter sends a comment, Shift+Enter starts a new line - reaching for the mouse to click **Comment** is optional now, not the only way.
+- The composer that opens on a fresh text selection focuses itself: selecting a phrase is already the intent to write about it.
+- A comment's time reads like the rest of the app: "3 hours ago" rather than a bare `2026-08-25`, with the exact moment on hover.
+
+## A place to talk about a page
+
+- A sidebar for the marks in a page: click a highlighted phrase and the note it belongs to opens in a panel beside the prose, scrolled to and lit. Browse every annotation on the page there, filter by open or resolved, reply or resolve without leaving your place in the text.
+- Select a word or sentence to comment on exactly that, not just the page: the quote gets a shared highlight in the prose for every reader. Edit the underlying text and the note detaches to "On an earlier version" at the foot of the page, quote intact, rather than pointing at words that no longer exist.
+- Comments: a thread at the foot of every page, open to anyone who can read it. Reply one level deep, resolve a thread or delete a comment as its author or the owner. Comments live in Hanji's own store, never in git and never in an export - move a page and its comments follow, delete one and they go with it. See [[Comments]].
+
+## Navigation, quick
+
+- Moving between pages is near-instant now. The page byline was quietly walking git history on every navigation to find who touched the page and when - hundreds of milliseconds on a deep-history mount, regardless of how little history a page had. That reading is now indexed at sync time and read from the index, so a navigation costs only what the page takes to render.
+- Back and forward controls sit at the top of every page, with `⌘[` and `⌘]` - a standard way through your recent trail that does not lean on the browser's own chrome.
+- Clicking a page shows its shape immediately - a light skeleton where the content will land - instead of holding the previous page still until the next is ready.
+
 ## Finding things: sort a section by date or name
 
 - A folder or mount can now sort its own children four ways: **Manual** (your curated `order:`, the default and unchanged), **Newest first**, **Oldest first**, or **A–Z** by title. The control lives on the section's row and appears once it is open; a re-sorted section stays lit so it reads at a glance.
 - The date it sorts by is the one that actually means something: a date in the filename if the page carries one (notes are often `YYYY-MM-DD`-named), the page's last-commit date otherwise. So a bulk rename or re-commit that flattens git's own dates does not flatten the order - the filename's date survives it.
-- The choice is per section and per person, kept in the browser: it never touches the repository or what anyone else sees. Drag-to-reorder pauses while a section is sorted, because the visible order is no longer the stored one — switch back to Manual to curate.
+- The choice is per section and per person, kept in the browser: it never touches the repository or what anyone else sees. Drag-to-reorder pauses while a section is sorted, because the visible order is no longer the stored one - switch back to Manual to curate.
 - Under it: every page's last-commit date is now indexed (one git pass per sync), so date order is instant to read and doesn't walk history on every render. The same date powers the page byline.
 
 ## The editor sharpens
@@ -221,6 +267,16 @@ Reverse chronological. Struck-through text is a decision we made and then moved 
 
 - A page's header opens up: more air between the breadcrumb and the title, and between the title and its byline, so the top of every page reads calmer.
 - Images sit a touch inside the measure now instead of edge to edge, and take a wider gap above them than a paragraph does - so a figure reads as placed, not pasted.
+
+## The page you are looking at is the page that exists
+
+- The screen notices now. Coming back to the tab syncs your local mounts and refreshes the open page in place when something changed - client state survives, one quiet line says it happened. A sync that finds nothing costs milliseconds: Hanji stats the tree and stops.
+- The byline wears a freshness line: "checked just now / 4m ago / syncing… / sync failed - retry" - when the index last agreed with the files, deliberately a different word than the page's own "updated". The mechanisms deliver freshness; the line delivers confidence in it. The toast names the mounts that moved and wears inverted paper: ink surface on light, paper on dark - ephemeral UI earns its six seconds by contrast.
+- An open editor is never refreshed out from under you. It warns early - "This page changed while you were editing" appears before Update is pressed - and the save itself re-reads the disk at the last moment, so an outside edit cannot be overwritten unseen. Plain folders get the same guard, where no git history could bring an overwritten change back.
+- Agents stopped reading stale: every MCP and curl read freshens local mounts first (throttled, cheap by construction).
+- The Activity page: what moved across your mounts, straight from the history - edits, comments, and reviews, grouped by day, actors labeled honestly (an outside commit is never dressed as an in-app one). A "seen up to here" line rides a per-reader cursor; nothing anywhere is marked read by being seen.
+- `hanji_changes` and `GET /changes?since=…`: an agent's first question at session start - what moved since I last read? - answered from the same authz-filtered feed. `GET /feed.atom` is the Atom projection; a token rides the URL, and no token means the everyone regime, exactly like a published site.
+- Proposals carry the agent's self-review note (the commit body, shown with the diff), and Reject finally leaves a trace: who refused what and when, with the proposal's tip kept under a ref instead of drifting toward garbage collection.
 
 ## Export speaks Open Knowledge Format
 
@@ -596,7 +652,7 @@ An agent authenticates with a bearer token, scoped to what it may touch - a
 whole mount, a folder, or exactly one page, the same path grants people have.
 
 ```bash
-pnpm hanji token <name> <mount[/folder|/page.md]=read|read+propose>...
+pnpm hanji token <name> <mount[/folder|/page.md]=read|read+propose|read+comments|...>...
 ```
 
 ```bash
@@ -608,9 +664,12 @@ pnpm hanji token my-claude handbook=read+propose notes=read+propose
 
 # a narrow one: read one folder, propose to a single page
 pnpm hanji token intern notes/reviews=read notes/reviews/draft.md=read+propose
+
+# an agent that may also read a page's comments
+pnpm hanji token reviewer notes=read+comments
 ```
 
-The command prints the token once. A `read` scope lets the agent search and read within its grant. A `read+propose` scope adds the right to propose changes there. Anything outside its grants the agent cannot see, and cannot even tell exists - a locked page and a missing page answer identically. Content visibility rules never widen a token: an "everyone" rule speaks to people, and an agent holds exactly what it was granted. See [[Permissions]].
+The command prints the token once. A `read` scope lets the agent search and read within its grant. A `read+propose` scope adds the right to propose changes there. A `read+comments` scope adds the right to read that page's comments too - stack all three as `read+propose+comments` if the agent needs the full run. Anything outside its grants the agent cannot see, and cannot even tell exists - a locked page and a missing page answer identically. Content visibility rules never widen a token: an "everyone" rule speaks to people, and an agent holds exactly what it was granted. See [[Permissions]].
 
 <figure><img src="assets/proposal-review.png" alt="An agent's proposal open for review in the front: title, diff, Reject and Merge"><figcaption>Where a propose lands: a title, a diff, and your decision.</figcaption></figure>
 
@@ -631,6 +690,8 @@ claude mcp add hanji --transport http http://localhost:4101/mcp \
 | `hanji_get_page` | Fetch one page's Markdown by mount and path | `read` |
 | `hanji_search` | Full-text search across readable mounts | `read` |
 | `hanji_propose` | Propose a page change as a branch, and a PR where GitHub is connected | `read+propose` |
+| `hanji_list_comments` | Read one page's comments (threads, quotes, replies) by mount and path | `read+comments` |
+| `hanji_changes` | What changed since a moment: commits with authors and pages, and comments | `read` |
 
 ## No MCP client? curl works
 
@@ -642,16 +703,26 @@ agents that can run a shell but not an MCP client:
 curl -H "Authorization: Bearer <token>" "http://localhost:4101/pages"
 curl -H "Authorization: Bearer <token>" "http://localhost:4101/page?mount=handbook&path=install.md"
 curl -H "Authorization: Bearer <token>" "http://localhost:4101/search?q=permissions&limit=5"
+curl -H "Authorization: Bearer <token>" "http://localhost:4101/comments?mount=notes&path=idea.md"
+curl -H "Authorization: Bearer <token>" "http://localhost:4101/changes?since=2026-08-27T00:00:00Z"
 curl -H "Authorization: Bearer <token>" "http://localhost:4101/propose" \
-  -d '{"mount":"notes","path":"ideas/from-cron.md","title":"An idea","content":"# It\n"}'
+  -d '{"mount":"notes","path":"ideas/from-cron.md","title":"An idea","content":"# It\n","note":"Confident on wording; check the anchor link."}'
 ```
 
-`/pages` and `/search` answer JSON, `/page` answers raw Markdown, `/propose`
-answers the branch (and PR URL where GitHub is connected). The permission
-check is the same one the MCP tools run; an unknown path answers with a map
-of the surface.
+`/pages`, `/search`, and `/comments` answer JSON, `/page` answers raw
+Markdown, `/propose` answers the branch (and PR URL where GitHub is
+connected). The permission check is the same one the MCP tools run; an
+unknown path answers with a map of the surface.
 
 ## Propose, do not overwrite
+
+## Start the session with what changed
+
+`hanji_changes` (and `GET /changes?since=…`) answers the question a returning agent should ask first: what moved since I last read? Commits with their authors and pages, and new comments, across exactly the mounts the token can read. The intended habit: ask at session start, then brief your human in two lines instead of making them scroll. Reads freshen local mounts first (throttled to about once per ten seconds), so the answer is at most a few seconds behind the files - and there is an Atom projection of the same feed at `/feed.atom?token=<token>` for feed readers and bots (no token serves only what is open to everyone, the same rule a published site follows).
+
+## Propose, and say what you are unsure about
+
+A proposal accepts an optional `note`: the agent's own self-review, riding the commit body under the title. Say what you are confident about and what you are not - it shows on the review card and makes the human's yes faster. An honest "unsure whether the old anchor still resolves" is worth more than a confident silence.
 
 `hanji_propose` never edits a page in place. It creates a branch named for the change, commits the new content there, and pushes it. If `HANJI_GITHUB_TOKEN` is set, it also opens a pull request and hands back the URL. A person reviews it and merges. That is the whole point. An agent can suggest all day, and nothing lands in your knowledge base until someone says yes.
 
@@ -679,12 +750,13 @@ The whole CLI, run as `pnpm hanji <command>`. It reads `HANJI_DATA_DIR` for wher
 | `remove-mount <name>` | Remove a mount and its indexed pages. The clone directory stays on disk. |
 | `sync` | Fetch every mount from its remote and reindex what changed. |
 | `rebuild` | Discard the index and rebuild it from the local clones. Always safe. |
-| `token <name> <mount[/folder\|/page.md]=read\|read+propose>...` | Mint a bearer token for an agent, scoped to a mount, a folder, or one page. Prints it once. |
+| `token <name> <mount[/folder\|/page.md]=read\|read+propose\|read+comments\|read+propose+comments>...` | Mint a bearer token for an agent, scoped to a mount, a folder, or one page - add `+comments` to also grant that scope's page comments. Prints it once. |
 | `list` | List every mount and how many pages it holds. |
 | `export <outDir> [mount...] [--okf]` | Publish everything open to everyone: a browsable static site, `llms.txt`, `llms-full.txt`, and every page as plain Markdown. Mount names narrow the set; nothing widens it. `--okf` also shapes the Markdown mirror into an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) bundle, described in [[Publish to the web]]. |
 | `rule <mount> [path] <everyone-read\|everyone-propose\|restricted\|clear>` | Set or clear a general-access rule from the command line - what Share's select does in the front. |
 | `set <key> <value>` | Write an instance setting - the workspace name, or the export settings [[Publish to the web]] describes. |
 | `assets [mount]` | List uploaded images no page references anymore, per mount or everywhere. |
+| `digest <mount> [path] [--since <iso>]` | Write "what changed, what awaits you" as a Markdown page into the mount (default `digest.md`), committed by Hanji itself. Covers since the previous digest; a quiet window with an empty review queue writes nothing. |
 
 ## Examples
 
@@ -693,6 +765,11 @@ pnpm hanji add-mount handbook git@github.com:you/product.git handbook docs
 pnpm hanji sync
 pnpm hanji token my-claude handbook=read+propose
 pnpm hanji list
+
+# the digest as a morning ritual: cron writes the page, you and your
+# agents read it like any other page - no mail server involved
+# 0 7 * * *  cd /path/to/hanji && pnpm hanji digest notes
+pnpm hanji digest notes
 ```
 
 ## The environment it reads
@@ -713,6 +790,50 @@ For the agent side of this, read [[Agents]]. For what is coming, read [[Where we
 
 ---
 
+<!-- handbook/guide/comments.md -->
+
+---
+title: Comments
+order: 35
+description: A place to talk about a page, right on the page.
+---
+
+# Comments
+
+Every page ends in a quiet thread. Anyone who can read the page can read what is said there, and add to it too - comments are discussion, not page content, so reading is the only right that gates them.
+
+## What a comment is
+
+A comment sits at the bottom of the page, under its own heading, separate from the prose above it. Write a note - **⌘B** and **⌘I** format as you go, a line starting with `-` or `1.` becomes a list, and `:` opens the same emoji menu the page editor uses - then press **Comment**, or just press Enter (Shift+Enter starts a new line). It appears with your name and when you wrote it. Reply to any comment once - replies are one level deep, so a thread stays a conversation, not a maze. The comment's author, or the workspace owner, can edit it afterward (an edited comment carries a quiet "edited" mark), resolve a thread (it fades but stays readable), or delete a comment outright; everyone else reads.
+
+This is Hanji's version of the sticky note on a shared page: for the aside that is not worth its own edit, the question for a reader before you make a change, the "looks good" that closes a loop. It is not a change to the page and never a substitute for one.
+
+## What a comment is not
+
+Comments never enter git. They live in Hanji's own metadata store, next to mounts, users, and permissions, and they never become a commit, a file, or a line anyone `git blame`s. Export a mount to the static site or `llms.txt`, and comments do not ride along - the export, and the open web it feeds, carry the page alone. (An agent on the live MCP can read them, but only with an explicit grant - see below.)
+
+That also means a comment follows the page's own life in git: move a page and its comments move with it, delete a page and its comments go too. Nothing is ever left pointing at a path that no longer exists.
+
+## Commenting on a word or a sentence
+
+A comment does not have to be about the whole page. Select a run of prose - a word, a sentence, a paragraph - and a small composer opens right there, already focused, ready to type. Post it, and the selection carries a highlight from then on: every reader sees the same quiet wash of color over that exact phrase.
+
+These anchored notes live in a panel beside the page, not in the thread at its foot. Open it from the comment icon in the page header, or just click a highlighted phrase and the panel opens with that note scrolled to and lit. It lists every annotation on the page, filters by open or resolved, and lets you reply or resolve without leaving your place in the text. Each thread leads with the quote it was written against, wearing the same highlight the phrase wears in the prose, so the note reads clearly even with the page scrolled away.
+
+That link is best-effort, not permanent. Edit the block the quote lives in, and if the quote no longer matches what is there, the note detaches: it moves down into "On an earlier version" at the foot of the panel, still showing the exact words it was written against, but no longer painted into the prose. The note is not lost, only its anchor is - the words it once pointed at have moved on.
+
+Inline highlights use the browser's CSS Custom Highlight API, which needs a fairly current engine (recent Chrome, Edge, or Safari). On an older browser without it, the panel and its quoted text still read fine - only the painted highlight in the prose is missing.
+
+## Agents and comments
+
+Comments are a human side-channel by default. An agent reads them only through an explicit `read+comments` scope on its token (or `read+propose+comments`), and only on pages it can already read - a token without the capability sees nothing, the same as a page that does not exist. See [[Agents]] for the token grammar and `hanji_list_comments`.
+
+## What's here now
+
+Both forms of comment ship: a thread at the foot of the page for the page as a whole, and anchored threads for a specific word or sentence - highlighted right where they were written, and gathered in a panel beside the prose, reached from the page header or by clicking any highlight.
+
+---
+
 <!-- handbook/guide/index.md -->
 
 ---
@@ -729,11 +850,12 @@ This section is the how-to. It is written to be read in order the first time, an
 2. [[Install Hanji]] gets it running on your machine in a handful of commands.
 3. [[Mounts]] points it at the repositories you want to read and write.
 4. [[Reading and writing]] covers the human front: reading, editing, history, and making new pages.
-5. [[Agents]] connects a coding agent through the MCP server, with scoped tokens and propose-as-PR.
-6. [[Proposals]] is where those agent suggestions land: review the diff, merge or reject.
-7. [[Publish to the web]] turns everything you've opened into a website, llms.txt included.
-8. [[On your tailnet]] moves the instance onto your tailnet, where the network signs people in and nobody types a password.
-9. [[Command reference]] is the full list of CLI commands, for when you already know what you want.
+5. [[Comments]] is where you and your readers talk about a page, right on it.
+6. [[Agents]] connects a coding agent through the MCP server, with scoped tokens and propose-as-PR.
+7. [[Proposals]] is where those agent suggestions land: review the diff, merge or reject.
+8. [[Publish to the web]] turns everything you've opened into a website, llms.txt included.
+9. [[On your tailnet]] moves the instance onto your tailnet, where the network signs people in and nobody types a password.
+10. [[Command reference]] is the full list of CLI commands, for when you already know what you want.
 
 A note before you start. Hanji is early. It runs today on your machine: one owner, the people you add, and the agents you scope - and the recommended way to share it with a team is [[On your tailnet]]. Hosted sync sits in the later column of [[Where we are]], not in your hands yet. What is here works, and this section documents only what works.
 
@@ -854,6 +976,8 @@ Manual sync works, but a knowledge base should not need asking. Two mechanisms, 
 **Push-to-sync.** Set `HANJI_WEBHOOK_SECRET` in the web front's environment, then add a webhook to the repository (GitHub: repo → Settings → Webhooks): payload URL `https://<your-hanji>/api/webhook/git`, content type JSON, the same secret. Every push to the mount's branch syncs the matching mount seconds later. Hanji answers deliveries immediately and does the git work in the background, so a slow clone never trips the sender's timeout. Deliveries are verified against the secret's signature; without the secret set, the endpoint does not exist.
 
 **The poll loop.** Set `HANJI_POLL_SECONDS=300` and the web front syncs every mount on that interval. This is the mechanism for a tailnet, which a webhook cannot reach from the outside - see [[On your tailnet]] - and it also covers local mounts, picking up edits made outside Hanji entirely. A slow sync skips a beat rather than stacking; a failing one logs and tries again next round.
+
+**The front syncs itself.** The web app freshens local mounts the moment attention arrives: switching back to the tab triggers a sync, and a quiet interval keeps checking while a page is open. A sync that finds nothing costs milliseconds - Hanji stats the tree and stops when nothing moved - so by the time you are looking, the page already shows what your agent just wrote. The byline says so: a small "checked just now" affix, with "sync failed - retry" when a mount cannot be read.
 
 Any mix works: webhooks where the network allows, polling where it doesn't, `pnpm hanji sync` whenever you want it now.
 
@@ -981,7 +1105,7 @@ This is the page where Hanji stops being a wiki and becomes the thing it was bui
 
 1. An agent with `read+propose` scope calls `hanji_propose` (see [[Agents]]). Behind the scenes that becomes a `hanji/*` branch on the mount's remote, carrying one commit with the agent's change.
 2. A card appears in the sidebar, under the search box: how many proposals are waiting, and **Review**. It exists only while something waits; at zero the sidebar stays pure content. The count is cheap to compute, and it refreshes whenever anything talks to the remote.
-3. Open the proposal. You get the title the agent gave it, who proposed it, which page it touches, and a line diff: green for what it adds, red for what it removes.
+3. Open the proposal. You get the title the agent gave it, who proposed it, which page it touches, its weight (+added/−removed), and a line diff: green for what it adds, red for what it removes. If the agent left a self-review note on the proposal, it sits beside the diff - the agent telling you where it is confident and where it is not, before you read a line. The queue itself reads like a triage view: each row carries the note, the diff's weight, and how long it has waited.
 4. Press **Merge** or **Reject**. That is the entire ceremony.
 
 <figure><img src="assets/proposal-review.png" alt="A proposal open for review: title, proposer, the line diff, and Reject and Merge buttons"><figcaption>An agent's proposal, waiting. The diff is the whole conversation.</figcaption></figure>
@@ -998,7 +1122,7 @@ Merge lands the proposal on the page: a merge commit on the base branch, the pro
 
 ## What Reject does
 
-Reject deletes the branch. Nothing else changes, nothing lingers, and the page never knew it was threatened.
+Reject deletes the branch, and keeps the record. Who refused what, and when, is written down; the proposal's tip commit survives under a kept ref in the clone, so the agent's diff never silently ceases to exist. The page itself never knew it was threatened, and rejections appear on the Activity page for the owner - a refusal is a decision, and decisions deserve a trace.
 
 ## When the page moved underneath
 
@@ -1010,6 +1134,7 @@ If someone edited the page after the agent proposed, the two versions may no lon
 - A proposal is a branch on the mount's remote, nothing more. There is no separate proposal database to back up or migrate. Walk away and the proposals walk with the repo.
 - Local mounts (a working directory on disk) have no proposal surface. Proposals need a remote to hold branches, so they live on clone mounts.
 - One page per proposal in this version, which is exactly what `hanji_propose` produces.
+- An agent can attach a self-review note to a proposal (what it is confident about, what it is not). The note rides the proposal's commit body and shows with the diff - read it before the diff, it usually tells you where to look.
 
 Read [[Agents]] for minting the token that can propose, and [[Permissions]] for the scopes behind it.
 
@@ -1137,9 +1262,13 @@ If you changed nothing, nothing is committed. There is no draft state to babysit
 
 <figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Code, Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
 
+## Fresh by the time you look
+
+A page you are reading keeps itself current. When an agent (or anyone) edits the underlying files, the page refreshes in place the next time Hanji checks - switching back to the tab is enough - and a one-line note says it happened. The byline carries the trust surface: "checked just now" or "checked 4m ago" - when the index last agreed with the files, a different claim than the page's own "updated", which is about content - ticking as you read, with a quiet retry when a sync fails. Silence means nothing changed; nothing here ever interrupts.
+
 ## When two edits collide
 
-Hanji notices if the page changed underneath you between the moment you opened the editor and the moment you pressed Update. Rather than overwrite the newer version, it stops and tells you, so you never clobber a change you did not see. Reload, reapply your edit on top of the current page, and Update again.
+Hanji notices if the page changed underneath you - and it notices early. If the files change while your editor is open, the warning appears before you ever press Update; and the save itself re-checks the file on disk at the last moment, so even an edit that lands in the same breath cannot be overwritten unseen. This holds on plain folders too, where no git history could bring an overwritten change back. Rather than merge silently, Hanji stops and tells you: reload, reapply your edit on top of the current page, and Update again.
 
 ## New pages
 
@@ -1160,7 +1289,7 @@ Drops apply instantly; git catches up behind. If something blocks a move, the tr
 
 ### Sorting a section
 
-The curated `order:` is not the only way to read a folder. Open a folder (or a mount) and a small sort control appears on its row: leave it **Manual** to keep your arrangement, or switch that section to **Newest first**, **Oldest first**, or **A–Z** by title. The date it sorts by is the one in the filename when a page has one (a `2026-04-24-…` note sorts by that), and the page's last-commit date otherwise — so a bulk rename that resets git's dates does not scramble the order. The choice is per folder and per person, kept in your browser, so it never changes what anyone else sees or writes anything to the repository. A re-sorted section keeps its control lit so you can tell at a glance. While a section is sorted, drag-to-reorder pauses there: the order you see is not the stored one, so switch back to Manual to curate again.
+The curated `order:` is not the only way to read a folder. Open a folder (or a mount) and a small sort control appears on its row: leave it **Manual** to keep your arrangement, or switch that section to **Newest first**, **Oldest first**, or **A–Z** by title. The date it sorts by is the one in the filename when a page has one (a `2026-04-24-…` note sorts by that), and the page's last-commit date otherwise - so a bulk rename that resets git's dates does not scramble the order. The choice is per folder and per person, kept in your browser, so it never changes what anyone else sees or writes anything to the repository. A re-sorted section keeps its control lit so you can tell at a glance. While a section is sorted, drag-to-reorder pauses there: the order you see is not the stored one, so switch back to Manual to curate again.
 
 ## Deleting
 
@@ -1295,6 +1424,9 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Images uploaded into the repo | Shipped | Into `assets/`, no external link-rot |
 | Embeds, video and iframe | Shipped | Domain allowlist: figma, youtube, loom, vimeo |
 | Page history, byline and revisions | Shipped | View any past version |
+| Page comments | Shipped | A thread at the foot of every page, for anyone who can read it |
+| Anchored comments | Shipped | Highlight a word or sentence; a side panel gathers them, filter and resolve in place |
+| Comments stay out of git | Shipped | In Hanji's own store, never a commit and never in an export |
 | Nested, collapsible sidebar | Shipped | Built from page paths |
 | Breadcrumb navigation | Shipped | Middle-collapsing on deep pages |
 | Wikilinks, `[[by title]]` | Shipped | Resolved and permission-aware |
@@ -1314,7 +1446,8 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Git-backed mounts | Shipped | Point at repos or folders, one tree |
 | Sync and a rebuildable index | Shipped | The index is a throwaway cache |
 | MCP server for agents | Shipped | Scoped search and reading |
-| Plain-HTTP aliases beside MCP | Shipped | `GET /pages`, `/page`, `/search`, `POST /propose` - curl counts as an agent |
+| Agents can read comments | Shipped | Opt-in `read+comments` scope, page-scoped by the same lock |
+| Plain-HTTP aliases beside MCP | Shipped | `GET /pages`, `/page`, `/search`, `/comments`, `POST /propose` - curl counts as an agent |
 | Propose-as-PR writes | Shipped | Agents open branches, people merge |
 | Proposal review and merge, in the front | Shipped | A pending badge, a line diff, Merge and Reject |
 | Per-mount permissions | Shipped | `read` and `read+propose`, one read path |
@@ -1626,7 +1759,13 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] Changes arrive on their own: a signed push-to-sync webhook, and an opt-in poll loop for tailnets and local mounts
 - [x] A first run without a terminal: the welcome walks three soft steps - source, details, name and owner - suggesting the name from what you picked, and signs you in
 - [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
+- [x] Fresh by the time you look: sync-on-focus, a byline freshness line, early conflict warning, a content-compare save guard, and agents that sync local mounts before every read
+- [x] The Activity page: what moved across your mounts - edits, comments, reviews - straight from the history, with honest actor labels and a "seen up to here" line
+- [x] The activity strip: eight weeks of days above the feed, human hands above the line, agents below, with filters over the feed by actor and kind
+- [x] `hanji digest`: the day's changes and the waiting queue written into the workspace as a page - the artifact is the notification, cron is the only scheduler
+- [x] The agent briefing channel: `hanji_changes` / `GET /changes` for "what moved since I last read", plus an Atom feed of the same, token-scoped like every read
 - [x] Open Knowledge Format interop: any OKF bundle mounts as-is, and `hanji export --okf` emits a conformant one - typed concept docs, reserved index files, an `okf_version` root
+- [x] Page comments: a thread at the foot of every page, and anchored comments on an exact word or sentence, highlighted in the prose for every reader and preserved under "On an earlier version" when the text beneath them changes (see [[Comments]])
 
 Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.
 

@@ -1,4 +1,4 @@
-# Hanji handbook
+# Hanji
 
 > Everything in this knowledge base that is open to everyone, mirrored as plain Markdown for agents and people alike.
 
@@ -17,6 +17,7 @@
 - [Open core](handbook/contributing/open-core.md)
 - [Agents](handbook/guide/agents.md)
 - [Command reference](handbook/guide/cli.md)
+- [Comments](handbook/guide/comments.md)
 - [Using Hanji](handbook/guide/index.md)
 - [Install Hanji](handbook/guide/install.md)
 - [Mounts](handbook/guide/mounts.md)

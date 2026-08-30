@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Changelog · Hanji handbook</title>
+<title>Changelog · Hanji</title>
 <link rel="icon" href="../../hanji-mark.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,17 +14,62 @@
 <div class="frame">
 <aside>
 <p class="lockup"><a href="https://gethanji.github.io/"><img class="mark" src="../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../..">Handbook</a></p>
-<nav><p class="mount-label">handbook</p><a href="../">Start here</a><a href="../quickstart/">Quick start</a><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/publish/">Publish to the web</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../story/">The story</a></summary><a href="../story/the-name/">The name</a><a href="../story/why-hanji-is-different/">Why Hanji is different</a><a href="../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../story/mission-and-vision/">Mission and vision</a><a href="../story/principles/">Principles</a><details><summary><a href="../story/brand/">The brand</a></summary><a href="../story/brand/visual-language/">The visual language</a><a href="../story/brand/voice/">Voice</a></details></details><a href="../status/">Where we are</a><a aria-current="page" href="./">Changelog</a></nav>
+<nav><p class="mount-label">handbook</p><a href="../">Start here</a><a href="../quickstart/">Quick start</a><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/comments/">Comments</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/publish/">Publish to the web</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../story/">The story</a></summary><a href="../story/the-name/">The name</a><a href="../story/why-hanji-is-different/">Why Hanji is different</a><a href="../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../story/mission-and-vision/">Mission and vision</a><a href="../story/principles/">Principles</a><details><summary><a href="../story/brand/">The brand</a></summary><a href="../story/brand/visual-language/">The visual language</a><a href="../story/brand/voice/">Voice</a></details></details><a href="../status/">Where we are</a><a aria-current="page" href="./">Changelog</a></nav>
 </aside>
 <main>
 <p class="crumbs"><a href="../">handbook</a> / changelog</p>
 <article><h1>Changelog</h1>
 <p>Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.</p>
+<h2>The queue triages, the strip counts hands, the digest writes itself</h2>
+<ul>
+<li>The Activity page grew a strip: eight weeks of days, human work rising above a baseline in ink, agent work hanging below in the accent, outside writes worn a shade fainter on the human side - the workspace's balance of authorship at a glance. Under it, the feed takes filters (humans / agents / outside, edits / comments / reviews), by URL, bookmarkable.</li>
+<li>The proposals queue reads like triage now: every row carries the agent's self-review note, the diff's weight (+added/−removed), and its age; the proposal page shows the note beside the diff. The cheapest trust signal an agent can send, finally shown where the decision happens.</li>
+<li><code>hanji digest &#x3C;mount></code> writes "what changed, what awaits you" as a Markdown page into the workspace - web-readable, agent-readable, carried by git like everything else, committed by Hanji under its own name. Each digest covers since the last one; a quiet window with a clear queue writes nothing at all, because the system must never notify about its own notifications. Cron it and the artifact is your morning briefing - no mail server, no push service, no channel to own.</li>
+</ul>
+<h2>Agents can read comments, if you let them</h2>
+<ul>
+<li>A new capability joins the token grammar: <code>read+comments</code> (stackable, so <code>read+propose+comments</code> works too). Grant it, and <code>hanji_list_comments</code> and the <code>GET /comments</code> alias hand back a page's threads - quote, author, body, resolved state, one level of replies - shaped for an agent to read, not to write. Nothing about a comment's DOM anchor internals leaks out.</li>
+<li>Comments stay opt-in and page-scoped: a token still needs ordinary read access to the page itself, and the capability only reaches as far as the grant that carries it. Without <code>+comments</code>, a token gets back the same "Not found" a missing page would - the opacity people already get from a locked page holds for agents and comments too. See <a href="../guide/comments/">Comments</a> and <a href="../guide/agents/">Agents</a>.</li>
+</ul>
+<h2>The version catches up</h2>
+<ul>
+<li>Hanji sat at 0.1 through forty-odd arcs of work; it reads 0.5 now, closer to honest. The number keeps one home - the repository's own version - and the reading surface and the agent surface both take it from there, so what the sidebar shows can never drift from what shipped.</li>
+</ul>
+<h2>The comment surface settles</h2>
+<ul>
+<li>The way into a page's annotations is a comment icon in the page header now, in one row with history, share, and edit, rather than a pill floating over the prose.</li>
+<li>A thread reads as one unit: each on its own soft card, the author on a small accent label, the quiet actions - edit, resolve, delete - held back until you hover, and a reply tucked under its parent behind a hairline.</li>
+<li>The quote at the head of an anchored thread wears the very highlight its phrase wears in the page, so the panel and the prose show one mark, not two treatments of it.</li>
+</ul>
+<h2>The comment box becomes a small editor</h2>
+<ul>
+<li>The comment composer is a real WYSIWYG surface now, the same editing engine as the page itself in miniature: <strong>⌘B</strong> and <strong>⌘I</strong> toggle bold and italic, a line starting with <code>-</code> or <code>1.</code> still becomes a list as you type, and <code>:name:</code> completes to an emoji through the same menu the page editor uses. Enter still sends and Shift+Enter still starts a new line - the composer keeps a visible <strong>Comment</strong>/<strong>Reply</strong>/<strong>Save</strong> button too, so a mouse or a touch screen works exactly as well as the keyboard.</li>
+<li>You can edit your own comment: an Edit link swaps it back into the composer, pre-filled with its current text, and Save or Cancel take Comment's place. An edited comment carries a quiet "edited" mark next to its time, so a reader can tell a note changed after it was first written. The workspace owner can edit any comment, the same reach they already had to resolve or delete one.</li>
+</ul>
+<h2>Comments read like comments</h2>
+<ul>
+<li>Comment bodies support light formatting: <strong>bold</strong>, <em>italic</em>, and <code>-</code>/<code>1.</code> lists render for real now, instead of every note flattening to one plain paragraph. It is a small, safe renderer built as React elements, not raw HTML - there is no way a comment's body becomes markup another reader's browser executes.</li>
+<li>Enter sends a comment, Shift+Enter starts a new line - reaching for the mouse to click <strong>Comment</strong> is optional now, not the only way.</li>
+<li>The composer that opens on a fresh text selection focuses itself: selecting a phrase is already the intent to write about it.</li>
+<li>A comment's time reads like the rest of the app: "3 hours ago" rather than a bare <code>2026-08-25</code>, with the exact moment on hover.</li>
+</ul>
+<h2>A place to talk about a page</h2>
+<ul>
+<li>A sidebar for the marks in a page: click a highlighted phrase and the note it belongs to opens in a panel beside the prose, scrolled to and lit. Browse every annotation on the page there, filter by open or resolved, reply or resolve without leaving your place in the text.</li>
+<li>Select a word or sentence to comment on exactly that, not just the page: the quote gets a shared highlight in the prose for every reader. Edit the underlying text and the note detaches to "On an earlier version" at the foot of the page, quote intact, rather than pointing at words that no longer exist.</li>
+<li>Comments: a thread at the foot of every page, open to anyone who can read it. Reply one level deep, resolve a thread or delete a comment as its author or the owner. Comments live in Hanji's own store, never in git and never in an export - move a page and its comments follow, delete one and they go with it. See <a href="../guide/comments/">Comments</a>.</li>
+</ul>
+<h2>Navigation, quick</h2>
+<ul>
+<li>Moving between pages is near-instant now. The page byline was quietly walking git history on every navigation to find who touched the page and when - hundreds of milliseconds on a deep-history mount, regardless of how little history a page had. That reading is now indexed at sync time and read from the index, so a navigation costs only what the page takes to render.</li>
+<li>Back and forward controls sit at the top of every page, with <code>⌘[</code> and <code>⌘]</code> - a standard way through your recent trail that does not lean on the browser's own chrome.</li>
+<li>Clicking a page shows its shape immediately - a light skeleton where the content will land - instead of holding the previous page still until the next is ready.</li>
+</ul>
 <h2>Finding things: sort a section by date or name</h2>
 <ul>
 <li>A folder or mount can now sort its own children four ways: <strong>Manual</strong> (your curated <code>order:</code>, the default and unchanged), <strong>Newest first</strong>, <strong>Oldest first</strong>, or <strong>A–Z</strong> by title. The control lives on the section's row and appears once it is open; a re-sorted section stays lit so it reads at a glance.</li>
 <li>The date it sorts by is the one that actually means something: a date in the filename if the page carries one (notes are often <code>YYYY-MM-DD</code>-named), the page's last-commit date otherwise. So a bulk rename or re-commit that flattens git's own dates does not flatten the order - the filename's date survives it.</li>
-<li>The choice is per section and per person, kept in the browser: it never touches the repository or what anyone else sees. Drag-to-reorder pauses while a section is sorted, because the visible order is no longer the stored one — switch back to Manual to curate.</li>
+<li>The choice is per section and per person, kept in the browser: it never touches the repository or what anyone else sees. Drag-to-reorder pauses while a section is sorted, because the visible order is no longer the stored one - switch back to Manual to curate.</li>
 <li>Under it: every page's last-commit date is now indexed (one git pass per sync), so date order is instant to read and doesn't walk history on every render. The same date powers the page byline.</li>
 </ul>
 <h2>The editor sharpens</h2>
@@ -39,6 +84,16 @@
 <ul>
 <li>A page's header opens up: more air between the breadcrumb and the title, and between the title and its byline, so the top of every page reads calmer.</li>
 <li>Images sit a touch inside the measure now instead of edge to edge, and take a wider gap above them than a paragraph does - so a figure reads as placed, not pasted.</li>
+</ul>
+<h2>The page you are looking at is the page that exists</h2>
+<ul>
+<li>The screen notices now. Coming back to the tab syncs your local mounts and refreshes the open page in place when something changed - client state survives, one quiet line says it happened. A sync that finds nothing costs milliseconds: Hanji stats the tree and stops.</li>
+<li>The byline wears a freshness line: "checked just now / 4m ago / syncing… / sync failed - retry" - when the index last agreed with the files, deliberately a different word than the page's own "updated". The mechanisms deliver freshness; the line delivers confidence in it. The toast names the mounts that moved and wears inverted paper: ink surface on light, paper on dark - ephemeral UI earns its six seconds by contrast.</li>
+<li>An open editor is never refreshed out from under you. It warns early - "This page changed while you were editing" appears before Update is pressed - and the save itself re-reads the disk at the last moment, so an outside edit cannot be overwritten unseen. Plain folders get the same guard, where no git history could bring an overwritten change back.</li>
+<li>Agents stopped reading stale: every MCP and curl read freshens local mounts first (throttled, cheap by construction).</li>
+<li>The Activity page: what moved across your mounts, straight from the history - edits, comments, and reviews, grouped by day, actors labeled honestly (an outside commit is never dressed as an in-app one). A "seen up to here" line rides a per-reader cursor; nothing anywhere is marked read by being seen.</li>
+<li><code>hanji_changes</code> and <code>GET /changes?since=…</code>: an agent's first question at session start - what moved since I last read? - answered from the same authz-filtered feed. <code>GET /feed.atom</code> is the Atom projection; a token rides the URL, and no token means the everyone regime, exactly like a published site.</li>
+<li>Proposals carry the agent's self-review note (the commit body, shown with the diff), and Reject finally leaves a trace: who refused what and when, with the proposal's tip kept under a ref instead of drifting toward garbage collection.</li>
 </ul>
 <h2>Export speaks Open Knowledge Format</h2>
 <ul>

@@ -31,7 +31,13 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] Changes arrive on their own: a signed push-to-sync webhook, and an opt-in poll loop for tailnets and local mounts
 - [x] A first run without a terminal: the welcome walks three soft steps - source, details, name and owner - suggesting the name from what you picked, and signs you in
 - [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
+- [x] Fresh by the time you look: sync-on-focus, a byline freshness line, early conflict warning, a content-compare save guard, and agents that sync local mounts before every read
+- [x] The Activity page: what moved across your mounts - edits, comments, reviews - straight from the history, with honest actor labels and a "seen up to here" line
+- [x] The activity strip: eight weeks of days above the feed, human hands above the line, agents below, with filters over the feed by actor and kind
+- [x] `hanji digest`: the day's changes and the waiting queue written into the workspace as a page - the artifact is the notification, cron is the only scheduler
+- [x] The agent briefing channel: `hanji_changes` / `GET /changes` for "what moved since I last read", plus an Atom feed of the same, token-scoped like every read
 - [x] Open Knowledge Format interop: any OKF bundle mounts as-is, and `hanji export --okf` emits a conformant one - typed concept docs, reserved index files, an `okf_version` root
+- [x] Page comments: a thread at the foot of every page, and anchored comments on an exact word or sentence, highlighted in the prose for every reader and preserved under "On an earlier version" when the text beneath them changes (see [[Comments]])
 
 Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.
 

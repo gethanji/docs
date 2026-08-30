@@ -16,10 +16,11 @@ The token's scopes decide everything. The server hands the same principal to `@h
 
 ## The tools
 
-Four, and no more than four, because the surface should be small enough to hold in your head.
+Four for everyone, and a fifth you opt into - the surface stays small enough to hold in your head.
 
 - `hanji_list_pages`, `hanji_get_page`, and `hanji_search` are the read side.
 - `hanji_propose` is the write side, and it does not write. It proposes a branch.
+- `hanji_list_comments` reads a page's comments, but only for a token minted with the opt-in `read+comments` capability - comments are a human side-channel, off by default.
 
 That last line is the whole design in one tool. An agent contributes by suggesting, never by overwriting. Read [[Agents]] for how to connect one, and [[The core]] for what sits behind these tools.
 

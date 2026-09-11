@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,16 +9,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../../hanji.css">
+<script>try{var t=localStorage.getItem("hanji-theme");if(t)document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
 <div class="frame">
 <aside>
 <p class="lockup"><a href="https://gethanji.github.io/"><img class="mark" src="../../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../../..">Handbook</a></p>
 <nav><p class="mount-label">handbook</p><a href="../../">Start here</a><a href="../../quickstart/">Quick start</a><details><summary><a href="../../guide/">Using Hanji</a></summary><a href="../../guide/install/">Install Hanji</a><a href="../../guide/mounts/">Mounts</a><a href="../../guide/reading-and-writing/">Reading and writing</a><a href="../../guide/comments/">Comments</a><a href="../../guide/agents/">Agents</a><a href="../../guide/proposals/">Proposals</a><a href="../../guide/publish/">Publish to the web</a><a href="../../guide/cli/">Command reference</a><a href="../../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details open><summary><a href="../">The story</a></summary><a href="../the-name/">The name</a><a href="../why-hanji-is-different/">Why Hanji is different</a><a href="../is-hanji-for-you/">Is Hanji for you?</a><a aria-current="page" href="./">Mission and vision</a><a href="../principles/">Principles</a><details><summary><a href="../brand/">The brand</a></summary><a href="../brand/visual-language/">The visual language</a><a href="../brand/voice/">Voice</a></details></details><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
 </aside>
 <main>
+<div class="topline">
 <p class="crumbs"><a href="../../">handbook</a> / story / mission-and-vision</p>
-<article><h1>Mission and vision</h1>
+<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">auto</button><button type="button" data-theme-choice="light" aria-pressed="false">light</button><button type="button" data-theme-choice="dark" aria-pressed="false">dark</button></div>
+</div>
+<article class="prose-hanji"><h1>Mission and vision</h1>
 <p>The whole of it in one line: keep what a team knows on a foundation they own, readable by people and agents alike, free to walk away from, and good enough that they stay.</p>
 <h2>The mission</h2>
 <p>Keep what a team knows in a form that outlasts the software holding it, and never hold it hostage to get there.</p>
@@ -31,5 +36,6 @@
 <footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
 </main>
 </div>
+<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
 </body>
 </html>

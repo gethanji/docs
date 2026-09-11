@@ -22,7 +22,7 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] Every page's paper trail: a byline of who began it and who last changed it, read from git history, shown on the page and powering the recency sort
 - [x] A workspace made yours: name, logo, OKLCH theming with secured contrast, fonts, and a phone-ready shell
 - [x] Proposal from the human front: on a suggest-only mount, Update becomes Propose, landing in the same review card
-- [x] Several human principals: viewers and contributors with per-mount scopes, added by the owner in Settings
+- [x] Several human principals: viewers, contributors, and editors with per-mount scopes, added by the owner in Settings; editors commit to base, contributors propose
 - [x] The lock, down to a single page: path grants (mount, folder, or one file) and a Share button on the page itself
 - [x] Content-first visibility: general access inherited downward, restrictions that go dark, people as the exceptions
 - [x] Tailscale mode: run on a tailnet and the network signs people in, no password, grants untouched (see [[On your tailnet]])
@@ -32,12 +32,18 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] A first run without a terminal: the welcome walks three soft steps - source, details, name and owner - suggesting the name from what you picked, and signs you in
 - [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
 - [x] Fresh by the time you look: sync-on-focus, a byline freshness line, early conflict warning, a content-compare save guard, and agents that sync local mounts before every read
-- [x] The Activity page: what moved across your mounts - edits, comments, reviews - straight from the history, with honest actor labels and a "seen up to here" line
+- [x] The freshness note carries a destination: it names the page that moved and links to it, or points at Activity when several did; a change that moved no page refreshes without a note
+- [x] Images count as freshness too: a per-mount asset fingerprint makes a replaced picture a change the screen hears about, and stamps the image URLs so the browser cannot answer from its cache
+- [x] The Activity page: what moved across your mounts - edits, comments, reviews - straight from the history, plus a local mount's edits not yet committed, with honest actor labels and a "seen up to here" line
 - [x] The activity strip: eight weeks of days above the feed, human hands above the line, agents below, with filters over the feed by actor and kind
 - [x] `hanji digest`: the day's changes and the waiting queue written into the workspace as a page - the artifact is the notification, cron is the only scheduler
 - [x] The agent briefing channel: `hanji_changes` / `GET /changes` for "what moved since I last read", plus an Atom feed of the same, token-scoped like every read
 - [x] Open Knowledge Format interop: any OKF bundle mounts as-is, and `hanji export --okf` emits a conformant one - typed concept docs, reserved index files, an `okf_version` root
+- [x] One sticky chrome bar for reading and editing, and edit mode that swaps in place - same scroll position, same header, only the buttons and the toolbar change
+- [x] A selection that stays selected: Copy (as Markdown *and* as rich text) and Comment offered on a bar, rather than the comment box taking the selection
+- [x] Highlights in four curated colours, portable `==x==` for the default and `<mark class="hl-...">` for a chosen one (see [[Reading and writing]])
 - [x] Page comments: a thread at the foot of every page, and anchored comments on an exact word or sentence, highlighted in the prose for every reader and preserved under "On an earlier version" when the text beneath them changes (see [[Comments]])
+- [x] Presence on the page: who else is editing, named beside the byline and inside the editor, and a page that checks itself every few seconds while you look, so a conflict folds at save instead of surprising you
 
 Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.
 

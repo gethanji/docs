@@ -22,7 +22,11 @@ That also means a comment follows the page's own life in git: move a page and it
 
 ## Commenting on a word or a sentence
 
-A comment does not have to be about the whole page. Select a run of prose - a word, a sentence, a paragraph - and a small composer opens right there, already focused, ready to type. Post it, and the selection carries a highlight from then on: every reader sees the same quiet wash of color over that exact phrase.
+A comment does not have to be about the whole page. Select a run of prose - a word, a sentence, a paragraph - and a small bar appears over it offering **Copy** and **Comment**. Press **Comment** and the composer opens right there, already focused, ready to type. (The bar is deliberate: a selection used to open the composer outright, which took the selection with it, so you could not simply copy the words you had just picked out. Now commenting is one press further on, and the text stays yours until you ask for it.) Post the note, and the selection carries a mark from then on: every reader sees the same quiet wash of the workspace accent over that exact phrase.
+
+An annotation's wash is not the same thing as a [[Reading and writing|highlight]] you apply yourself. The wash is Hanji showing you where a note is anchored, it is always the workspace accent, and it lives in Hanji's own store; a highlight is content, it is one of four colours you chose, and it is written into the file.
+
+A comment needs a single block to anchor to, so a selection spanning two paragraphs offers **Copy** alone.
 
 These anchored notes live in a panel beside the page, not in the thread at its foot. Open it from the comment icon in the page header, or just click a highlighted phrase and the panel opens with that note scrolled to and lit. It lists every annotation on the page, filters by open or resolved, and lets you reply or resolve without leaving your place in the text. Each thread leads with the quote it was written against, wearing the same highlight the phrase wears in the prose, so the note reads clearly even with the page scrolled away.
 

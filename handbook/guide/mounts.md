@@ -59,8 +59,8 @@ Any mix works: webhooks where the network allows, polling where it doesn't, `pnp
 
 ## Direct and suggest mounts
 
-By default a mount is **direct**: the owner's edits in the front are written straight to git as commits. Pass `--suggest` and the mount becomes **suggest-only**: direct writes are refused, and every change has to arrive as a proposal instead.
+By default a mount is **direct**: editors' edits in the front (the owner's, and anyone granted `read+write`) are written straight to git as commits. Pass `--suggest` and the mount becomes **suggest-only**: direct writes are refused, and every change has to arrive as a proposal instead.
 
-Suggest mounts are for repositories where nothing should change without review, even from the owner. On a suggest mount the editor's Update reads Propose, for people and agents alike, and every change waits in the same review card. See [[Proposals]].
+Suggest mounts are for repositories where nothing should change without review, even from the owner. On a suggest mount Update reads Propose for everyone, editors and the owner included, agents alike, and every change waits in the same review card. See [[Proposals]].
 
 Once your mounts are in place, read [[Reading and writing]] to use the front, or [[Agents]] to connect a coding agent.

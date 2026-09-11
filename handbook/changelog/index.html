@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,17 +9,82 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../hanji.css">
+<script>try{var t=localStorage.getItem("hanji-theme");if(t)document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
 <div class="frame">
 <aside>
 <p class="lockup"><a href="https://gethanji.github.io/"><img class="mark" src="../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../..">Handbook</a></p>
 <nav><p class="mount-label">handbook</p><a href="../">Start here</a><a href="../quickstart/">Quick start</a><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/comments/">Comments</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/publish/">Publish to the web</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../story/">The story</a></summary><a href="../story/the-name/">The name</a><a href="../story/why-hanji-is-different/">Why Hanji is different</a><a href="../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../story/mission-and-vision/">Mission and vision</a><a href="../story/principles/">Principles</a><details><summary><a href="../story/brand/">The brand</a></summary><a href="../story/brand/visual-language/">The visual language</a><a href="../story/brand/voice/">Voice</a></details></details><a href="../status/">Where we are</a><a aria-current="page" href="./">Changelog</a></nav>
 </aside>
 <main>
+<div class="topline">
 <p class="crumbs"><a href="../">handbook</a> / changelog</p>
-<article><h1>Changelog</h1>
+<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">auto</button><button type="button" data-theme-choice="light" aria-pressed="false">light</button><button type="button" data-theme-choice="dark" aria-pressed="false">dark</button></div>
+</div>
+<article class="prose-hanji"><h1>Changelog</h1>
 <p>Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.</p>
+<h2>0.6, and more than one hand</h2>
+<ul>
+<li>The number reads 0.6. What 0.5 could not do: hold a second person on a page, survive two edits landing at once without asking anyone to throw work away, or tell you what moved while you were gone. All three are here now - editors who commit straight to git, a collision that folds instead of dead-ending, presence beside the byline, and a periphery (Activity, the digest, the agent briefing channel) that answers "what happened" without anyone taking notes.</li>
+<li>The same jump that took 0.1 to 0.5 rather than a release ritual: the number keeps one home, the repository's own version, and every surface that prints it - the sidebar, the agent banner - takes it from there, so what you read can never drift from what shipped.</li>
+</ul>
+<h2>The published site reads like the app</h2>
+<ul>
+<li>The exported site now carries the app's own reading surface, not a copy of it. <code>packages/render/prose.css</code> is one file: the app imports it, <code>hanji export</code> inlines it. It had been a second stylesheet written in August and left behind while the app moved on, and the two had drifted for weeks - highlights in four colours and the accent-tinted code panel shipped in the app and never reached the published page at all.</li>
+<li>What you see change: prose set at the app's reading size and heading rhythm, links in ink with an accent-tinted underline rather than painted accent throughout, inline code and code blocks carrying the accent hue, table headers in small caps, the paper grain, and an accent selection wash. A keyboard focus ring too, which the published site never had.</li>
+<li>A three-state theme control sits at the top of every page - auto, light, dark - remembered in the browser. <del>The published site was deliberately script-free</del>; it was also the one Hanji surface where a reader could not choose. It is ten inlined lines and nothing remote; without JavaScript the page still renders in full and follows your system, exactly as before, and the control hides itself rather than sitting there dead.</li>
+</ul>
+<h2>Activity shows the edits nobody committed, and the note only speaks when it can point</h2>
+<ul>
+<li>On a local mount that sits below its repo root (a <code>notes/</code> folder mounted out of a larger repo), every commit row on Activity linked to a page that does not exist: git names files from the repo root wherever it runs, the feed passed those names through, and the link carried the folder twice and landed on an empty shell. The feed now speaks the mount's own paths, and a commit that also touched files above the mount loses its subject the way a subpath mount's does - a message can describe what the mount never shows.</li>
+<li>Activity lists the edits still sitting uncommitted in a local mount's files as one row per mount - "the files", labeled outside, "changed, not yet committed" - timed by the newest file, pages only. The freshness note announces those edits the moment an agent writes them, and the page it pointed at used to answer "nothing today". <code>hanji_changes</code> and the digest read the same feed, so an agent's session-start briefing sees them too.</li>
+<li>A change that moved no page - a replaced picture, a deleted page - refreshes the page and says nothing. <del>It said "Updated just now · notes" and pointed at Activity</del>, which cannot show a picture; during a burst of screenshots landing in a mount that was one toast every ten seconds. An open editor no longer gets the early conflict line for it either: no page moved, so nothing changed under the draft.</li>
+</ul>
+<h2>A table cell can hold more than one line</h2>
+<ul>
+<li>Enter inside a table cell used to do nothing at all. A cell is a single line, so there was nothing for the key to split, and it quietly declined. Enter now puts a line break in the cell, and <code>⇧Enter</code> does the same anywhere else in the page.</li>
+<li>A break is written to disk as <code>&#x3C;br></code>, the only spelling a Markdown table row can carry - and now the only spelling Hanji uses for a break anywhere, so one round-trips wherever it lives. It reads back as a break too: a cell written by an agent as <code>first&#x3C;br>second</code> showed you the raw angle brackets before, and now shows you two lines.</li>
+<li>A list inside a cell is those broken lines with their own dashes, which is as far as a Markdown table goes. Typing <code>- </code> at the head of a cell no longer saves as <code>\- </code> either: the escapes that guard block syntax do not belong in a cell, where no block syntax can occur.</li>
+</ul>
+<h2>The note that says something changed now takes you there</h2>
+<ul>
+<li>The freshness note used to name the mount and stop: "Updated just now · handbook", with no way to see what had actually moved. The sync knew the count and nothing else, so there was nothing to link to.</li>
+<li>Sync now reports which pages moved, capped at five and with deletions left out (a link to a page that no longer exists is worse than no link). When exactly one page moved, the note names it and offers a link straight to it. When several did, it names the mounts and points at Activity, which exists to answer "what moved". When the page that moved is the one you are reading, the refresh already showed you, so it says "this page" and offers nothing to click.</li>
+<li>A folder's <code>index.md</code> is named by its folder and a mount's by its mount, so the note reads "assetdemo" rather than "index".</li>
+<li>Toasts are also the width of what they say now. The container's width was being inherited as every notice's width, so a short one sat in a wide box with a long empty right side.</li>
+</ul>
+<h2>More than one hand writes to base</h2>
+<ul>
+<li>A third level for people: <code>read+write</code> makes an <strong>editor</strong>, whose Update commits straight to git the way the owner's does, on a mount, a folder, or one page. Viewers read, contributors suggest, editors write, the owner decides. A token never holds it: agents keep proposing.</li>
+<li>A contributor's conflict folds like the owner's. When the page moved under a contributor, Hanji merges the two edits before proposing, so the proposal carries both, and only a true overlap stops to ask. And <strong>Keep my version</strong> no longer overwrites the other side: it keeps your wording where you both changed the same lines and folds in the rest of their edit, on the commit path and the propose path alike. <del>Keep mine replaced theirs entirely</del> - that was the data-loss door, and the contributor side was about to inherit it.</li>
+<li>The open page checks itself every seven seconds while its tab is visible, editing or reading: an editor gets the quiet chip, a reader gets the page repainted in place, and this holds for saves made in the app, not just edits arriving from the files. The chip names the other hand where the name is honest (the last committer on a git-backed mount) and says "This page changed" on a plain folder.</li>
+<li>Presence, the first primitive of the room to come: a page says "Remy is editing" beside its byline, and an editor sees "Remy is also editing this page. Edits merge when you save." In-process, twenty seconds of memory, no lock, no take-over door.</li>
+<li>Two serializer fixes. An ordered list running past nine (<code>1.</code> to <code>10.</code>) saved with a leading space and refused to reconcile; it now writes its numbers unpadded. And a re-serialized block escaped <code>[[wikilinks]]</code> into <code>\[\[...\]\]</code>, which the link index no longer saw; wikilinks now survive an edit verbatim. The handbook's own guide index, ten wikilinked items, could not be saved before.</li>
+</ul>
+<h2>A replaced image reaches the page</h2>
+<ul>
+<li>An agent swapping a picture used to be invisible. The index only ever walked <code>.md</code>, so the scan that watches for change never looked at an image, reported that nothing had moved, and no open page refreshed. And even when something else did force a render, the image's URL had not changed, so the browser kept serving the copy it already held. Quitting the app was the only way through.</li>
+<li>Every mount now carries a fingerprint of its assets: names, sizes and modification times, never contents, so it costs the same stat scan the page check already pays for. When it moves, the mount counts as changed and the page refreshes exactly as it does for a prose edit.</li>
+<li>That same fingerprint is stamped into every image URL, so a changed asset arrives at an address the browser has never held. Versioned URLs can then be cached properly: images are immutable for a year instead of being re-fetched every five minutes.</li>
+<li>The trade, said plainly: changing one image moves the URL of every image in that mount, so they all fetch once more. The value is already computed by a scan that was happening anyway, and the alternative is hashing every image on every render.</li>
+</ul>
+<h2>Highlights, in four colours</h2>
+<ul>
+<li>Highlight a phrase while editing: <code>⌘⇧H</code>, the swatches in the selection bubble and the bottom toolbar, or just type <code>==like this==</code>. Four curated colours - a default yellow, then blue, green, and pink.</li>
+<li>The default writes portable <code>==x==</code> on disk, the spelling every other Markdown tool already understands. A chosen colour writes <code>&#x3C;mark class="hl-blue"></code>, because standard Markdown has no way to name a colour. The common case stays clean Markdown; colour costs portability only when you ask for one. Both read back as the same highlight, so the editor never shows you raw angle brackets.</li>
+<li>Colours ride a fixed class through the sanitize allowlist, never a <code>style</code> attribute - the same rule that governs image widths and embeds. A colour the workspace does not know stays literal text rather than being quietly recoloured.</li>
+<li>The tint is mixed into the page's own paper, so the same four swatches stay legible when the workspace theme flips dark.</li>
+</ul>
+<h2>The page keeps its chrome, and a selection keeps its text</h2>
+<ul>
+<li>The header bar - back and forward, the breadcrumb, the page's actions - sticks to the top of the view now, so a long page never scrolls away from its own controls. The hairline under it belongs to the stuck state alone: at rest the bar is simply the page's first row, and the rule arrives only once there is prose running underneath for it to separate.</li>
+<li>Reading and editing draw the <em>same</em> bar. Entering edit mode swaps its buttons instead of rebuilding the top of the page.</li>
+<li>Edit is no longer a navigation. The editor mounts in place of the prose, on the page you are already on, so <code>⌘E</code> from halfway down a page leaves you exactly halfway down it. Building the editor over a long page takes a moment, and for that moment the page you were reading is what stays on screen - the two are laid over each other and trade places in one frame, so there is no blank, no placeholder, and nothing to jump back to the top.</li>
+<li>Selecting prose no longer opens a comment box on top of your selection. A small bar appears instead, offering <strong>Copy</strong> and <strong>Comment</strong>, and the text stays selected the whole time - so <code>⌘C</code> still works, and commenting is a deliberate press rather than the only thing a selection is allowed to mean.</li>
+<li><strong>Copy</strong> puts the selection on the clipboard twice over: as rich text for anywhere that takes it, and as real Markdown for anywhere that does not. Headings, lists, tables, and code fences all survive the trip. A selection that crosses blocks can still be copied; only commenting needs a single block to anchor to.</li>
+</ul>
 <h2>The queue triages, the strip counts hands, the digest writes itself</h2>
 <ul>
 <li>The Activity page grew a strip: eight weeks of days, human work rising above a baseline in ink, agent work hanging below in the accent, outside writes worn a shade fainter on the human side - the workspace's balance of authorship at a glance. Under it, the feed takes filters (humans / agents / outside, edits / comments / reviews), by URL, bookmarkable.</li>
@@ -327,5 +392,6 @@
 <footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../llms.txt">llms.txt</a></footer>
 </main>
 </div>
+<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
 </body>
 </html>

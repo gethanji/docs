@@ -22,13 +22,16 @@ A locked page and a page that does not exist look identical to a reader who lack
 
 ## Scopes today
 
-Access is granted per mount, in two levels.
+Access is granted per mount, in three levels.
 
 | Scope | The reader can | The reader cannot |
 |---|---|---|
 | none | see nothing of the mount, not even that it exists | read, search, or link into it |
 | `read` | read, search, and follow links inside the mount | write, or propose changes |
 | `read+propose` | everything `read` can, plus propose changes as a branch or PR | merge, or write directly |
+| `read+write` | everything `read+propose` can, plus commit to base from the front and upload images | merge, or restructure the tree |
+
+`read+write` is for people only: a token never holds it.
 
 The owner sees every mount. An agent gets a bearer token whose scopes take the same shape as a person's grants - a whole mount, a folder, or exactly one page - so an agent that helps with the engineering docs never sees the folder of sensitive notes, even when both live in the same repository. See [[Agents]] for how that works in practice.
 
@@ -38,7 +41,7 @@ The model reads the way Notion and Confluence taught everyone to think. Content 
 
 People are the exceptions. A person granted a path - a mount, a folder, or exactly one page - punches through a restriction at or below their grant. That is the 1:1 note: a restricted folder, two names, and nobody else sees it in the tree, in search, or through a wikilink. A locked page still looks identical to a page that does not exist.
 
-Sharing lives where the content lives (in team mode - solo keeps this chrome hidden until you switch, in Settings): a **Share** control on every page, and on every mount and folder in the sidebar, showing the general access (and where it is inherited from), the people with specific access and through which grant, and a one-line way to add someone with read or suggest. Settings keeps the overview: a Mount access tab for general access per mount, and a People tab for everyone's grants in one place. Revoking takes effect on the person's next request. The rule and grant tables are the implementation; the page is the interface.
+Sharing lives where the content lives (in team mode - solo keeps this chrome hidden until you switch, in Settings): a **Share** control on every page, and on every mount and folder in the sidebar, showing the general access (and where it is inherited from), the people with specific access and through which grant, and a one-line way to add someone with read, suggest, or edit. Settings keeps the overview: a Mount access tab for general access per mount, and a People tab for everyone's grants in one place. Revoking takes effect on the person's next request. The rule and grant tables are the implementation; the page is the interface.
 
 <figure><img src="assets/share-popover.png" alt="The Share popover on a mount: general access set to Everyone can read, and one person's grant listed beneath" class="w-75"><figcaption>Share, where the content lives: the general rule on top, the exceptions by name.</figcaption></figure>
 
@@ -46,7 +49,7 @@ One deliberate exception: **agents never inherit "everyone"**. A token sees exac
 
 ## People, same scopes
 
-The same two levels now apply to humans. The owner adds a person in Settings with a name, a password, and per-mount scopes: `read` makes a **viewer**, `read+propose` makes a **contributor** whose Update reads Propose and lands in the owner's review card. A user never commits to base, never restructures the tree, and never sees review or settings - those stay the owner's. In user terms: viewers read, contributors suggest, the owner decides. One read path, one review ceremony, whatever species the writer is.
+The same levels apply to humans. The owner adds a person in Settings with a name, a password, and per-mount scopes: `read` makes a **viewer**, `read+propose` makes a **contributor** whose Update reads Propose and lands in the owner's review card, and `read+write` makes an **editor** whose Update commits to base, the way the owner's does. Nobody but the owner restructures the tree, reviews proposals, or sees settings. In user terms: viewers read, contributors suggest, editors write, the owner decides. One read path, one review ceremony, whatever species the writer is.
 
 ## What is honest about it
 

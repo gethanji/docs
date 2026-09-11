@@ -13,17 +13,21 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Feature | Status | Note |
 |---|---|---|
 | Markdown reading, rendered with care | Shipped | Warm paper, serif, careful spacing |
-| In-place WYSIWYG editor | Shipped | Edit, change, Update, one commit |
+| In-place WYSIWYG editor | Shipped | Edit, change, Update, one commit - same scroll position, no navigation |
+| Sticky page chrome | Shipped | Breadcrumb and actions held at the top; one bar for reading and editing |
+| Copy as Markdown | Shipped | A selection lands on the clipboard as Markdown and as rich text |
 | Byte-fidelity edits | Shipped | A one-word edit is a one-line diff |
-| Tables, with Notion-style controls | Shipped | Hover handles, insert, drag to move |
+| Tables, with Notion-style controls | Shipped | Hover handles, insert, drag to move; Enter breaks a line inside a cell |
+| Line breaks | Shipped | `⇧Enter` anywhere, Enter inside a cell; written as `<br>` so one spelling travels |
 | Task lists, interactive | Shipped | Check them off in the page |
 | Strikethrough and bare-URL autolinks | Shipped | Full GFM parity in the editor |
+| Highlights, four colours | Shipped | `⌘⇧H` or a swatch; portable `==x==` for the default, `<mark class>` for a colour |
 | Slash menu to insert | Shipped | Blocks, images, embeds |
 | Images uploaded into the repo | Shipped | Into `assets/`, no external link-rot |
 | Embeds, video and iframe | Shipped | Domain allowlist: figma, youtube, loom, vimeo |
 | Page history, byline and revisions | Shipped | View any past version |
 | Page comments | Shipped | A thread at the foot of every page, for anyone who can read it |
-| Anchored comments | Shipped | Highlight a word or sentence; a side panel gathers them, filter and resolve in place |
+| Anchored comments | Shipped | Anchor a note to a word or sentence; a side panel gathers them, filter and resolve in place |
 | Comments stay out of git | Shipped | In Hanji's own store, never a commit and never in an export |
 | Nested, collapsible sidebar | Shipped | Built from page paths |
 | Breadcrumb navigation | Shipped | Middle-collapsing on deep pages |
@@ -33,7 +37,7 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Emoji, three ways in | Shipped | Toolbar picker, `:query` menu, `:tada:` conversion |
 | Sidebar quick-create | Shipped | A + on every mount, folder, and page |
 | Drag to move, reorder, and nest | Shipped | Instant, git behind, auto-revert on failure |
-| Per-section sort | Shipped | Manual, Newest, Oldest, or A–Z — by filename or commit date, per folder, per person |
+| Per-section sort | Shipped | Manual, Newest, Oldest, or A–Z - by filename or commit date, per folder, per person |
 | Page delete | Shipped | Two-step trash, `git rm`, recoverable from history |
 | Works on a phone | Shipped | Top bar, drawer, the same sidebar |
 
@@ -48,11 +52,14 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Plain-HTTP aliases beside MCP | Shipped | `GET /pages`, `/page`, `/search`, `/comments`, `POST /propose` - curl counts as an agent |
 | Propose-as-PR writes | Shipped | Agents open branches, people merge |
 | Proposal review and merge, in the front | Shipped | A pending badge, a line diff, Merge and Reject |
-| Per-mount permissions | Shipped | `read` and `read+propose`, one read path |
+| Proposals triage queue | Shipped | Self-review note, +added/−removed weight, and age on every row; the note sits beside the diff |
+| Activity page | Shipped | Eight weeks in one strip: humans above the line in ink, agents below in celadon; honest attribution from co-author trailers and bot identities; filter by actor and kind; a local mount's uncommitted edits as their own row |
+| Per-mount permissions | Shipped | `read`, `read+propose`, and `read+write` for people, one read path |
 | Content-first visibility | Shipped | Everyone / restricted, inherited downward, deepest rule wins |
 | Path grants, down to one page | Shipped | Mount, folder, or a single file - for people and agent tokens alike |
 | Share, on the page itself | Shipped | General access + people, a name, a level, done |
 | `hanji export` | Shipped | llms.txt, llms-full.txt, and a per-page `.md` mirror of what is open to everyone |
+| `hanji digest` | Shipped | What changed and what awaits you, written into the workspace as a page; a quiet day writes nothing |
 | No bundled model, no metering | Shipped | By design, forever |
 
 ## The workspace

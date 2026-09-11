@@ -19,7 +19,7 @@ description: "@hanji/core: mounts, git, the index, search, permissions, propose,
 ## What it holds
 
 - **Mounts and git.** Core clones each mount, keeps it current, and writes through it. Git is driven as a subprocess, the same git you already have, so there is no reimplementation of version control to trust.
-- **The index.** A SQLite database with full-text search and a table of wikilinks, split in two: a config database for mounts and tokens, and an index database for pages. The index is a cache, rebuildable at any time from the clones.
+- **The index.** A SQLite database with full-text search and a table of wikilinks, split in two: a config database for mounts and tokens, and an index database for pages. It also keeps one fingerprint per mount standing for every non-Markdown file in it, which is how a changed image becomes visible both as a change and as a new asset URL. The index is a cache, rebuildable at any time from the clones.
 - **Permissions.** One module, and one rule: every read the app serves flows through it, and the scope check is compiled in exactly one place. Search, page reads, and link resolution all pass through the same door. A page you cannot see is indistinguishable from one that does not exist. Read [[Permissions]].
 - **Writes.** `saveFile` commits directly, with read-your-own-writes, guarded by a per-mount lock so two writes cannot race - and the lock holds across processes, so the web front, the MCP server, and the CLI sharing one data directory cannot wedge a clone between them. `proposeSave` instead opens a branch, and where GitHub is connected, a pull request.
 - **History.** Because the store is git, a page's past is just its commits. Core reads them into a list of revisions, and can hand back any past version.
@@ -202,6 +202,65 @@ description: The road behind us, honestly logged.
 # Changelog
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
+
+## 0.6, and more than one hand
+
+- The number reads 0.6. What 0.5 could not do: hold a second person on a page, survive two edits landing at once without asking anyone to throw work away, or tell you what moved while you were gone. All three are here now - editors who commit straight to git, a collision that folds instead of dead-ending, presence beside the byline, and a periphery (Activity, the digest, the agent briefing channel) that answers "what happened" without anyone taking notes.
+- The same jump that took 0.1 to 0.5 rather than a release ritual: the number keeps one home, the repository's own version, and every surface that prints it - the sidebar, the agent banner - takes it from there, so what you read can never drift from what shipped.
+
+## The published site reads like the app
+
+- The exported site now carries the app's own reading surface, not a copy of it. `packages/render/prose.css` is one file: the app imports it, `hanji export` inlines it. It had been a second stylesheet written in August and left behind while the app moved on, and the two had drifted for weeks - highlights in four colours and the accent-tinted code panel shipped in the app and never reached the published page at all.
+- What you see change: prose set at the app's reading size and heading rhythm, links in ink with an accent-tinted underline rather than painted accent throughout, inline code and code blocks carrying the accent hue, table headers in small caps, the paper grain, and an accent selection wash. A keyboard focus ring too, which the published site never had.
+- A three-state theme control sits at the top of every page - auto, light, dark - remembered in the browser. ~~The published site was deliberately script-free~~; it was also the one Hanji surface where a reader could not choose. It is ten inlined lines and nothing remote; without JavaScript the page still renders in full and follows your system, exactly as before, and the control hides itself rather than sitting there dead.
+
+## Activity shows the edits nobody committed, and the note only speaks when it can point
+
+- On a local mount that sits below its repo root (a `notes/` folder mounted out of a larger repo), every commit row on Activity linked to a page that does not exist: git names files from the repo root wherever it runs, the feed passed those names through, and the link carried the folder twice and landed on an empty shell. The feed now speaks the mount's own paths, and a commit that also touched files above the mount loses its subject the way a subpath mount's does - a message can describe what the mount never shows.
+- Activity lists the edits still sitting uncommitted in a local mount's files as one row per mount - "the files", labeled outside, "changed, not yet committed" - timed by the newest file, pages only. The freshness note announces those edits the moment an agent writes them, and the page it pointed at used to answer "nothing today". `hanji_changes` and the digest read the same feed, so an agent's session-start briefing sees them too.
+- A change that moved no page - a replaced picture, a deleted page - refreshes the page and says nothing. ~~It said "Updated just now · notes" and pointed at Activity~~, which cannot show a picture; during a burst of screenshots landing in a mount that was one toast every ten seconds. An open editor no longer gets the early conflict line for it either: no page moved, so nothing changed under the draft.
+
+## A table cell can hold more than one line
+
+- Enter inside a table cell used to do nothing at all. A cell is a single line, so there was nothing for the key to split, and it quietly declined. Enter now puts a line break in the cell, and `⇧Enter` does the same anywhere else in the page.
+- A break is written to disk as `<br>`, the only spelling a Markdown table row can carry - and now the only spelling Hanji uses for a break anywhere, so one round-trips wherever it lives. It reads back as a break too: a cell written by an agent as `first<br>second` showed you the raw angle brackets before, and now shows you two lines.
+- A list inside a cell is those broken lines with their own dashes, which is as far as a Markdown table goes. Typing `- ` at the head of a cell no longer saves as `\- ` either: the escapes that guard block syntax do not belong in a cell, where no block syntax can occur.
+
+## The note that says something changed now takes you there
+
+- The freshness note used to name the mount and stop: "Updated just now · handbook", with no way to see what had actually moved. The sync knew the count and nothing else, so there was nothing to link to.
+- Sync now reports which pages moved, capped at five and with deletions left out (a link to a page that no longer exists is worse than no link). When exactly one page moved, the note names it and offers a link straight to it. When several did, it names the mounts and points at Activity, which exists to answer "what moved". When the page that moved is the one you are reading, the refresh already showed you, so it says "this page" and offers nothing to click.
+- A folder's `index.md` is named by its folder and a mount's by its mount, so the note reads "assetdemo" rather than "index".
+- Toasts are also the width of what they say now. The container's width was being inherited as every notice's width, so a short one sat in a wide box with a long empty right side.
+
+## More than one hand writes to base
+
+- A third level for people: `read+write` makes an **editor**, whose Update commits straight to git the way the owner's does, on a mount, a folder, or one page. Viewers read, contributors suggest, editors write, the owner decides. A token never holds it: agents keep proposing.
+- A contributor's conflict folds like the owner's. When the page moved under a contributor, Hanji merges the two edits before proposing, so the proposal carries both, and only a true overlap stops to ask. And **Keep my version** no longer overwrites the other side: it keeps your wording where you both changed the same lines and folds in the rest of their edit, on the commit path and the propose path alike. ~~Keep mine replaced theirs entirely~~ - that was the data-loss door, and the contributor side was about to inherit it.
+- The open page checks itself every seven seconds while its tab is visible, editing or reading: an editor gets the quiet chip, a reader gets the page repainted in place, and this holds for saves made in the app, not just edits arriving from the files. The chip names the other hand where the name is honest (the last committer on a git-backed mount) and says "This page changed" on a plain folder.
+- Presence, the first primitive of the room to come: a page says "Remy is editing" beside its byline, and an editor sees "Remy is also editing this page. Edits merge when you save." In-process, twenty seconds of memory, no lock, no take-over door.
+- Two serializer fixes. An ordered list running past nine (`1.` to `10.`) saved with a leading space and refused to reconcile; it now writes its numbers unpadded. And a re-serialized block escaped `[[wikilinks]]` into `\[\[...\]\]`, which the link index no longer saw; wikilinks now survive an edit verbatim. The handbook's own guide index, ten wikilinked items, could not be saved before.
+## A replaced image reaches the page
+
+- An agent swapping a picture used to be invisible. The index only ever walked `.md`, so the scan that watches for change never looked at an image, reported that nothing had moved, and no open page refreshed. And even when something else did force a render, the image's URL had not changed, so the browser kept serving the copy it already held. Quitting the app was the only way through.
+- Every mount now carries a fingerprint of its assets: names, sizes and modification times, never contents, so it costs the same stat scan the page check already pays for. When it moves, the mount counts as changed and the page refreshes exactly as it does for a prose edit.
+- That same fingerprint is stamped into every image URL, so a changed asset arrives at an address the browser has never held. Versioned URLs can then be cached properly: images are immutable for a year instead of being re-fetched every five minutes.
+- The trade, said plainly: changing one image moves the URL of every image in that mount, so they all fetch once more. The value is already computed by a scan that was happening anyway, and the alternative is hashing every image on every render.
+
+## Highlights, in four colours
+
+- Highlight a phrase while editing: `⌘⇧H`, the swatches in the selection bubble and the bottom toolbar, or just type `==like this==`. Four curated colours - a default yellow, then blue, green, and pink.
+- The default writes portable `==x==` on disk, the spelling every other Markdown tool already understands. A chosen colour writes `<mark class="hl-blue">`, because standard Markdown has no way to name a colour. The common case stays clean Markdown; colour costs portability only when you ask for one. Both read back as the same highlight, so the editor never shows you raw angle brackets.
+- Colours ride a fixed class through the sanitize allowlist, never a `style` attribute - the same rule that governs image widths and embeds. A colour the workspace does not know stays literal text rather than being quietly recoloured.
+- The tint is mixed into the page's own paper, so the same four swatches stay legible when the workspace theme flips dark.
+
+## The page keeps its chrome, and a selection keeps its text
+
+- The header bar - back and forward, the breadcrumb, the page's actions - sticks to the top of the view now, so a long page never scrolls away from its own controls. The hairline under it belongs to the stuck state alone: at rest the bar is simply the page's first row, and the rule arrives only once there is prose running underneath for it to separate.
+- Reading and editing draw the *same* bar. Entering edit mode swaps its buttons instead of rebuilding the top of the page.
+- Edit is no longer a navigation. The editor mounts in place of the prose, on the page you are already on, so `⌘E` from halfway down a page leaves you exactly halfway down it. Building the editor over a long page takes a moment, and for that moment the page you were reading is what stays on screen - the two are laid over each other and trade places in one frame, so there is no blank, no placeholder, and nothing to jump back to the top.
+- Selecting prose no longer opens a comment box on top of your selection. A small bar appears instead, offering **Copy** and **Comment**, and the text stays selected the whole time - so `⌘C` still works, and commenting is a deliberate press rather than the only thing a selection is allowed to mean.
+- **Copy** puts the selection on the clipboard twice over: as rich text for anywhere that takes it, and as real Markdown for anywhere that does not. Headings, lists, tables, and code fences all survive the trip. A selection that crosses blocks can still be copied; only commenting needs a single block to anchor to.
 
 ## The queue triages, the strip counts hands, the digest writes itself
 
@@ -669,7 +728,7 @@ pnpm hanji token intern notes/reviews=read notes/reviews/draft.md=read+propose
 pnpm hanji token reviewer notes=read+comments
 ```
 
-The command prints the token once. A `read` scope lets the agent search and read within its grant. A `read+propose` scope adds the right to propose changes there. A `read+comments` scope adds the right to read that page's comments too - stack all three as `read+propose+comments` if the agent needs the full run. Anything outside its grants the agent cannot see, and cannot even tell exists - a locked page and a missing page answer identically. Content visibility rules never widen a token: an "everyone" rule speaks to people, and an agent holds exactly what it was granted. See [[Permissions]].
+The command prints the token once. A `read` scope lets the agent search and read within its grant. A `read+propose` scope adds the right to propose changes there. A `read+comments` scope adds the right to read that page's comments too - stack all three as `read+propose+comments` if the agent needs the full run. There is no `write` scope for a token: editing to base is for people, and an agent always proposes. Anything outside its grants the agent cannot see, and cannot even tell exists - a locked page and a missing page answer identically. Content visibility rules never widen a token: an "everyone" rule speaks to people, and an agent holds exactly what it was granted. See [[Permissions]].
 
 <figure><img src="assets/proposal-review.png" alt="An agent's proposal open for review in the front: title, diff, Reject and Merge"><figcaption>Where a propose lands: a title, a diff, and your decision.</figcaption></figure>
 
@@ -691,7 +750,7 @@ claude mcp add hanji --transport http http://localhost:4101/mcp \
 | `hanji_search` | Full-text search across readable mounts | `read` |
 | `hanji_propose` | Propose a page change as a branch, and a PR where GitHub is connected | `read+propose` |
 | `hanji_list_comments` | Read one page's comments (threads, quotes, replies) by mount and path | `read+comments` |
-| `hanji_changes` | What changed since a moment: commits with authors and pages, and comments | `read` |
+| `hanji_changes` | What changed since a moment: commits with authors and pages, edits not yet committed, and comments | `read` |
 
 ## No MCP client? curl works
 
@@ -718,7 +777,7 @@ unknown path answers with a map of the surface.
 
 ## Start the session with what changed
 
-`hanji_changes` (and `GET /changes?since=…`) answers the question a returning agent should ask first: what moved since I last read? Commits with their authors and pages, and new comments, across exactly the mounts the token can read. The intended habit: ask at session start, then brief your human in two lines instead of making them scroll. Reads freshen local mounts first (throttled to about once per ten seconds), so the answer is at most a few seconds behind the files - and there is an Atom projection of the same feed at `/feed.atom?token=<token>` for feed readers and bots (no token serves only what is open to everyone, the same rule a published site follows).
+`hanji_changes` (and `GET /changes?since=…`) answers the question a returning agent should ask first: what moved since I last read? Commits with their authors and pages, a local mount's edits not yet committed (one row per mount, timed by the newest file), and new comments, across exactly the mounts the token can read. Items authored by Hanji itself (the digest's own commits) carry the actor class `hanji` - housekeeping labeled as itself, so an agent can skip it when briefing. The intended habit: ask at session start, then brief your human in two lines instead of making them scroll. Reads freshen local mounts first (throttled to about once per ten seconds), so the answer is at most a few seconds behind the files - and there is an Atom projection of the same feed at `/feed.atom?token=<token>` for feed readers and bots (no token serves only what is open to everyone, the same rule a published site follows).
 
 ## Propose, and say what you are unsure about
 
@@ -757,6 +816,8 @@ The whole CLI, run as `pnpm hanji <command>`. It reads `HANJI_DATA_DIR` for wher
 | `set <key> <value>` | Write an instance setting - the workspace name, or the export settings [[Publish to the web]] describes. |
 | `assets [mount]` | List uploaded images no page references anymore, per mount or everywhere. |
 | `digest <mount> [path] [--since <iso>]` | Write "what changed, what awaits you" as a Markdown page into the mount (default `digest.md`), committed by Hanji itself. Covers since the previous digest; a quiet window with an empty review queue writes nothing. |
+
+One caution on `digest`: the page is written with the owner's eyes and summarizes the whole workspace, so it belongs in a mount whose readers may see all of that. In a mixed-audience workspace, point it at a restricted mount.
 
 ## Examples
 
@@ -816,7 +877,11 @@ That also means a comment follows the page's own life in git: move a page and it
 
 ## Commenting on a word or a sentence
 
-A comment does not have to be about the whole page. Select a run of prose - a word, a sentence, a paragraph - and a small composer opens right there, already focused, ready to type. Post it, and the selection carries a highlight from then on: every reader sees the same quiet wash of color over that exact phrase.
+A comment does not have to be about the whole page. Select a run of prose - a word, a sentence, a paragraph - and a small bar appears over it offering **Copy** and **Comment**. Press **Comment** and the composer opens right there, already focused, ready to type. (The bar is deliberate: a selection used to open the composer outright, which took the selection with it, so you could not simply copy the words you had just picked out. Now commenting is one press further on, and the text stays yours until you ask for it.) Post the note, and the selection carries a mark from then on: every reader sees the same quiet wash of the workspace accent over that exact phrase.
+
+An annotation's wash is not the same thing as a [[Reading and writing|highlight]] you apply yourself. The wash is Hanji showing you where a note is anchored, it is always the workspace accent, and it lives in Hanji's own store; a highlight is content, it is one of four colours you chose, and it is written into the file.
+
+A comment needs a single block to anchor to, so a selection spanning two paragraphs offers **Copy** alone.
 
 These anchored notes live in a panel beside the page, not in the thread at its foot. Open it from the comment icon in the page header, or just click a highlighted phrase and the panel opens with that note scrolled to and lit. It lists every annotation on the page, filters by open or resolved, and lets you reply or resolve without leaving your place in the text. Each thread leads with the quote it was written against, wearing the same highlight the phrase wears in the prose, so the note reads clearly even with the page scrolled away.
 
@@ -983,9 +1048,9 @@ Any mix works: webhooks where the network allows, polling where it doesn't, `pnp
 
 ## Direct and suggest mounts
 
-By default a mount is **direct**: the owner's edits in the front are written straight to git as commits. Pass `--suggest` and the mount becomes **suggest-only**: direct writes are refused, and every change has to arrive as a proposal instead.
+By default a mount is **direct**: editors' edits in the front (the owner's, and anyone granted `read+write`) are written straight to git as commits. Pass `--suggest` and the mount becomes **suggest-only**: direct writes are refused, and every change has to arrive as a proposal instead.
 
-Suggest mounts are for repositories where nothing should change without review, even from the owner. On a suggest mount the editor's Update reads Propose, for people and agents alike, and every change waits in the same review card. See [[Proposals]].
+Suggest mounts are for repositories where nothing should change without review, even from the owner. On a suggest mount Update reads Propose for everyone, editors and the owner included, agents alike, and every change waits in the same review card. See [[Proposals]].
 
 Once your mounts are in place, read [[Reading and writing]] to use the front, or [[Agents]] to connect a coding agent.
 
@@ -1231,11 +1296,13 @@ description: The human front: reading, editing, history, and new pages.
 
 # Reading and writing
 
-Everything here happens at `http://localhost:4100`, after you sign in as the owner. It is meant to feel like an editorial tool, not a git client.
+Everything here happens at `http://localhost:4100`, after you sign in. It is meant to feel like an editorial tool, not a git client. The owner and anyone granted `read+write` write straight to git; a contributor's Update reads Propose and lands in review (see [[Permissions]]).
 
 ## Reading
 
 Pages open on warm paper, set in a serif for long reading. The sidebar on the left is your mounts and their folders, nested and collapsible, and it expands to show where you are. A breadcrumb across the top tells you the path, collapsing its middle on deep pages so it never runs off the screen. Wikilinks, written `[[by title]]`, resolve to the page they name, and only to pages you are allowed to open.
+
+Selecting a run of prose raises a small bar over it, and the text stays selected while the bar is up. **Copy** puts the selection on your clipboard twice over - as rich text for anywhere that takes it, and as real Markdown for anywhere that does not - so a paragraph pasted into another editor arrives with its headings, lists, tables, and code fences intact, and pasted into a plain text field arrives as the Markdown that made it. `⌘C` works exactly as it always did; the button is just the one that also carries the Markdown. **Comment** is the other thing a selection can mean, and it is a deliberate press - see [[Comments]].
 
 Search is a keystroke away. `⌘K` opens the palette: ranked results with the matching passage highlighted, your recently changed pages when the box is still empty, and the keyboard all the way to Enter. When you want to dig, the full results page holds every match with highlighted passages and per-mount filters. Multi-word queries rank pages by how many of your words they share, adjacent phrases first, and the word you are still typing already matches as a prefix.
 
@@ -1248,9 +1315,23 @@ Search is a keystroke away. `⌘K` opens the palette: ranked results with the ma
 
 Editing is deliberate, and it is one gesture.
 
-1. Press **Edit**, or `⌘E`. The page becomes editable in place, on the same measure you were reading.
+1. Press **Edit**, or `⌘E`. The page becomes editable in place, on the same measure you were reading, at the same scroll position - the header bar keeps its breadcrumb and simply swaps its buttons for **Discard** and **Update**.
 2. Change what you came to change. It is a real editor: Markdown shortcuts, a slash menu to insert, tables with handles, task lists, images, embeds, and emoji (the toolbar's picker, or type `:` and a few letters).
 3. Press **Update**. Hanji writes a single commit behind the scenes, with a clean message, and drops you back into reading.
+
+The header bar stays with you: back and forward, the breadcrumb, and the page's actions stick to the top of the view, so a long page never scrolls away from its own controls. A hairline appears under it once the prose is running beneath, and is gone again at the top of the page.
+
+### Line breaks, and tables
+
+`⇧Enter` puts a line break inside the block you are in rather than starting a new one. Inside a table cell, plain **Enter** means the same thing, because a cell is one line and has nothing to split. A break is written to the file as `<br>` - the only spelling a table row can carry, and the one Hanji uses everywhere so that a break survives being moved from a paragraph into a cell and back.
+
+That is also as far as a list in a cell goes: broken lines, each with its own dash. Markdown tables hold inline content only, so a real bullet list cannot live in a cell in any tool that writes Markdown - what you get is the lines, correctly broken, and the dashes you typed are left exactly as you typed them.
+
+### Highlights
+
+Highlight a phrase the way you would bold one: select it and press `⌘⇧H`, pick a swatch from the selection bubble or the bottom toolbar, or simply type `==like this==`. There are four colours - a default yellow, then blue, green, and pink - and pressing the swatch a highlight already wears takes it off again.
+
+What lands in the file is worth knowing, because it is your file. The default colour writes `==the phrase==`, the portable spelling every other Markdown tool understands. A chosen colour has to write `<mark class="hl-blue">the phrase</mark>`, because standard Markdown has no way to name a colour. So the common case stays clean Markdown, and colour costs you portability only when you ask for one. Both read back as the same highlight, in the page and in the editor alike.
 
 If you changed nothing, nothing is committed. There is no draft state to babysit, and no save button that lies. And because edits are byte-fidelity, the commit for a one-word fix is a one-line diff. See [[Byte-fidelity]].
 
@@ -1258,17 +1339,19 @@ If you changed nothing, nothing is committed. There is no draft state to babysit
 
 <figure><img src="assets/input-rules.gif" alt="Markdown shortcuts converting live: hashes into a heading, stars into bold, a dash into a list"><figcaption>Markdown as you type: hashes make headings, stars make bold, a dash starts a list.</figcaption></figure>
 
-<figure><img src="assets/editor-toolbar.png" alt="The editor's floating bottom toolbar: format marks, blocks, inserts, and Update"><figcaption>The whole chrome of edit mode: one floating bar, and the page itself.</figcaption></figure>
+<figure><img src="assets/editor-toolbar.png" alt="The editor's floating bottom toolbar: format marks, block types, the four highlight swatches, and the inserts"><figcaption>The chrome of edit mode: the header bar you were already reading under, and this one floating bar.</figcaption></figure>
 
 <figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Code, Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
 
 ## Fresh by the time you look
 
-A page you are reading keeps itself current. When an agent (or anyone) edits the underlying files, the page refreshes in place the next time Hanji checks - switching back to the tab is enough - and a one-line note says it happened. The byline carries the trust surface: "checked just now" or "checked 4m ago" - when the index last agreed with the files, a different claim than the page's own "updated", which is about content - ticking as you read, with a quiet retry when a sync fails. Silence means nothing changed; nothing here ever interrupts.
+A page you are reading keeps itself current. While its tab is visible it checks itself every seven seconds, and when anyone changed it meanwhile - another editor pressing Update in the app, or an agent editing the underlying files - the page refreshes in place, quietly; switching back to the tab is enough to catch up. A one-line note says it happened, naming the page that moved, with a link straight to it when the change was somewhere else, or pointing at the Activity page when several moved at once. That includes the pictures: replacing an image counts as a change even though no prose moved, and the new picture arrives rather than the one your browser had already cached; no note for that, since there is no page to name and nothing for one to point at. When someone else has the page open in their editor, "Remy is editing" sits beside the byline, so you know a change is coming before it lands. The byline carries the trust surface: "checked just now" or "checked 4m ago" - when the index last agreed with the files, a different claim than the page's own "updated", which is about content - ticking as you read, with a quiet retry when a sync fails. Silence means nothing changed; nothing here ever interrupts.
 
 ## When two edits collide
 
-Hanji notices if the page changed underneath you - and it notices early. If the files change while your editor is open, the warning appears before you ever press Update; and the save itself re-checks the file on disk at the last moment, so even an edit that lands in the same breath cannot be overwritten unseen. This holds on plain folders too, where no git history could bring an overwritten change back. Rather than merge silently, Hanji stops and tells you: reload, reapply your edit on top of the current page, and Update again.
+Hanji notices if the page changed underneath you, and it never makes you throw your edits away to deal with it. While your editor is open, the page checks itself every seven seconds, and a change raises only a quiet line, not an alarm: "Remy changed this page. It will merge when you save." The line names the other hand where the name is honest (the last committer, on a git-backed mount) and says "This page changed" on a plain folder. If someone else is editing at the same moment, a second line says so: "Remy is also editing this page. Edits merge when you save." There is no lock and no take-over; the merge waits until you save. As you type, your draft is kept in the browser too, so a reload or a closed tab loses nothing.
+
+When you press Update and the page has moved, Hanji tries to fold the two edits together. Most of the time they touch different parts (someone fixed a link at the foot of the page while you rewrote the top), and the fold is clean: your work and theirs both land in one commit, and a line tells you it happened. A contributor gets the same fold: the proposal that lands in review already carries both edits. Only when the two genuinely changed the same lines does Hanji stop, and even then it never dead-ends. It shows you what the other side changed and offers doors, none of which discard your work or theirs: **Keep my version** keeps your wording where you both changed the same lines and folds in the rest of their edit; **Take theirs** loads their page and keeps your draft recoverable; **Propose** sends that same merge to review and leaves the page on theirs. A contributor, or anyone on a suggest mount, sees two doors, because for them Keep mine is the propose door: **Propose my version** and **Take theirs**. The save itself still re-checks the file on disk at the last moment, so nothing is ever overwritten unseen, and this holds on plain folders too, where no git history could bring an overwritten change back.
 
 ## New pages
 
@@ -1415,17 +1498,21 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Feature | Status | Note |
 |---|---|---|
 | Markdown reading, rendered with care | Shipped | Warm paper, serif, careful spacing |
-| In-place WYSIWYG editor | Shipped | Edit, change, Update, one commit |
+| In-place WYSIWYG editor | Shipped | Edit, change, Update, one commit - same scroll position, no navigation |
+| Sticky page chrome | Shipped | Breadcrumb and actions held at the top; one bar for reading and editing |
+| Copy as Markdown | Shipped | A selection lands on the clipboard as Markdown and as rich text |
 | Byte-fidelity edits | Shipped | A one-word edit is a one-line diff |
-| Tables, with Notion-style controls | Shipped | Hover handles, insert, drag to move |
+| Tables, with Notion-style controls | Shipped | Hover handles, insert, drag to move; Enter breaks a line inside a cell |
+| Line breaks | Shipped | `⇧Enter` anywhere, Enter inside a cell; written as `<br>` so one spelling travels |
 | Task lists, interactive | Shipped | Check them off in the page |
 | Strikethrough and bare-URL autolinks | Shipped | Full GFM parity in the editor |
+| Highlights, four colours | Shipped | `⌘⇧H` or a swatch; portable `==x==` for the default, `<mark class>` for a colour |
 | Slash menu to insert | Shipped | Blocks, images, embeds |
 | Images uploaded into the repo | Shipped | Into `assets/`, no external link-rot |
 | Embeds, video and iframe | Shipped | Domain allowlist: figma, youtube, loom, vimeo |
 | Page history, byline and revisions | Shipped | View any past version |
 | Page comments | Shipped | A thread at the foot of every page, for anyone who can read it |
-| Anchored comments | Shipped | Highlight a word or sentence; a side panel gathers them, filter and resolve in place |
+| Anchored comments | Shipped | Anchor a note to a word or sentence; a side panel gathers them, filter and resolve in place |
 | Comments stay out of git | Shipped | In Hanji's own store, never a commit and never in an export |
 | Nested, collapsible sidebar | Shipped | Built from page paths |
 | Breadcrumb navigation | Shipped | Middle-collapsing on deep pages |
@@ -1435,7 +1522,7 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Emoji, three ways in | Shipped | Toolbar picker, `:query` menu, `:tada:` conversion |
 | Sidebar quick-create | Shipped | A + on every mount, folder, and page |
 | Drag to move, reorder, and nest | Shipped | Instant, git behind, auto-revert on failure |
-| Per-section sort | Shipped | Manual, Newest, Oldest, or A–Z — by filename or commit date, per folder, per person |
+| Per-section sort | Shipped | Manual, Newest, Oldest, or A–Z - by filename or commit date, per folder, per person |
 | Page delete | Shipped | Two-step trash, `git rm`, recoverable from history |
 | Works on a phone | Shipped | Top bar, drawer, the same sidebar |
 
@@ -1450,11 +1537,14 @@ The full list, in one place, with the honest status on each. If a row says shipp
 | Plain-HTTP aliases beside MCP | Shipped | `GET /pages`, `/page`, `/search`, `/comments`, `POST /propose` - curl counts as an agent |
 | Propose-as-PR writes | Shipped | Agents open branches, people merge |
 | Proposal review and merge, in the front | Shipped | A pending badge, a line diff, Merge and Reject |
-| Per-mount permissions | Shipped | `read` and `read+propose`, one read path |
+| Proposals triage queue | Shipped | Self-review note, +added/−removed weight, and age on every row; the note sits beside the diff |
+| Activity page | Shipped | Eight weeks in one strip: humans above the line in ink, agents below in celadon; honest attribution from co-author trailers and bot identities; filter by actor and kind; a local mount's uncommitted edits as their own row |
+| Per-mount permissions | Shipped | `read`, `read+propose`, and `read+write` for people, one read path |
 | Content-first visibility | Shipped | Everyone / restricted, inherited downward, deepest rule wins |
 | Path grants, down to one page | Shipped | Mount, folder, or a single file - for people and agent tokens alike |
 | Share, on the page itself | Shipped | General access + people, a name, a level, done |
 | `hanji export` | Shipped | llms.txt, llms-full.txt, and a per-page `.md` mirror of what is open to everyone |
+| `hanji digest` | Shipped | What changed and what awaits you, written into the workspace as a page; a quiet day writes nothing |
 | No bundled model, no metering | Shipped | By design, forever |
 
 ## The workspace
@@ -1607,13 +1697,16 @@ A locked page and a page that does not exist look identical to a reader who lack
 
 ## Scopes today
 
-Access is granted per mount, in two levels.
+Access is granted per mount, in three levels.
 
 | Scope | The reader can | The reader cannot |
 |---|---|---|
 | none | see nothing of the mount, not even that it exists | read, search, or link into it |
 | `read` | read, search, and follow links inside the mount | write, or propose changes |
 | `read+propose` | everything `read` can, plus propose changes as a branch or PR | merge, or write directly |
+| `read+write` | everything `read+propose` can, plus commit to base from the front and upload images | merge, or restructure the tree |
+
+`read+write` is for people only: a token never holds it.
 
 The owner sees every mount. An agent gets a bearer token whose scopes take the same shape as a person's grants - a whole mount, a folder, or exactly one page - so an agent that helps with the engineering docs never sees the folder of sensitive notes, even when both live in the same repository. See [[Agents]] for how that works in practice.
 
@@ -1623,7 +1716,7 @@ The model reads the way Notion and Confluence taught everyone to think. Content 
 
 People are the exceptions. A person granted a path - a mount, a folder, or exactly one page - punches through a restriction at or below their grant. That is the 1:1 note: a restricted folder, two names, and nobody else sees it in the tree, in search, or through a wikilink. A locked page still looks identical to a page that does not exist.
 
-Sharing lives where the content lives (in team mode - solo keeps this chrome hidden until you switch, in Settings): a **Share** control on every page, and on every mount and folder in the sidebar, showing the general access (and where it is inherited from), the people with specific access and through which grant, and a one-line way to add someone with read or suggest. Settings keeps the overview: a Mount access tab for general access per mount, and a People tab for everyone's grants in one place. Revoking takes effect on the person's next request. The rule and grant tables are the implementation; the page is the interface.
+Sharing lives where the content lives (in team mode - solo keeps this chrome hidden until you switch, in Settings): a **Share** control on every page, and on every mount and folder in the sidebar, showing the general access (and where it is inherited from), the people with specific access and through which grant, and a one-line way to add someone with read, suggest, or edit. Settings keeps the overview: a Mount access tab for general access per mount, and a People tab for everyone's grants in one place. Revoking takes effect on the person's next request. The rule and grant tables are the implementation; the page is the interface.
 
 <figure><img src="assets/share-popover.png" alt="The Share popover on a mount: general access set to Everyone can read, and one person's grant listed beneath" class="w-75"><figcaption>Share, where the content lives: the general rule on top, the exceptions by name.</figcaption></figure>
 
@@ -1631,7 +1724,7 @@ One deliberate exception: **agents never inherit "everyone"**. A token sees exac
 
 ## People, same scopes
 
-The same two levels now apply to humans. The owner adds a person in Settings with a name, a password, and per-mount scopes: `read` makes a **viewer**, `read+propose` makes a **contributor** whose Update reads Propose and lands in the owner's review card. A user never commits to base, never restructures the tree, and never sees review or settings - those stay the owner's. In user terms: viewers read, contributors suggest, the owner decides. One read path, one review ceremony, whatever species the writer is.
+The same levels apply to humans. The owner adds a person in Settings with a name, a password, and per-mount scopes: `read` makes a **viewer**, `read+propose` makes a **contributor** whose Update reads Propose and lands in the owner's review card, and `read+write` makes an **editor** whose Update commits to base, the way the owner's does. Nobody but the owner restructures the tree, reviews proposals, or sees settings. In user terms: viewers read, contributors suggest, editors write, the owner decides. One read path, one review ceremony, whatever species the writer is.
 
 ## What is honest about it
 
@@ -1750,7 +1843,7 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] Every page's paper trail: a byline of who began it and who last changed it, read from git history, shown on the page and powering the recency sort
 - [x] A workspace made yours: name, logo, OKLCH theming with secured contrast, fonts, and a phone-ready shell
 - [x] Proposal from the human front: on a suggest-only mount, Update becomes Propose, landing in the same review card
-- [x] Several human principals: viewers and contributors with per-mount scopes, added by the owner in Settings
+- [x] Several human principals: viewers, contributors, and editors with per-mount scopes, added by the owner in Settings; editors commit to base, contributors propose
 - [x] The lock, down to a single page: path grants (mount, folder, or one file) and a Share button on the page itself
 - [x] Content-first visibility: general access inherited downward, restrictions that go dark, people as the exceptions
 - [x] Tailscale mode: run on a tailnet and the network signs people in, no password, grants untouched (see [[On your tailnet]])
@@ -1760,12 +1853,18 @@ Hanji is early, and built in the open with its own tools. This page is written i
 - [x] A first run without a terminal: the welcome walks three soft steps - source, details, name and owner - suggesting the name from what you picked, and signs you in
 - [x] The publishing plane: `hanji export` renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.
 - [x] Fresh by the time you look: sync-on-focus, a byline freshness line, early conflict warning, a content-compare save guard, and agents that sync local mounts before every read
-- [x] The Activity page: what moved across your mounts - edits, comments, reviews - straight from the history, with honest actor labels and a "seen up to here" line
+- [x] The freshness note carries a destination: it names the page that moved and links to it, or points at Activity when several did; a change that moved no page refreshes without a note
+- [x] Images count as freshness too: a per-mount asset fingerprint makes a replaced picture a change the screen hears about, and stamps the image URLs so the browser cannot answer from its cache
+- [x] The Activity page: what moved across your mounts - edits, comments, reviews - straight from the history, plus a local mount's edits not yet committed, with honest actor labels and a "seen up to here" line
 - [x] The activity strip: eight weeks of days above the feed, human hands above the line, agents below, with filters over the feed by actor and kind
 - [x] `hanji digest`: the day's changes and the waiting queue written into the workspace as a page - the artifact is the notification, cron is the only scheduler
 - [x] The agent briefing channel: `hanji_changes` / `GET /changes` for "what moved since I last read", plus an Atom feed of the same, token-scoped like every read
 - [x] Open Knowledge Format interop: any OKF bundle mounts as-is, and `hanji export --okf` emits a conformant one - typed concept docs, reserved index files, an `okf_version` root
+- [x] One sticky chrome bar for reading and editing, and edit mode that swaps in place - same scroll position, same header, only the buttons and the toolbar change
+- [x] A selection that stays selected: Copy (as Markdown *and* as rich text) and Comment offered on a bar, rather than the comment box taking the selection
+- [x] Highlights in four curated colours, portable `==x==` for the default and `<mark class="hl-...">` for a chosen one (see [[Reading and writing]])
 - [x] Page comments: a thread at the foot of every page, and anchored comments on an exact word or sentence, highlighted in the prose for every reader and preserved under "On an earlier version" when the text beneath them changes (see [[Comments]])
+- [x] Presence on the page: who else is editing, named beside the byline and inside the editor, and a page that checks itself every few seconds while you look, so a conflict folds at save instead of surprising you
 
 Reading and writing both feel like paper. That was the first thing that had to be true. See [[Features]] for the full list, and [[Changelog]] for what shipped when.
 

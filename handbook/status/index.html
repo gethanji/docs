@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,16 +9,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../hanji.css">
+<script>try{var t=localStorage.getItem("hanji-theme");if(t)document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
 <div class="frame">
 <aside>
 <p class="lockup"><a href="https://gethanji.github.io/"><img class="mark" src="../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../..">Handbook</a></p>
 <nav><p class="mount-label">handbook</p><a href="../">Start here</a><a href="../quickstart/">Quick start</a><details><summary><a href="../guide/">Using Hanji</a></summary><a href="../guide/install/">Install Hanji</a><a href="../guide/mounts/">Mounts</a><a href="../guide/reading-and-writing/">Reading and writing</a><a href="../guide/comments/">Comments</a><a href="../guide/agents/">Agents</a><a href="../guide/proposals/">Proposals</a><a href="../guide/publish/">Publish to the web</a><a href="../guide/cli/">Command reference</a><a href="../guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../product/">What Hanji is</a></summary><a href="../product/two-faces/">The two faces</a><a href="../product/permissions/">Permissions</a><a href="../product/byte-fidelity/">Byte-fidelity</a><a href="../product/performance/">Performance</a><a href="../product/features/">Features</a></details><details><summary><a href="../architecture/">How it's built</a></summary><a href="../architecture/serializer/">The serializer</a><a href="../architecture/core/">The core</a><a href="../architecture/editor/">The editor</a><a href="../architecture/mcp/">The MCP server</a><a href="../architecture/web/">The web front</a></details><details><summary><a href="../contributing/">Contributing</a></summary><a href="../contributing/develop/">Developing</a><a href="../contributing/conventions/">Conventions</a><a href="../contributing/open-core/">Open core</a></details><details><summary><a href="../story/">The story</a></summary><a href="../story/the-name/">The name</a><a href="../story/why-hanji-is-different/">Why Hanji is different</a><a href="../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../story/mission-and-vision/">Mission and vision</a><a href="../story/principles/">Principles</a><details><summary><a href="../story/brand/">The brand</a></summary><a href="../story/brand/visual-language/">The visual language</a><a href="../story/brand/voice/">Voice</a></details></details><a aria-current="page" href="./">Where we are</a><a href="../changelog/">Changelog</a></nav>
 </aside>
 <main>
+<div class="topline">
 <p class="crumbs"><a href="../">handbook</a> / status</p>
-<article><h1>Where we are now</h1>
+<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">auto</button><button type="button" data-theme-choice="light" aria-pressed="false">light</button><button type="button" data-theme-choice="dark" aria-pressed="false">dark</button></div>
+</div>
+<article class="prose-hanji"><h1>Where we are now</h1>
 <p>Hanji is early, and built in the open with its own tools. This page is written in Hanji, kept in Hanji's repository, and read through the product you are looking at now. It is honest to a fault, because pretending to be further along than you are is its own kind of lock-in. There are no dates here, because a solo, early project that promises dates is lying. The order is real, though, and it follows the rule in <a href="../story/mission-and-vision/">Mission and vision</a>: earn trust first, charge for what an administrator wants, never gate what one person needs to write.</p>
 <h2>Now, shipped and live</h2>
 <ul>
@@ -34,7 +39,7 @@
 <li><input type="checkbox" checked disabled> Every page's paper trail: a byline of who began it and who last changed it, read from git history, shown on the page and powering the recency sort</li>
 <li><input type="checkbox" checked disabled> A workspace made yours: name, logo, OKLCH theming with secured contrast, fonts, and a phone-ready shell</li>
 <li><input type="checkbox" checked disabled> Proposal from the human front: on a suggest-only mount, Update becomes Propose, landing in the same review card</li>
-<li><input type="checkbox" checked disabled> Several human principals: viewers and contributors with per-mount scopes, added by the owner in Settings</li>
+<li><input type="checkbox" checked disabled> Several human principals: viewers, contributors, and editors with per-mount scopes, added by the owner in Settings; editors commit to base, contributors propose</li>
 <li><input type="checkbox" checked disabled> The lock, down to a single page: path grants (mount, folder, or one file) and a Share button on the page itself</li>
 <li><input type="checkbox" checked disabled> Content-first visibility: general access inherited downward, restrictions that go dark, people as the exceptions</li>
 <li><input type="checkbox" checked disabled> Tailscale mode: run on a tailnet and the network signs people in, no password, grants untouched (see <a href="../guide/on-your-tailnet/">On your tailnet</a>)</li>
@@ -44,12 +49,18 @@
 <li><input type="checkbox" checked disabled> A first run without a terminal: the welcome walks three soft steps - source, details, name and owner - suggesting the name from what you picked, and signs you in</li>
 <li><input type="checkbox" checked disabled> The publishing plane: <code>hanji export</code> renders a browsable static site - the hanji look, no JavaScript - beside the Markdown mirror. This handbook is published with it.</li>
 <li><input type="checkbox" checked disabled> Fresh by the time you look: sync-on-focus, a byline freshness line, early conflict warning, a content-compare save guard, and agents that sync local mounts before every read</li>
-<li><input type="checkbox" checked disabled> The Activity page: what moved across your mounts - edits, comments, reviews - straight from the history, with honest actor labels and a "seen up to here" line</li>
+<li><input type="checkbox" checked disabled> The freshness note carries a destination: it names the page that moved and links to it, or points at Activity when several did; a change that moved no page refreshes without a note</li>
+<li><input type="checkbox" checked disabled> Images count as freshness too: a per-mount asset fingerprint makes a replaced picture a change the screen hears about, and stamps the image URLs so the browser cannot answer from its cache</li>
+<li><input type="checkbox" checked disabled> The Activity page: what moved across your mounts - edits, comments, reviews - straight from the history, plus a local mount's edits not yet committed, with honest actor labels and a "seen up to here" line</li>
 <li><input type="checkbox" checked disabled> The activity strip: eight weeks of days above the feed, human hands above the line, agents below, with filters over the feed by actor and kind</li>
 <li><input type="checkbox" checked disabled> <code>hanji digest</code>: the day's changes and the waiting queue written into the workspace as a page - the artifact is the notification, cron is the only scheduler</li>
 <li><input type="checkbox" checked disabled> The agent briefing channel: <code>hanji_changes</code> / <code>GET /changes</code> for "what moved since I last read", plus an Atom feed of the same, token-scoped like every read</li>
 <li><input type="checkbox" checked disabled> Open Knowledge Format interop: any OKF bundle mounts as-is, and <code>hanji export --okf</code> emits a conformant one - typed concept docs, reserved index files, an <code>okf_version</code> root</li>
+<li><input type="checkbox" checked disabled> One sticky chrome bar for reading and editing, and edit mode that swaps in place - same scroll position, same header, only the buttons and the toolbar change</li>
+<li><input type="checkbox" checked disabled> A selection that stays selected: Copy (as Markdown <em>and</em> as rich text) and Comment offered on a bar, rather than the comment box taking the selection</li>
+<li><input type="checkbox" checked disabled> Highlights in four curated colours, portable <code>==x==</code> for the default and <code>&#x3C;mark class="hl-..."></code> for a chosen one (see <a href="../guide/reading-and-writing/">Reading and writing</a>)</li>
 <li><input type="checkbox" checked disabled> Page comments: a thread at the foot of every page, and anchored comments on an exact word or sentence, highlighted in the prose for every reader and preserved under "On an earlier version" when the text beneath them changes (see <a href="../guide/comments/">Comments</a>)</li>
+<li><input type="checkbox" checked disabled> Presence on the page: who else is editing, named beside the byline and inside the editor, and a page that checks itself every few seconds while you look, so a conflict folds at save instead of surprising you</li>
 </ul>
 <p>Reading and writing both feel like paper. That was the first thing that had to be true. See <a href="../product/features/">Features</a> for the full list, and <a href="../changelog/">Changelog</a> for what shipped when.</p>
 <h2>Next, in build</h2>
@@ -96,5 +107,6 @@
 <footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../llms.txt">llms.txt</a></footer>
 </main>
 </div>
+<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
 </body>
 </html>

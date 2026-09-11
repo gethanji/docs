@@ -6,11 +6,13 @@ description: The human front: reading, editing, history, and new pages.
 
 # Reading and writing
 
-Everything here happens at `http://localhost:4100`, after you sign in as the owner. It is meant to feel like an editorial tool, not a git client.
+Everything here happens at `http://localhost:4100`, after you sign in. It is meant to feel like an editorial tool, not a git client. The owner and anyone granted `read+write` write straight to git; a contributor's Update reads Propose and lands in review (see [[Permissions]]).
 
 ## Reading
 
 Pages open on warm paper, set in a serif for long reading. The sidebar on the left is your mounts and their folders, nested and collapsible, and it expands to show where you are. A breadcrumb across the top tells you the path, collapsing its middle on deep pages so it never runs off the screen. Wikilinks, written `[[by title]]`, resolve to the page they name, and only to pages you are allowed to open.
+
+Selecting a run of prose raises a small bar over it, and the text stays selected while the bar is up. **Copy** puts the selection on your clipboard twice over - as rich text for anywhere that takes it, and as real Markdown for anywhere that does not - so a paragraph pasted into another editor arrives with its headings, lists, tables, and code fences intact, and pasted into a plain text field arrives as the Markdown that made it. `⌘C` works exactly as it always did; the button is just the one that also carries the Markdown. **Comment** is the other thing a selection can mean, and it is a deliberate press - see [[Comments]].
 
 Search is a keystroke away. `⌘K` opens the palette: ranked results with the matching passage highlighted, your recently changed pages when the box is still empty, and the keyboard all the way to Enter. When you want to dig, the full results page holds every match with highlighted passages and per-mount filters. Multi-word queries rank pages by how many of your words they share, adjacent phrases first, and the word you are still typing already matches as a prefix.
 
@@ -23,9 +25,23 @@ Search is a keystroke away. `⌘K` opens the palette: ranked results with the ma
 
 Editing is deliberate, and it is one gesture.
 
-1. Press **Edit**, or `⌘E`. The page becomes editable in place, on the same measure you were reading.
+1. Press **Edit**, or `⌘E`. The page becomes editable in place, on the same measure you were reading, at the same scroll position - the header bar keeps its breadcrumb and simply swaps its buttons for **Discard** and **Update**.
 2. Change what you came to change. It is a real editor: Markdown shortcuts, a slash menu to insert, tables with handles, task lists, images, embeds, and emoji (the toolbar's picker, or type `:` and a few letters).
 3. Press **Update**. Hanji writes a single commit behind the scenes, with a clean message, and drops you back into reading.
+
+The header bar stays with you: back and forward, the breadcrumb, and the page's actions stick to the top of the view, so a long page never scrolls away from its own controls. A hairline appears under it once the prose is running beneath, and is gone again at the top of the page.
+
+### Line breaks, and tables
+
+`⇧Enter` puts a line break inside the block you are in rather than starting a new one. Inside a table cell, plain **Enter** means the same thing, because a cell is one line and has nothing to split. A break is written to the file as `<br>` - the only spelling a table row can carry, and the one Hanji uses everywhere so that a break survives being moved from a paragraph into a cell and back.
+
+That is also as far as a list in a cell goes: broken lines, each with its own dash. Markdown tables hold inline content only, so a real bullet list cannot live in a cell in any tool that writes Markdown - what you get is the lines, correctly broken, and the dashes you typed are left exactly as you typed them.
+
+### Highlights
+
+Highlight a phrase the way you would bold one: select it and press `⌘⇧H`, pick a swatch from the selection bubble or the bottom toolbar, or simply type `==like this==`. There are four colours - a default yellow, then blue, green, and pink - and pressing the swatch a highlight already wears takes it off again.
+
+What lands in the file is worth knowing, because it is your file. The default colour writes `==the phrase==`, the portable spelling every other Markdown tool understands. A chosen colour has to write `<mark class="hl-blue">the phrase</mark>`, because standard Markdown has no way to name a colour. So the common case stays clean Markdown, and colour costs you portability only when you ask for one. Both read back as the same highlight, in the page and in the editor alike.
 
 If you changed nothing, nothing is committed. There is no draft state to babysit, and no save button that lies. And because edits are byte-fidelity, the commit for a one-word fix is a one-line diff. See [[Byte-fidelity]].
 
@@ -33,17 +49,19 @@ If you changed nothing, nothing is committed. There is no draft state to babysit
 
 <figure><img src="assets/input-rules.gif" alt="Markdown shortcuts converting live: hashes into a heading, stars into bold, a dash into a list"><figcaption>Markdown as you type: hashes make headings, stars make bold, a dash starts a list.</figcaption></figure>
 
-<figure><img src="assets/editor-toolbar.png" alt="The editor's floating bottom toolbar: format marks, blocks, inserts, and Update"><figcaption>The whole chrome of edit mode: one floating bar, and the page itself.</figcaption></figure>
+<figure><img src="assets/editor-toolbar.png" alt="The editor's floating bottom toolbar: format marks, block types, the four highlight swatches, and the inserts"><figcaption>The chrome of edit mode: the header bar you were already reading under, and this one floating bar.</figcaption></figure>
 
 <figure><img src="assets/slash-menu.png" alt="The slash menu open in the editor, offering Code, Image, Video, Embed, and Table"><figcaption>Type a slash on a fresh line to insert.</figcaption></figure>
 
 ## Fresh by the time you look
 
-A page you are reading keeps itself current. When an agent (or anyone) edits the underlying files, the page refreshes in place the next time Hanji checks - switching back to the tab is enough - and a one-line note says it happened. The byline carries the trust surface: "checked just now" or "checked 4m ago" - when the index last agreed with the files, a different claim than the page's own "updated", which is about content - ticking as you read, with a quiet retry when a sync fails. Silence means nothing changed; nothing here ever interrupts.
+A page you are reading keeps itself current. While its tab is visible it checks itself every seven seconds, and when anyone changed it meanwhile - another editor pressing Update in the app, or an agent editing the underlying files - the page refreshes in place, quietly; switching back to the tab is enough to catch up. A one-line note says it happened, naming the page that moved, with a link straight to it when the change was somewhere else, or pointing at the Activity page when several moved at once. That includes the pictures: replacing an image counts as a change even though no prose moved, and the new picture arrives rather than the one your browser had already cached; no note for that, since there is no page to name and nothing for one to point at. When someone else has the page open in their editor, "Remy is editing" sits beside the byline, so you know a change is coming before it lands. The byline carries the trust surface: "checked just now" or "checked 4m ago" - when the index last agreed with the files, a different claim than the page's own "updated", which is about content - ticking as you read, with a quiet retry when a sync fails. Silence means nothing changed; nothing here ever interrupts.
 
 ## When two edits collide
 
-Hanji notices if the page changed underneath you - and it notices early. If the files change while your editor is open, the warning appears before you ever press Update; and the save itself re-checks the file on disk at the last moment, so even an edit that lands in the same breath cannot be overwritten unseen. This holds on plain folders too, where no git history could bring an overwritten change back. Rather than merge silently, Hanji stops and tells you: reload, reapply your edit on top of the current page, and Update again.
+Hanji notices if the page changed underneath you, and it never makes you throw your edits away to deal with it. While your editor is open, the page checks itself every seven seconds, and a change raises only a quiet line, not an alarm: "Remy changed this page. It will merge when you save." The line names the other hand where the name is honest (the last committer, on a git-backed mount) and says "This page changed" on a plain folder. If someone else is editing at the same moment, a second line says so: "Remy is also editing this page. Edits merge when you save." There is no lock and no take-over; the merge waits until you save. As you type, your draft is kept in the browser too, so a reload or a closed tab loses nothing.
+
+When you press Update and the page has moved, Hanji tries to fold the two edits together. Most of the time they touch different parts (someone fixed a link at the foot of the page while you rewrote the top), and the fold is clean: your work and theirs both land in one commit, and a line tells you it happened. A contributor gets the same fold: the proposal that lands in review already carries both edits. Only when the two genuinely changed the same lines does Hanji stop, and even then it never dead-ends. It shows you what the other side changed and offers doors, none of which discard your work or theirs: **Keep my version** keeps your wording where you both changed the same lines and folds in the rest of their edit; **Take theirs** loads their page and keeps your draft recoverable; **Propose** sends that same merge to review and leaves the page on theirs. A contributor, or anyone on a suggest mount, sees two doors, because for them Keep mine is the propose door: **Propose my version** and **Take theirs**. The save itself still re-checks the file on disk at the last moment, so nothing is ever overwritten unseen, and this holds on plain folders too, where no git history could bring an overwritten change back.
 
 ## New pages
 

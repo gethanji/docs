@@ -31,7 +31,7 @@ pnpm hanji token intern notes/reviews=read notes/reviews/draft.md=read+propose
 pnpm hanji token reviewer notes=read+comments
 ```
 
-The command prints the token once. A `read` scope lets the agent search and read within its grant. A `read+propose` scope adds the right to propose changes there. A `read+comments` scope adds the right to read that page's comments too - stack all three as `read+propose+comments` if the agent needs the full run. Anything outside its grants the agent cannot see, and cannot even tell exists - a locked page and a missing page answer identically. Content visibility rules never widen a token: an "everyone" rule speaks to people, and an agent holds exactly what it was granted. See [[Permissions]].
+The command prints the token once. A `read` scope lets the agent search and read within its grant. A `read+propose` scope adds the right to propose changes there. A `read+comments` scope adds the right to read that page's comments too - stack all three as `read+propose+comments` if the agent needs the full run. There is no `write` scope for a token: editing to base is for people, and an agent always proposes. Anything outside its grants the agent cannot see, and cannot even tell exists - a locked page and a missing page answer identically. Content visibility rules never widen a token: an "everyone" rule speaks to people, and an agent holds exactly what it was granted. See [[Permissions]].
 
 <figure><img src="assets/proposal-review.png" alt="An agent's proposal open for review in the front: title, diff, Reject and Merge"><figcaption>Where a propose lands: a title, a diff, and your decision.</figcaption></figure>
 
@@ -53,7 +53,7 @@ claude mcp add hanji --transport http http://localhost:4101/mcp \
 | `hanji_search` | Full-text search across readable mounts | `read` |
 | `hanji_propose` | Propose a page change as a branch, and a PR where GitHub is connected | `read+propose` |
 | `hanji_list_comments` | Read one page's comments (threads, quotes, replies) by mount and path | `read+comments` |
-| `hanji_changes` | What changed since a moment: commits with authors and pages, and comments | `read` |
+| `hanji_changes` | What changed since a moment: commits with authors and pages, edits not yet committed, and comments | `read` |
 
 ## No MCP client? curl works
 
@@ -80,7 +80,7 @@ unknown path answers with a map of the surface.
 
 ## Start the session with what changed
 
-`hanji_changes` (and `GET /changes?since=…`) answers the question a returning agent should ask first: what moved since I last read? Commits with their authors and pages, and new comments, across exactly the mounts the token can read. The intended habit: ask at session start, then brief your human in two lines instead of making them scroll. Reads freshen local mounts first (throttled to about once per ten seconds), so the answer is at most a few seconds behind the files - and there is an Atom projection of the same feed at `/feed.atom?token=<token>` for feed readers and bots (no token serves only what is open to everyone, the same rule a published site follows).
+`hanji_changes` (and `GET /changes?since=…`) answers the question a returning agent should ask first: what moved since I last read? Commits with their authors and pages, a local mount's edits not yet committed (one row per mount, timed by the newest file), and new comments, across exactly the mounts the token can read. Items authored by Hanji itself (the digest's own commits) carry the actor class `hanji` - housekeeping labeled as itself, so an agent can skip it when briefing. The intended habit: ask at session start, then brief your human in two lines instead of making them scroll. Reads freshen local mounts first (throttled to about once per ten seconds), so the answer is at most a few seconds behind the files - and there is an Atom projection of the same feed at `/feed.atom?token=<token>` for feed readers and bots (no token serves only what is open to everyone, the same rule a published site follows).
 
 ## Propose, and say what you are unsure about
 

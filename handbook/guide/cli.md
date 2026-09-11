@@ -22,6 +22,8 @@ The whole CLI, run as `pnpm hanji <command>`. It reads `HANJI_DATA_DIR` for wher
 | `assets [mount]` | List uploaded images no page references anymore, per mount or everywhere. |
 | `digest <mount> [path] [--since <iso>]` | Write "what changed, what awaits you" as a Markdown page into the mount (default `digest.md`), committed by Hanji itself. Covers since the previous digest; a quiet window with an empty review queue writes nothing. |
 
+One caution on `digest`: the page is written with the owner's eyes and summarizes the whole workspace, so it belongs in a mount whose readers may see all of that. In a mixed-audience workspace, point it at a restricted mount.
+
 ## Examples
 
 ```bash

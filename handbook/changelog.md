@@ -8,6 +8,65 @@ description: The road behind us, honestly logged.
 
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
+## 0.6, and more than one hand
+
+- The number reads 0.6. What 0.5 could not do: hold a second person on a page, survive two edits landing at once without asking anyone to throw work away, or tell you what moved while you were gone. All three are here now - editors who commit straight to git, a collision that folds instead of dead-ending, presence beside the byline, and a periphery (Activity, the digest, the agent briefing channel) that answers "what happened" without anyone taking notes.
+- The same jump that took 0.1 to 0.5 rather than a release ritual: the number keeps one home, the repository's own version, and every surface that prints it - the sidebar, the agent banner - takes it from there, so what you read can never drift from what shipped.
+
+## The published site reads like the app
+
+- The exported site now carries the app's own reading surface, not a copy of it. `packages/render/prose.css` is one file: the app imports it, `hanji export` inlines it. It had been a second stylesheet written in August and left behind while the app moved on, and the two had drifted for weeks - highlights in four colours and the accent-tinted code panel shipped in the app and never reached the published page at all.
+- What you see change: prose set at the app's reading size and heading rhythm, links in ink with an accent-tinted underline rather than painted accent throughout, inline code and code blocks carrying the accent hue, table headers in small caps, the paper grain, and an accent selection wash. A keyboard focus ring too, which the published site never had.
+- A three-state theme control sits at the top of every page - auto, light, dark - remembered in the browser. ~~The published site was deliberately script-free~~; it was also the one Hanji surface where a reader could not choose. It is ten inlined lines and nothing remote; without JavaScript the page still renders in full and follows your system, exactly as before, and the control hides itself rather than sitting there dead.
+
+## Activity shows the edits nobody committed, and the note only speaks when it can point
+
+- On a local mount that sits below its repo root (a `notes/` folder mounted out of a larger repo), every commit row on Activity linked to a page that does not exist: git names files from the repo root wherever it runs, the feed passed those names through, and the link carried the folder twice and landed on an empty shell. The feed now speaks the mount's own paths, and a commit that also touched files above the mount loses its subject the way a subpath mount's does - a message can describe what the mount never shows.
+- Activity lists the edits still sitting uncommitted in a local mount's files as one row per mount - "the files", labeled outside, "changed, not yet committed" - timed by the newest file, pages only. The freshness note announces those edits the moment an agent writes them, and the page it pointed at used to answer "nothing today". `hanji_changes` and the digest read the same feed, so an agent's session-start briefing sees them too.
+- A change that moved no page - a replaced picture, a deleted page - refreshes the page and says nothing. ~~It said "Updated just now · notes" and pointed at Activity~~, which cannot show a picture; during a burst of screenshots landing in a mount that was one toast every ten seconds. An open editor no longer gets the early conflict line for it either: no page moved, so nothing changed under the draft.
+
+## A table cell can hold more than one line
+
+- Enter inside a table cell used to do nothing at all. A cell is a single line, so there was nothing for the key to split, and it quietly declined. Enter now puts a line break in the cell, and `⇧Enter` does the same anywhere else in the page.
+- A break is written to disk as `<br>`, the only spelling a Markdown table row can carry - and now the only spelling Hanji uses for a break anywhere, so one round-trips wherever it lives. It reads back as a break too: a cell written by an agent as `first<br>second` showed you the raw angle brackets before, and now shows you two lines.
+- A list inside a cell is those broken lines with their own dashes, which is as far as a Markdown table goes. Typing `- ` at the head of a cell no longer saves as `\- ` either: the escapes that guard block syntax do not belong in a cell, where no block syntax can occur.
+
+## The note that says something changed now takes you there
+
+- The freshness note used to name the mount and stop: "Updated just now · handbook", with no way to see what had actually moved. The sync knew the count and nothing else, so there was nothing to link to.
+- Sync now reports which pages moved, capped at five and with deletions left out (a link to a page that no longer exists is worse than no link). When exactly one page moved, the note names it and offers a link straight to it. When several did, it names the mounts and points at Activity, which exists to answer "what moved". When the page that moved is the one you are reading, the refresh already showed you, so it says "this page" and offers nothing to click.
+- A folder's `index.md` is named by its folder and a mount's by its mount, so the note reads "assetdemo" rather than "index".
+- Toasts are also the width of what they say now. The container's width was being inherited as every notice's width, so a short one sat in a wide box with a long empty right side.
+
+## More than one hand writes to base
+
+- A third level for people: `read+write` makes an **editor**, whose Update commits straight to git the way the owner's does, on a mount, a folder, or one page. Viewers read, contributors suggest, editors write, the owner decides. A token never holds it: agents keep proposing.
+- A contributor's conflict folds like the owner's. When the page moved under a contributor, Hanji merges the two edits before proposing, so the proposal carries both, and only a true overlap stops to ask. And **Keep my version** no longer overwrites the other side: it keeps your wording where you both changed the same lines and folds in the rest of their edit, on the commit path and the propose path alike. ~~Keep mine replaced theirs entirely~~ - that was the data-loss door, and the contributor side was about to inherit it.
+- The open page checks itself every seven seconds while its tab is visible, editing or reading: an editor gets the quiet chip, a reader gets the page repainted in place, and this holds for saves made in the app, not just edits arriving from the files. The chip names the other hand where the name is honest (the last committer on a git-backed mount) and says "This page changed" on a plain folder.
+- Presence, the first primitive of the room to come: a page says "Remy is editing" beside its byline, and an editor sees "Remy is also editing this page. Edits merge when you save." In-process, twenty seconds of memory, no lock, no take-over door.
+- Two serializer fixes. An ordered list running past nine (`1.` to `10.`) saved with a leading space and refused to reconcile; it now writes its numbers unpadded. And a re-serialized block escaped `[[wikilinks]]` into `\[\[...\]\]`, which the link index no longer saw; wikilinks now survive an edit verbatim. The handbook's own guide index, ten wikilinked items, could not be saved before.
+## A replaced image reaches the page
+
+- An agent swapping a picture used to be invisible. The index only ever walked `.md`, so the scan that watches for change never looked at an image, reported that nothing had moved, and no open page refreshed. And even when something else did force a render, the image's URL had not changed, so the browser kept serving the copy it already held. Quitting the app was the only way through.
+- Every mount now carries a fingerprint of its assets: names, sizes and modification times, never contents, so it costs the same stat scan the page check already pays for. When it moves, the mount counts as changed and the page refreshes exactly as it does for a prose edit.
+- That same fingerprint is stamped into every image URL, so a changed asset arrives at an address the browser has never held. Versioned URLs can then be cached properly: images are immutable for a year instead of being re-fetched every five minutes.
+- The trade, said plainly: changing one image moves the URL of every image in that mount, so they all fetch once more. The value is already computed by a scan that was happening anyway, and the alternative is hashing every image on every render.
+
+## Highlights, in four colours
+
+- Highlight a phrase while editing: `⌘⇧H`, the swatches in the selection bubble and the bottom toolbar, or just type `==like this==`. Four curated colours - a default yellow, then blue, green, and pink.
+- The default writes portable `==x==` on disk, the spelling every other Markdown tool already understands. A chosen colour writes `<mark class="hl-blue">`, because standard Markdown has no way to name a colour. The common case stays clean Markdown; colour costs portability only when you ask for one. Both read back as the same highlight, so the editor never shows you raw angle brackets.
+- Colours ride a fixed class through the sanitize allowlist, never a `style` attribute - the same rule that governs image widths and embeds. A colour the workspace does not know stays literal text rather than being quietly recoloured.
+- The tint is mixed into the page's own paper, so the same four swatches stay legible when the workspace theme flips dark.
+
+## The page keeps its chrome, and a selection keeps its text
+
+- The header bar - back and forward, the breadcrumb, the page's actions - sticks to the top of the view now, so a long page never scrolls away from its own controls. The hairline under it belongs to the stuck state alone: at rest the bar is simply the page's first row, and the rule arrives only once there is prose running underneath for it to separate.
+- Reading and editing draw the *same* bar. Entering edit mode swaps its buttons instead of rebuilding the top of the page.
+- Edit is no longer a navigation. The editor mounts in place of the prose, on the page you are already on, so `⌘E` from halfway down a page leaves you exactly halfway down it. Building the editor over a long page takes a moment, and for that moment the page you were reading is what stays on screen - the two are laid over each other and trade places in one frame, so there is no blank, no placeholder, and nothing to jump back to the top.
+- Selecting prose no longer opens a comment box on top of your selection. A small bar appears instead, offering **Copy** and **Comment**, and the text stays selected the whole time - so `⌘C` still works, and commenting is a deliberate press rather than the only thing a selection is allowed to mean.
+- **Copy** puts the selection on the clipboard twice over: as rich text for anywhere that takes it, and as real Markdown for anywhere that does not. Headings, lists, tables, and code fences all survive the trip. A selection that crosses blocks can still be copied; only commenting needs a single block to anchor to.
+
 ## The queue triages, the strip counts hands, the digest writes itself
 
 - The Activity page grew a strip: eight weeks of days, human work rising above a baseline in ink, agent work hanging below in the accent, outside writes worn a shade fainter on the human side - the workspace's balance of authorship at a glance. Under it, the feed takes filters (humans / agents / outside, edits / comments / reviews), by URL, bookmarkable.

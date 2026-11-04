@@ -13,4 +13,4 @@ That is also the whole thesis of the product in a single word.
 
 A knowledge base should be a surface that holds your writing for as long as you need it, in a form you can always read, on a foundation you control. Software comes and goes. Formats fall out of fashion, companies get acquired, apps stop shipping updates and quietly rot. The writing should not go down with them. The paper should outlast the app.
 
-We kept the metaphor close in the craft too. The reading surface is warm, like a fresh sheet. The color is drawn from Korean tradition. The mark is a Korean letter, cut back to its bones. None of that is decoration. It is the same claim the paper makes, carried into the pixels: made by hand, meant to endure. See [[The visual language]].
+We kept the metaphor close in the craft too. The reading surface is calm and slightly cool, like a fresh sheet. The color is drawn from Korean tradition. The mark is a Korean letter, cut back to its bones. None of that is decoration. It is the same claim the paper makes, carried into the pixels: made by hand, meant to endure. See [[The visual language]].

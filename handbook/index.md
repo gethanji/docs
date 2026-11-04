@@ -1,56 +1,53 @@
 ---
 title: Start here
 order: 0
-description: Paper-thin documentation tool. Start here.
+description: One workspace for Think, Plan and Document. Start with the current desktop preview and product guides.
 ---
 
 # Start here
 
-This handbook is written in Hanji, kept in Hanji's repository, and read through the product itself. 🎉
+Hanji gives ideas, next steps and knowledge a shared workspace. **Think** is the
+canvas. **Plan** holds issues, projects and objectives. **Document** reads and
+edits your Markdown. The conductor brings an agent into context when you need one.
 
-## Quick start
+This public handbook describes the current working preview. The Mac app is
+shared by invitation; public binary downloads and a hosted workspace service
+are not available yet. [Request preview access](https://hanji.ink/start/).
 
-Five minutes from a repo full of Markdown to a place worth reading:
+![Think in a fictional workspace](assets/public-canvas.png)
 
-```bash
-git clone https://github.com/gethanji/hanji && cd hanji && pnpm install
-pnpm dev:web   # → http://localhost:4100
-```
+## Make a workspace
 
-First visit, a short welcome takes it from there: your name for the place, your password, your first folder of Markdown.
+[[Desktop workspace]] covers receiving the preview, moving the app to
+Applications and creating a workspace. The setup has four stages: your workspace,
+your content, secure access and a review. Start fresh prepares the selected
+products’ folders; existing content can be connected during setup or later.
 
-The full walk, with what each line does for you: [[Quick start]].
+[[Quick start]] helps you choose that path or the path for an existing source
+checkout. You can read, edit and organize without connecting a model account.
 
-## Set up yours
+## Find the surface you need
 
-Four shapes Hanji is lived in. Start with the one that matches you.
-
-| You are | Start here |
+| You want to | Start here |
 |---|---|
-| **Just you, on your machine** | [[Quick start]] - the five minutes above, explained |
-| **A team on a tailnet** | [[On your tailnet]] - one shared instance, and nobody types a password |
-| **Working with coding agents** | [[Agents]] - scoped reads, and their edits arrive as proposals you review |
-| **Publishing docs to the world** | [[Publish to the web]] - one command; this site is the proof |
+| Explore an idea visually | [[Think canvas]] — live notes, diagrams, tables, templates and workshops |
+| Turn the next step into work | [[Objectives and key results]] — goals, key results and linked work in Plan |
+| Read, write and keep knowledge | [[Reading and writing]] — Markdown pages, comments, history and search |
+| Work with your own agent | [[The conductor]] — a standing conversation across the workspace |
+| Understand what has moved | [[Workspace insights]] — contributions, trends and the journal |
+| Share with your team | [[On your tailnet]] — access through a network you operate |
+| Publish chosen content | [[Publish to the web]] — this handbook, HTML, Markdown and llms.txt |
 
-## The documentation
+## Go a little deeper
 
-How to use it, and how it actually works. Written to serve you mid-task.
+[[Using Hanji]] is the complete guide map. [[Features]] lists what the preview
+implements. [[Permissions]] explains who can read and change each kind of content.
+[[Mounts]] connects repositories, [[Agents]] connects scoped tools, and
+[[Proposals]] covers reviewing suggested edits.
 
-| Page | What it does for you |
-|---|---|
-| [[Install Hanji]] | From clone to a running instance, with the rough edges named. |
-| [[Mounts]] | Point Hanji at your repositories, and keep them in sync on their own. |
-| [[Reading and writing]] | The daily feel: reading, editing, search, history, organizing. |
-| [[Proposals]] | Review what agents and teammates propose - diff, Merge, done. |
-| [[Command reference]] | Every CLI command in one table, for when you know what you want. |
-| [[Permissions]] | The lock, from mount to single page - and exactly what it enforces. |
-| [[The two faces]] | The human front and the agent surface, over one git. |
-| [[Byte-fidelity]] | Why a one-word edit is a one-line diff, forever. |
-| [[Performance]] | Paper-thin: the speed and size numbers. |
-| [[Features]] | The whole list, with honest status. |
+For the project’s direction, read [[The story]], [[Principles]] and
+[[Where we are]]. For the implementation, start with [[How it's built]],
+[[The serializer]], [[The core]] and [[The web front]].
 
-## The story
-
-The why. What makes this more than a wiki - [[The story]] opens with the manifesto and carries the rest: the name, the difference, the fit, the mission, the principles, the brand.
-
-Deeper still: **how it's built** ([[How it's built]] · [[The serializer]] · [[The core]] · [[The editor]] · [[The MCP server]] · [[The web front]]), **contributing** ([[Contributing]] · [[Developing]] · [[Conventions]] · [[Open core]]), **the brand** ([[The brand]] · [[The visual language]] · [[Voice]]), and **the project** ([[Principles]] · [[Where we are]] · [[Changelog]]).
+The products were previously called Write and Work. Their current names are
+Document and Plan; technical package and command identifiers stay stable.

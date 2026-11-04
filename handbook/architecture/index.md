@@ -1,14 +1,14 @@
 ---
 title: How it's built
 order: 30
-description: The four packages and one app that make up Hanji, and how a read flows through them.
+description: The shared packages, product surfaces and desktop shell, and how a read flows through them.
 ---
 
 # How it's built
 
-Hanji is a small pile of parts with clear seams. Four packages and one web app, each doing one thing, each testable on its own. Here is the whole map.
+Hanji is a small pile of parts with clear seams. The shared content and authorization packages sit beneath Document, Plan, Think and the desktop shell. The map below starts with the original document plane.
 
-## The parts
+## The shared document plane
 
 | Part | What it is | Depends on |
 |---|---|---|
@@ -33,3 +33,12 @@ The index is a cache. Delete it, run `rebuild`, and it comes back from the clone
 A person edits on the front, and `apps/web` asks `@hanji/editor` for the new Markdown, block-fidelity intact, then core commits it to git. An agent instead calls `hanji_propose`, and core opens a branch. One path writes, the other suggests, and both end in git.
 
 Read the parts in depth: [[The serializer]], [[The core]], [[The editor]], [[The MCP server]], and [[The web front]].
+
+
+## The workspace around it
+
+`apps/tracker-web` and `packages/tracker` provide Plan, with the session host in
+`packages/tracker-host`. `packages/whiteboard` provides Think’s canvas, operation
+model and checkpoints. `packages/dock` shares the conductor across products, and
+`apps/desktop` brings their local servers and views into a Tauri shell. The
+public handbook is a separate static export of selected everyone-readable content.

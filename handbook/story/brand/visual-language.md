@@ -1,16 +1,16 @@
 ---
 title: The visual language
 order: 10
-description: Warm paper, an editorial serif, celadon, and a mark cut back to its bones.
+description: Cool neutral paper, an editorial serif, celadon, and a mark cut back to its bones.
 ---
 
 # The visual language
 
 Every visual choice in Hanji answers to one idea: this is paper made to be written on and meant to last. Here is what that produced, and why.
 
-## Warm paper white
+## Calm neutral paper
 
-The background is a warm off-white, close to a fresh sheet, with the faintest grain laid over everything. Pure white is a screen. Warm white is paper. The difference is small, and you feel it on every page, the way you feel the difference between a glossy flyer and a good book.
+The shared background is a restrained cool off-white (`#f5f6f8`), with near-white sheets (`#fcfcfd`) and slightly deeper navigation (`#eceef1`). Blue-gray ink and borders preserve distinction without a yellow cast. Dark mode carries the same quiet slate undertone. Document, Plan, Think and the desktop shell use this neutral family; workspace accents and content colors keep their identity.
 
 ## An editorial serif
 
@@ -18,7 +18,7 @@ The reading type is **Newsreader**, a serif drawn for long-form reading, set lar
 
 ## 비색, the secret color
 
-The accent is **celadon (비색, bisaek)**, the blue-green glaze of Goryeo celadon that Korean potters a thousand years ago called *the secret color*. It is calm, it is unmistakably Korean, and it is almost never seen in software. It ties the product to a tradition of objects made by hand and meant to endure, which is the same claim hanji makes about paper.
+The accent is a workspace's own choice, and its default is the ink itself, near black, so a fresh workspace is paper and ink and nothing else; a link reads as a link by its underline, a current item by its weight and its fill. **Celadon (비색, bisaek)**, the blue-green glaze of Goryeo celadon that Korean potters a thousand years ago called *the secret color*, stays the color of the product's own story and marketing: calm, unmistakably Korean, almost never seen in software, and tied to a tradition of objects made by hand and meant to endure, which is the same claim hanji makes about paper. A workspace that wants it picks it in Settings.
 
 ## The mark
 
@@ -29,7 +29,7 @@ The accent is **celadon (비색, bisaek)**, the blue-green glaze of Goryeo celad
 
 The logo is **ㅎ (hieut)**, the first consonant of 한 in 한지 and Hanji, cut back to its bones: a short top stroke, a horizontal bar, and a ring. The letter was already almost a mark, and we only had to clear away what it did not need. The three parts sit exactly where the letter puts them, so it reads as ㅎ to anyone who knows the alphabet and as a calm, balanced glyph to anyone who does not.
 
-The mark keeps its own deep charcoal rather than taking the celadon of the text around it. Celadon is the accent of the writing surface, and the mark is the object that sits on the surface, so it holds its own weight, the way a seal pressed into paper is darker than the ink of the page. It is the single, deliberate exception to the color rule.
+The mark keeps its own deep charcoal whatever accent the workspace chose. The accent belongs to the writing surface, and the mark is the object that sits on the surface, so it holds its own weight, the way a seal pressed into paper is darker than the ink of the page. It is the single, deliberate exception to the color rule.
 
 ## Restraint as the style
 

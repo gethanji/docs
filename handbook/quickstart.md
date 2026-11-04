@@ -1,46 +1,52 @@
 ---
 title: Quick start
 order: 5
-description: A running Hanji in five minutes, on the Markdown you already have.
+description: From the invited desktop preview to your first canvas, issue or page.
 ---
 
 # Quick start
 
-You have repositories full of Markdown - notes, docs, decisions that deserve
-better than a file tree. In five minutes they become one quiet, readable
-place: yours to write, your team's to read, your agents' to work in.
+The quickest path is the invited Mac desktop preview. [Request access](https://hanji.ink/start/)
+if you do not have a copy. Public binary downloads are not available yet, and
+source access is shared separately with preview participants.
 
-*Pre-release note: the code ships soon as one clean release. This page is
-exactly what day one looks like.*
+## With the desktop preview
 
-## The five minutes
+1. Move Hanji.app to Applications and open it.
+2. Choose Create your workspace, give it a name, and select Think, Plan and/or Document.
+3. Choose Start fresh to let Hanji prepare folders, or bring existing content.
+4. Choose an owner password, review, and create the workspace.
+
+[[Desktop workspace]] explains each stage, recovery, and the workspace shell.
+
+![The workspace setup](assets/onboarding-workspace.png)
+
+## Make the first thing
+
+- **Think:** create a canvas, add a sticky, and connect it to another idea.
+- **Plan:** create an issue; a clear title is enough to start.
+- **Document:** open the welcome page, edit a sentence and save it.
+
+Your files stay local. The conductor is optional: configure your own agent later
+through Settings. See [[The conductor]] for provider setup, context and approval.
+
+## With an existing source checkout
+
+Development dependencies and a working Git installation are required. The
+SQLite native module must match the Node runtime used to run the checkout.
+Follow that checkout’s prerequisites, then:
 
 ```bash
-git clone https://github.com/gethanji/hanji && cd hanji
 pnpm install
 pnpm dev:web   # → http://localhost:4100
 ```
 
-The first visit greets you with a short welcome: name the place, choose your
-password, and point it at your first pages - a folder of Markdown on your
-machine, or a git URL to clone. That is the whole setup. No environment
-variables, nothing to configure by hand. (Prefer configuring by env, for a
-server? [[Install Hanji]] keeps that path.)
+The first visit uses the same guided setup. [[Install Hanji]] covers explicit
+configuration for a source checkout or server. These commands assume access to
+the source; they are not a public download link.
 
-Then your notes are there, rendered on warm paper. Click **Edit**, change
-something, press **Update** - you just made a clean git commit without
-thinking about git once. That is the whole trick, and it never gets more
-complicated than that.
+## Where next
 
-## Where to next
-
-Pick the shape that matches your life:
-
-- **A team on your tailnet** - share one instance where the network signs
-  people in and nobody types a password. [[On your tailnet]].
-- **Your coding agents** - give them scoped reads and let their edits arrive
-  as proposals you review. [[Agents]].
-- **A public site** - one command turns everything you've opened into a
-  website, `llms.txt` included. [[Publish to the web]].
-- **Just curious how it holds together?** [[Mounts]], then
-  [[Reading and writing]] - the two pages that explain the daily feel.
+[[Think canvas]], [[Objectives and key results]], [[Reading and writing]] and
+[[Workspace insights]] cover the daily tools. [[Mounts]] adds existing content,
+and [[On your tailnet]] shares it with people you authorize.

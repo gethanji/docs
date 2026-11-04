@@ -1,38 +1,35 @@
 ---
 title: Is Hanji for you?
 order: 40
-description: An honest look at who Hanji fits, and where something else fits better.
+description: Who the current preview suits, and which needs it does not yet cover.
 ---
 
 # Is Hanji for you?
 
-A tool that claims to be right for everyone is lying to someone. Here is the honest version.
+Hanji fits people who want a calm place to explore ideas, plan work and keep
+knowledge, while retaining their own files and choosing when an agent joins in.
+It can be a personal workspace or a shared instance you operate.
 
-## Hanji fits you well if
+## The preview may fit if
 
-- Your team already keeps things in git, and your agents already read code from it.
-- You want people to read and write without ever learning git.
-- You want to bring your own agent, and you refuse to pay by the token for the privilege.
-- You have folders that must stay private, and you need that lock honored everywhere, including by the agents.
-- You want to be able to walk away with everything, because it was always just your files.
+- You want a canvas, planning tools and Markdown knowledge in the same workspace.
+- Local folders and Git-backed content matter to you.
+- You want to bring your own agent and control its access to the work.
+- You are willing to use an evolving Mac preview and share feedback.
+- Your team can operate its own instance or tailnet when sharing it.
 
-That is the center of the target. A 10-to-200-person team, engineering-led, agent-heavy, already paying for a knowledge base its agents cannot read. If that is you, the rest of this handbook is written for you.
+## Check these limits first
 
-## You will be happier somewhere else if
+The desktop is shared by invitation; there is no unrestricted public binary
+download. Hosted workspace sync is not included. The app does not supply a model
+account, an enterprise identity-provider integration or a procurement-ready
+managed service. A teammate’s access still needs to be configured by the owner.
 
-Honesty about limits is one of our [[Principles]], so here it is turned on ourselves. If your need is in the left column, the tool in the middle will serve you better today, and we would rather point you to it.
+Local ownership also brings backup responsibilities. Repositories preserve file
+history, but accounts, grants, sessions and live journals have durable state
+outside those files. [[Desktop workspace]], [[Mounts]] and [[Permissions]] explain
+what you are taking on.
 
-| If you want | A better fit today | Why it wins there |
-|---|---|---|
-| One app for docs, tasks, databases, and a bundled AI | Notion | It plays the all-in-one game well. You trade portability for it, and often that trade is worth making. |
-| A polished hosted wiki, and git or agents do not matter to you | Docmost, Outline | Excellent open-source wikis with a real team layer today. Hanji only pays off if the git-native part matters. |
-| Personal notes on your own machine, just you | Obsidian | Hard to beat, and free for exactly that. Hanji is built for a team with a shared repo and a permission line down the middle. |
-| To publish external product documentation | GitBook, Mintlify | Shaped for published docs, with the site polish and the SEO Hanji does not chase. |
-| Enterprise SSO, audit, and a filled-in procurement checklist today | Confluence, or Hanji's paid tier later | Hanji is early. Those parts live on the paid tier, and some are still ahead of us. See [[Where we are]]. |
-| Git and agents, but no human front and no permissions | The agent-first newcomers | They move fast in that space. Hanji exists because we wanted the human front and the lock too. |
-
-## The short version
-
-Hanji is the tool built to hold four things at once: git-backed storage, agent-native access, a polished human front, and real permissions. Need all four, and as of today nothing else does the whole set. Need only one or two, and one of the tools above will serve you better, and we would rather tell you that now than sell you the wrong thing.
-
-No bundled model. No credits, ever. See [[Why Hanji is different]] for the longer argument.
+If you need a supported hosted service or a finished enterprise deployment today,
+the current preview will not cover that need. If you want to help shape a workspace
+for people and agents, [request preview access](https://hanji.ink/start/).

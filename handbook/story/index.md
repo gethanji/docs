@@ -1,51 +1,57 @@
 ---
 title: The story
 order: 60
-description: The manifesto, and the why behind every decision.
+description: Why Hanji brings thinking, planning and knowledge into one workspace.
 ---
-
 
 # The story
 
-*Paper-thin documentation tool.*
+*Room to think. Clarity to move.*
 
-Most knowledge tools are built for the moment you write in them. Hanji is built for every moment after.
+Hanji started with knowledge: real Markdown that people could read and improve,
+and coding agents could use through a scoped surface. The files should remain
+useful after the app is gone, and the human reading experience should matter as
+much as the agent protocol.
 
-We went looking for a place to keep what a team knows, and we kept finding the same shape. A store you cannot read without the app that made it. A model bundled in and metered by the token. A wall between your writing and the agents that, more and more, do the reading. In every case the knowledge was the hostage, and the software was holding it.
+Working that way brought the next question into view. An idea often starts as
+fragments on a canvas, becomes a next step, then leaves behind knowledge someone
+else will need. Those moments should stay connected.
 
-So we built the reverse.
+## Three surfaces, one workspace
 
-Hanji keeps what a team knows as plain Markdown, in a git repository you already own. People read and write through a quiet, well-set web front. Coding agents read and contribute through the same git and a small protocol, at the speed of a local clone. Nothing is bundled. Nothing is metered. Nothing is locked away where only one program can reach it.
+Think makes room for notes, diagrams and conversation. Plan gives the next step
+an owner and a place among projects and objectives. Document keeps the context
+in Markdown. They share a workspace rather than asking people to rebuild the
+same identity and background in each tool.
 
-That is the whole product in one move. Git is the store, and everything else is a face on top of it.
+The conductor is a standing agent conversation across those surfaces. It carries
+context, follows access scopes, asks for required approval and makes supported
+changes reversible. It is optional: people can read, write and organize without
+connecting a model account.
 
-## Two faces
+## Files that outlast the interface
 
-One face is for people. Pages are Markdown, rendered with care, on a warm sheet meant for long reading. You enter edit mode, make a change, and press Update. That update is a single commit with a full history behind it, and git never once shows itself unless you go looking for it.
+Document and Plan keep file-backed content; Think combines a live edit journal
+with automatic Git checkpoints. Durable configuration and journals need backup
+alongside the repositories. The promise is control over your work, with those
+boundaries named honestly.
 
-The other face is for agents. They already live in git, so Hanji meets them there, plus a small MCP server for scoped search and reading. When an agent wants to write, it does not edit your page. It proposes a change as a branch, and a person decides. An agent can suggest. You merge.
+## A calm surface and a clear lock
 
-## A lock on the sensitive folders
+The interface should give the work attention rather than demand it. Shared
+navigation, cool neutral surfaces, useful editing controls and readable history
+are part of that aim. So is scoped access: a person or agent should see only what
+the workspace permits, with direct repository access explained as a separate limit.
 
-Some folders hold meeting notes and decisions that are not for everyone. Every read Hanji serves, search and links and the agent tools alike, runs through one permission check, so a reader only ever sees what they are allowed to see. We are honest about what that lock protects today and what it does not. A promise we cannot keep is worse than no promise at all.
+The current app remains an invited desktop preview. We are learning through the
+working product rather than promising a hosted service or a finished public release.
 
-## Paper-thin
+## Why “Hanji”
 
-The name is also a claim about weight. Reads come off a local clone and a small local index, not a round-trip to someone's cloud, so the front stays quick and ships almost nothing to the browser. It is meant to get out of the way. See [[Performance]] for the numbers.
+한지 is Korean paper. The name expresses a hope that the work will outlast its
+interface. [[The name]] tells that story; [[What Hanji is]] describes today’s
+workspace.
 
-## Why "Hanji"
-
-한지 is Korean paper that has carried writing for a thousand years. The name is a promise about longevity: software comes and goes, and the paper should outlast the app. Read [[The name]] for where it comes from, [[What Hanji is]] for how it works, [[Why Hanji is different]] for what it refuses to do, and [[Mission and vision]] for where it is going.
-
-> Your agents already live in git. Hanji gives the humans a front and the sensitive folders a lock.
-
----
-
-The rest of the story, in reading order:
-
-1. [[The name]] - 한지, the paper this is named for.
-2. [[Why Hanji is different]], how it lands differently from other tools.
-3. [[Is Hanji for you?]], an honest look at fit, with better options where they exist.
-4. [[Mission and vision]], why it exists and where it is going.
-5. [[Principles]], the beliefs that break the ties.
-6. [[The brand]] - the visual language and the voice, for anyone writing as Hanji.
+Read [[Why Hanji is different]], [[Is Hanji for you?]], [[Mission and vision]],
+[[Principles]], [[The brand]], [[The visual language]] and [[Voice]] for the
+choices behind the product.

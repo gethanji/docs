@@ -24,7 +24,10 @@ pnpm hanji export ./site
 ```
 
 `./site` is now a complete static website in Hanji's look: your sidebar, your
-reading order, dark mode, zero JavaScript. Beside every HTML page sits the
+reading order and dark mode. A small inline script remembers the theme choice;
+reading and navigation also work without JavaScript. On a phone, Browse handbook
+opens a native collapsible navigation panel so the article stays near the top;
+a Skip to content link supports keyboard navigation. Beside every HTML page sits the
 same page as plain Markdown, plus `llms.txt` and `llms-full.txt` at the root -
 so the agents reading the open web get your writing as text, not scraped
 pixels.
@@ -74,3 +77,18 @@ Everything without an everyone rule. A restricted folder inside an open mount
 stays dark, its pages and even its images never leave the building. If
 nothing is open at all, the exporter refuses loudly rather than shipping an
 empty site - you will never publish by accident.
+
+
+## This handbook’s publication
+
+Maintainers can export only the handbook from an isolated publication state:
+
+```bash
+node --import tsx scripts/export-handbook.mjs /path/to/docs-artifact-checkout
+node scripts/check-handbook-export.mjs /path/to/docs-artifact-checkout
+```
+
+This uses `docs/handbook` as the only mount. It does not change the rules of a
+live workspace, copy other mounts or push a repository. Review the exported
+HTML, assets and Markdown mirrors before committing the artifact. The marketing
+site and this handbook have separate GitHub Pages deployments.

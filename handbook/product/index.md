@@ -1,29 +1,55 @@
 ---
 title: What Hanji is
 order: 20
-description: How Hanji turns the repos you already have into one permissioned knowledge base.
+description: One local workspace for ideas, next steps and knowledge, with scoped agent access.
 ---
 
 # What Hanji is
 
-Hanji turns the git repositories a team already has into one shared, permissioned knowledge base with two faces. One for people, one for agents. Nothing moves and nothing is copied into a new store. Hanji reads what is already there and serves it well.
+Hanji is a workspace with three surfaces. **Think** gives ideas room on a canvas.
+**Plan** turns the next step into an issue, project or objective. **Document**
+keeps knowledge in real Markdown. They share people, appearance, workspace
+insights and a standing conversation with the conductor.
 
-## Mounts
+The current app is an invited desktop preview. The public handbook is available
+to everyone; public app downloads and hosted sync are not included.
 
-You point Hanji at git repositories, or at folders inside them, and each one becomes a **mount** in a single tree. A repo of engineering docs, a folder of product specs, a private repo of meeting notes, all of it lands in one place to read and search, while each repository stays exactly where it is. Hanji never becomes the owner of your content. Git remains the source of truth, and the index Hanji builds on top is a cache it can throw away and rebuild at any time. See [[Mounts]] for how to add one.
+## Start where the work is
 
-## For people
+Use [[Think canvas]] for notes, diagrams, tables, templates and workshops. Objects
+can become issues in Plan or a page in Document. Use [[Objectives and key results]]
+to connect a goal to the work behind it, and [[Reading and writing]] to preserve
+what the team learns. [[Desktop workspace]] explains setup and navigation.
 
-A quiet reading and writing front. Pages are Markdown, rendered with care on a warm sheet meant for long reading. Editing is deliberate. You enter edit mode, make your changes, and press Update, and that Update is a single commit with a full history behind it. Git stays out of sight unless you go looking for it. There is a full editor under that calm surface, with tables, task lists, images, and embeds, and it never rewrites a line you did not touch. Read [[The two faces]] for how the front is built, and [[Byte-fidelity]] for why your history stays clean.
+## Keep the files under your control
 
-## For agents
+Repositories and local folders become mounts in the workspace. Document reads
+and edits Markdown in place. Plan keeps file-backed issues and projects. Think
+accepts revisioned changes into a live journal and makes automatic Git checkpoints.
+The products’ storage boundaries differ; they are not all a disposable cache.
 
-Coding agents read the knowledge the way they read code, as files in a repository, at the speed of a local clone. Where a hosted surface helps, a small MCP server offers scoped search and reading, plus a write path that proposes changes as branches rather than editing pages in place. An agent can suggest. A person decides. That one rule fixes the failure mode everyone with a bundled AI has hit, the model that confidently edited the wrong page. Here it opens a branch, and you merge it or you do not.
+Back up durable workspace configuration and session/canvas journals alongside
+your repositories. The index can be rebuilt; accounts, grants, comments and
+uncheckpointed accepted edits cannot simply be recovered from that index.
+[[Mounts]] and [[Think canvas]] describe the details.
 
-## For the sensitive parts
+## Bring an agent when it helps
 
-Some folders hold decisions and notes that should not be open to everyone. Every read Hanji serves, search and links and the agent tools alike, runs through a single permission check, so a reader only ever sees what they are allowed to see. A search will not leak a title. A wikilink will not resolve to a page you cannot open. And we are honest about where that check is strict today and where it is still getting finer. Read [[Permissions]] for exactly what is enforced now.
+Connect your own Claude or Codex setup. The conductor carries the current page,
+issue or selected canvas objects into the conversation. It can act within your
+rights and token scopes, ask for required approval, or propose an edit for review.
+Supported changes have Undo. A model subscription is separate and ordinary
+reading, writing and canvas work do not require one.
 
-## What it will never do
+[[The conductor]], [[Agents]] and [[Proposals]] cover the agent surfaces.
 
-No bundled model. No per-token credits. No format you cannot walk away from. If you leave, you already have everything, because it was always just your files in your git. Read [[Why Hanji is different]] for the longer version of that promise.
+## Respect the access boundary
+
+Pages, search, links, exported content and agent tools follow the access model.
+A shared workspace does not make private content public. [[Permissions]] explains
+which checks apply to each surface, including the limits of a local desktop owner
+session and direct access to the underlying repository.
+
+Hanji’s aim is a calm human surface and useful agent access without taking
+ownership of the work. [[Why Hanji is different]] explains those choices;
+[[Features]] lists what the current preview implements.

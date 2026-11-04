@@ -9,19 +9,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../../hanji.css">
-<script>try{var t=localStorage.getItem("hanji-theme");if(t)document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
+<script>try{var t=localStorage.getItem("hanji-theme");if(t==="system")t="auto";if(["auto","light","dark"].indexOf(t)<0)t="auto";document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
 <div class="frame">
 <aside>
-<p class="lockup"><a href="https://gethanji.github.io/"><img class="mark" src="../../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../../..">Handbook</a></p>
-<nav><p class="mount-label">handbook</p><a href="../../">Start here</a><a href="../../quickstart/">Quick start</a><details open><summary><a href="../">Using Hanji</a></summary><a href="../install/">Install Hanji</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../comments/">Comments</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a href="../publish/">Publish to the web</a><a href="../cli/">Command reference</a><a aria-current="page" href="./">On your tailnet</a></details><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../story/">The story</a></summary><a href="../../story/the-name/">The name</a><a href="../../story/why-hanji-is-different/">Why Hanji is different</a><a href="../../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../../story/mission-and-vision/">Mission and vision</a><a href="../../story/principles/">Principles</a><details><summary><a href="../../story/brand/">The brand</a></summary><a href="../../story/brand/visual-language/">The visual language</a><a href="../../story/brand/voice/">Voice</a></details></details><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+<p class="lockup"><a href="https://hanji.ink/"><img class="mark" src="../../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../../..">Handbook</a></p>
+<nav class="desktop-nav" aria-label="Handbook"><p class="mount-label">handbook</p><a href="../../">Start here</a><a href="../../quickstart/">Quick start</a><details open><summary><a href="../">Using Hanji</a></summary><a href="../install/">Install Hanji</a><a href="../desktop/">Desktop workspace</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../links/">Links and references</a><a href="../comments/">Comments</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a href="../conductor/">The conductor</a><a href="../activity/">Workspace insights</a><a href="../publish/">Publish to the web</a><a href="../cli/">Command reference</a><a aria-current="page" href="./">On your tailnet</a><a href="../objectives/">Objectives and key results</a><a href="../whiteboard/">Think canvas</a></details><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../story/">The story</a></summary><a href="../../story/the-name/">The name</a><a href="../../story/why-hanji-is-different/">Why Hanji is different</a><a href="../../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../../story/mission-and-vision/">Mission and vision</a><a href="../../story/principles/">Principles</a><details><summary><a href="../../story/brand/">The brand</a></summary><a href="../../story/brand/visual-language/">The visual language</a><a href="../../story/brand/voice/">Voice</a></details></details><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+<details class="mobile-nav"><summary>Browse handbook <span aria-hidden="true">⌄</span></summary><nav aria-label="Handbook"><p class="mount-label">handbook</p><a href="../../">Start here</a><a href="../../quickstart/">Quick start</a><details open><summary><a href="../">Using Hanji</a></summary><a href="../install/">Install Hanji</a><a href="../desktop/">Desktop workspace</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../links/">Links and references</a><a href="../comments/">Comments</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a href="../conductor/">The conductor</a><a href="../activity/">Workspace insights</a><a href="../publish/">Publish to the web</a><a href="../cli/">Command reference</a><a aria-current="page" href="./">On your tailnet</a><a href="../objectives/">Objectives and key results</a><a href="../whiteboard/">Think canvas</a></details><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../story/">The story</a></summary><a href="../../story/the-name/">The name</a><a href="../../story/why-hanji-is-different/">Why Hanji is different</a><a href="../../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../../story/mission-and-vision/">Mission and vision</a><a href="../../story/principles/">Principles</a><details><summary><a href="../../story/brand/">The brand</a></summary><a href="../../story/brand/visual-language/">The visual language</a><a href="../../story/brand/voice/">Voice</a></details></details><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav></details>
 </aside>
-<main>
+<main id="content" tabindex="-1">
 <div class="topline">
 <p class="crumbs"><a href="../../">handbook</a> / guide / on-your-tailnet</p>
-<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">auto</button><button type="button" data-theme-choice="light" aria-pressed="false">light</button><button type="button" data-theme-choice="dark" aria-pressed="false">dark</button></div>
+<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">System</button><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div>
 </div>
 <article class="prose-hanji"><h1>On your tailnet</h1>
 <p>The recommended way to share a Hanji instance with a team is not a domain, a
@@ -39,33 +41,146 @@ tailscale serve --bg 4100
 </code></pre>
 <p>Setting <code>HANJI_TAILSCALE_OWNER</code> does two things at once. It tells Hanji to
 trust the identity headers <code>tailscale serve</code> attaches, and it names the
-tailnet login that is the owner - you. Open the instance from any device on
+tailnet login that is the owner: you. Open the instance from any device on
 your tailnet and you are simply in, as the owner, no password asked.</p>
 <h2>Let people in</h2>
 <p>Everyone else maps through Settings → People. Open a person's sheet and link
 their tailnet login in the Tailscale field. From then on, that identity signs
-them in with no password - and that is all it does. What they can see and
-propose stays exactly the grants you gave them; the tailnet answers who they
-are, never what they may read. See <a href="../../product/permissions/">Permissions</a>.</p>
+them in with no password. What they can see and propose is set by the grants
+you gave them; the tailnet only says who they are. See <a href="../../product/permissions/">Permissions</a>.</p>
+<p>People starts with you: an <strong>Owner</strong> row with one field, Name. It goes on your commits and reads in bylines and History, in Hanji Plan's assignee list and History, and on your comments in Hanji Think. Commits you made before you set it read under it too: History at once, and a page's byline once the page is edited again or <code>hanji rebuild</code> runs (a byline indexed before this build holds no email to match). A name a person or an agent already uses is refused. With <code>HANJI_GIT_AUTHOR_NAME</code> set, the server's environment names you and the field is disabled.</p>
 <figure><img src="../../assets/person-sheet.png" alt="A person&#x27;s sheet: their grants, and the Tailscale login field linking their tailnet identity" class="w-50"><figcaption>One person, one sheet: what they hold, and the tailnet identity that signs them in.</figcaption></figure>
-<p>An unlinked visitor is told plainly: the login page names the tailnet
-identity it saw and says the owner has not linked it yet. The password form
-still works underneath, always - a linked identity is a convenience on top of
-sessions, not a replacement for them.</p>
+<p>An unlinked visitor is told plainly: the sign-in card names the tailnet
+identity it saw and says the owner has not linked it yet, once tailscaled has
+confirmed the login. The password form always works too: a linked login adds a
+way to sign in and leaves passwords in place. Hanji Plan and Hanji Think show
+the same card with the same sentence; off the tailnet, Plan's card points at
+the computer's own address and Think's at the owner's access link, and a Think
+session that ended says so first. On the tailnet the card links to the
+product's tailnet address when <code>HANJI_TRACKER_URL</code> or <code>HANJI_THINK_URL</code> names
+it, and otherwise says to ask the owner for it.</p>
+<figure><img src="../../assets/signed-out-work.png" alt="Hanji Plan&#x27;s signed-out card: the mark, the product&#x27;s name, a heading, one sentence and one link" class="w-50"><figcaption>One card in all three products: the mark, the product, why, and the one way forward.</figcaption></figure>
 <p>This is also how you invite someone from outside your team: share your node
-with them in Tailscale, add them as a person, link their login. Share access,
-not code.</p>
+with them in Tailscale, add them as a person, link their login.</p>
+<h2>Hanji Plan on the tailnet</h2>
+<p>Hanji Plan signs people in the same way. Build it, start it with the same owner and the same data folder as Document, and serve it on a second port:</p>
+<pre><code class="language-bash">export HANJI_TAILSCALE_OWNER=you@github   # the same login as Write's
+export HANJI_DATA_DIR=~/.hanji            # the same folder as Write's
+export TRACKER_WORKSPACE=/path/to/tracker  # only for a tracker that is not registered as a work mount; registered ones are served from the data folder
+pnpm --filter tracker-web build           # again after each update of Hanji
+pnpm --filter tracker-web start           # serves 127.0.0.1:4102
+tailscale serve --bg --https=8443 4102
+</code></pre>
+<p>With several trackers registered, Plan serves them all from that one port: each person reaches the trackers whose work mount they may view, by its prefix in the address.</p>
+<p>Plan reads people and grants from that data folder, so Document's server does not need to run. To let your team in:</p>
+<ol>
+<li>Register the tracker as a mount of the workspace, in its own folder: <code>pnpm hanji add-mount work /path/to/tracker work --local</code>. Hanji finds the tracker file (<code>workspace.yml</code>) and records the mount as kind work. The tracker's database keeps working, since it is keyed by the tracker's prefix and folder.</li>
+<li>In Document, under Settings → People, add each teammate, link their tailnet login, and make them a Viewer or an Editor of the work mount.</li>
+<li>For each teammate who edits, add their Document user name under <code>people:</code> in the tracker file, and commit it:</li>
+</ol>
+<pre><code class="language-yaml">people:
+  ada: Ada, design lead
+  remy: Remy, designer
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>On the work mount</th><th>In Hanji Plan</th></tr></thead><tbody><tr><td>no access</td><td>every address answers 404, and the reply names nothing about the tracker</td></tr><tr><td>Viewer</td><td>views, issues, projects, proposals and sessions</td></tr><tr><td>Editor, with a <code>people:</code> entry</td><td>also edits issues, projects and views, comments, and files an issue from a page in Document or from a sticky in Think, with their name on each commit</td></tr><tr><td>Editor, without one</td><td>views only; each edit answers with the entry to add</td></tr></tbody></table>
+<p>The owner needs no <code>people:</code> entry to file an issue from a page in Document or from a sticky in Think.</p>
+<p>Actions that let an agent run code on this machine stay with the owner: Allow on a permission, a message to a session, Open in Ghostty, starting the conductor, a comment sent to an agent, a comment on an issue whose ask or build is waiting, asking for a build, Workspace settings, starting the session host, and applying or discarding a proposal. A teammate who tries one is told so. Deny and Stop only stop work, so a teammate with edit and a <code>people:</code> entry can use them. A write sent from a page on another site is refused. A session's log shows the folders and commands its agent used on the owner's machine, so anyone who can view sessions sees them.</p>
+<p>A private tracker belongs to a private workspace: start its Plan server with its own <code>HANJI_DATA_DIR</code>. A tracker served from a folder that is not a registered work mount of the data folder opens for the owner only.</p>
+<h3>Links between the products</h3>
+<p>Each product links to the others through three addresses: <code>HANJI_KB_URL</code> (Document, default <code>http://127.0.0.1:4100</code>), <code>HANJI_TRACKER_URL</code> (Plan, default <code>http://127.0.0.1:4102</code>) and <code>HANJI_THINK_URL</code> (Think, default <code>http://127.0.0.1:4104</code>). The defaults open the visitor's own machine, which suits one person on localhost. On a tailnet, set all three to their <code>tailscale serve</code> addresses on every product server, so a teammate who follows "Cited by" from a Document page opens Plan on your machine:</p>
+<pre><code class="language-bash">export HANJI_KB_URL=https://mac.tailnet.ts.net
+export HANJI_TRACKER_URL=https://mac.tailnet.ts.net:8443
+export HANJI_THINK_URL=https://mac.tailnet.ts.net:8444
+</code></pre>
+<p>A board link in a Document page (<code>[[board:boards/crit#9f2c]]</code>) and an issue's <strong>From</strong> link in Plan open Think at <code>HANJI_THINK_URL</code>.</p>
+<p>Think opens a page it wrote up, and a proposal it made, in Document at <code>HANJI_KB_URL</code>.</p>
+<p>The three addresses also decide which requests the tailnet login signs in. In tailnet mode, Document, Plan and Think trust the <code>Tailscale-User-Login</code> header only on a request whose <code>Host</code> is this machine's loopback address (<code>127.0.0.1</code>, <code>localhost</code> or <code>[::1]</code>, on any port), which covers requests made on this machine, or the host name of one of the three addresses. <code>tailscale serve</code> passes the tailnet name as the <code>Host</code> when it forwards a request, which is why one of the three addresses must name it. Host names compare without the port and without regard to letter case. A web page open in a browser on this machine can point its own domain at 127.0.0.1 and send a login header of its own, but it cannot change the <code>Host</code> that its own domain gives it, so it cannot sign itself in as the owner. A request with any other <code>Host</code> gets no sign-in from the header: Plan and Think answer 403, and Document treats the visitor as anonymous.</p>
+<p>If a sign-in that worked before now answers 403 in Plan, or shows the login page in Document, the product addresses are not set to the <code>tailscale serve</code> names. Set all three as shown above on every product server and restart each one.</p>
+<h2>Hanji Think on the tailnet</h2>
+<p>Hanji Think signs people in the same way. Start it with the same owner and the same data folder, with its own address set, and serve it on a third port:</p>
+<pre><code class="language-bash">export HANJI_TAILSCALE_OWNER=you@github   # the same login as Write's
+export HANJI_DATA_DIR=~/.hanji            # the same folder as Write's
+export HANJI_THINK_URL=https://mac.tailnet.ts.net:8444
+node scripts/whiteboard-build.mjs
+node --import tsx packages/whiteboard/src/main.ts --port 4104
+tailscale serve --bg --https=8444 4104
+</code></pre>
+<p>Think admits the tailnet name as a <code>Host</code> when any one of the three product addresses names it, so the three set as above are enough. If none of the three names the tailnet host, Think answers 403 to every request through the proxy. Register the folder of boards as a think mount, <code>pnpm hanji add-mount boards /path/to/boards boards --local --kind think</code>, and give each teammate a grant on it in Settings → People, on the whole mount or on one board folder:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>On the think mount</th><th>In Hanji Think</th></tr></thead><tbody><tr><td>no access</td><td>every address of that board answers 404, the same as for a board that does not exist</td></tr><tr><td>Viewer</td><td>opens the board and follows its links</td></tr><tr><td>Commenter</td><td>also comments and reacts</td></tr><tr><td>Editor</td><td>also edits</td></tr></tbody></table>
+<p>Off the tailnet, the owner's access link, printed by the launcher, opens Think; teammates sign in on the tailnet only. Agents hold their own keys (<code>key --agent &#x3C;handle></code>), which act with the owner's access. A write sent from a page on another site is refused, and a grant removed ends an open board within a second; the board page then says that access ended and asks to reload or open a new access link.</p>
 <h2>The contract</h2>
-<p>The headers are trustworthy for exactly one reason: <code>tailscale serve</code> strips
-any inbound <code>Tailscale-User-*</code> headers and sets its own. So the mode is safe
-only while the port is reachable exclusively through <code>tailscale serve</code> - bind
-<code>127.0.0.1</code>, as above. If the app is reachable any other way, anyone on that
+<p>The headers are trustworthy when two conditions hold. First, the app binds
+<code>127.0.0.1</code>, as above, so <code>tailscale serve</code> and requests from this machine are
+the only ways in, and <code>tailscale serve</code> strips any inbound <code>Tailscale-User-*</code>
+headers and sets its own. If the app is reachable any other way, anyone on that
 path can type the header themselves, and <code>HANJI_TAILSCALE_OWNER</code> must stay
-unset. Hanji will never turn this on by itself.</p>
-<p>Two edges worth knowing. Signing out on a tailnet is a shrug: clearing the
-session lands you right back in through the header, because the tailnet still
-knows you. And agents are untouched by all of this - the MCP surface stays
+unset. Second, the request's <code>Host</code> names
+this machine's loopback address or one of the three product addresses, which
+keeps a web page open on this machine from sending a header of its own, as
+the section on links between the products describes. Hanji checks the second
+condition on every request, and will never turn this mode on by itself.</p>
+<p>Two more facts. Signing out on a tailnet clears the session cookie, and the next
+request signs you in again through the header, because the tailnet still knows
+who you are. And agents are untouched by all of this. The MCP surface stays
 bearer-token only, and a tailnet identity never grants an agent anything.</p>
+<p><code>tailscale serve</code> adds the identity headers to every request from your
+machine, including a request that another website makes your browser send.
+Document answers such a request with 403: every route that changes something
+accepts it only from Document's own pages, judged by the browser's
+<code>Sec-Fetch-Site</code> and <code>Origin</code> headers. Scripts and the git webhook send
+neither header and keep working. A proxy in front of Document must pass the
+browser's original <code>Host</code> header or set <code>X-Forwarded-Host</code>, which
+<code>tailscale serve</code> does. With neither, Document answers every save with 403.</p>
 <h2>Belt and suspenders: ask tailscaled itself</h2>
 <p>The contract above is a deployment shape. If you want the instance to verify
 it rather than assume it, set one more variable:</p>
@@ -91,6 +206,6 @@ typing passwords, on infrastructure they already trust.</p></article>
 <footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
 </main>
 </div>
-<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
+<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t==="auto"?"system":t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
 </body>
 </html>

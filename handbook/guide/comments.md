@@ -22,9 +22,9 @@ That also means a comment follows the page's own life in git: move a page and it
 
 ## Commenting on a word or a sentence
 
-A comment does not have to be about the whole page. Select a run of prose - a word, a sentence, a paragraph - and a small bar appears over it offering **Copy** and **Comment**. Press **Comment** and the composer opens right there, already focused, ready to type. (The bar is deliberate: a selection used to open the composer outright, which took the selection with it, so you could not simply copy the words you had just picked out. Now commenting is one press further on, and the text stays yours until you ask for it.) Post the note, and the selection carries a mark from then on: every reader sees the same quiet wash of the workspace accent over that exact phrase.
+A comment does not have to be about the whole page. Select a run of prose - a word, a sentence, a paragraph - and a small bar appears over it offering **Copy** and **Comment**, and **Issue** when you can file work into one of the workspace's trackers (see below). Press **Comment** and the composer opens right there, already focused, ready to type. (The bar is deliberate: a selection used to open the composer outright, which took the selection with it, so you could not simply copy the words you had just picked out. Now commenting is one press further on, and the text stays yours until you ask for it.) Post the note, and the selection carries a mark from then on: every reader sees the same quiet wash of the workspace accent over that exact phrase.
 
-An annotation's wash is not the same thing as a [[Reading and writing|highlight]] you apply yourself. The wash is Hanji showing you where a note is anchored, it is always the workspace accent, and it lives in Hanji's own store; a highlight is content, it is one of four colours you chose, and it is written into the file.
+An annotation's wash is not the same thing as a [[Reading and writing|highlight]] you apply yourself. The wash is Hanji showing you where a note is anchored, in one fixed color of its own apart from the workspace accent, and it lives in Hanji's own store; a highlight is content, it is one of four colours you chose, and it is written into the file.
 
 A comment needs a single block to anchor to, so a selection spanning two paragraphs offers **Copy** alone.
 
@@ -33,6 +33,16 @@ These anchored notes live in a panel beside the page, not in the thread at its f
 That link is best-effort, not permanent. Edit the block the quote lives in, and if the quote no longer matches what is there, the note detaches: it moves down into "On an earlier version" at the foot of the panel, still showing the exact words it was written against, but no longer painted into the prose. The note is not lost, only its anchor is - the words it once pointed at have moved on.
 
 Inline highlights use the browser's CSS Custom Highlight API, which needs a fairly current engine (recent Chrome, Edge, or Safari). On an older browser without it, the panel and its quoted text still read fine - only the painted highlight in the prose is missing.
+
+## Filing an issue from a sentence
+
+A doc review often turns a sentence into a task. When the workspace has a tracker that you can edit (or several), and your Hanji name is one of that tracker file's `people:` or you are the owner, the selection bar also offers **Issue**. It opens a small form beside the text: the title starts as the words you selected, and you can edit it. Hanji keeps the title on one line and cuts a longer one at 120 characters. The project is filled in when the page links exactly one project with `[[project:HNJ/<slug>]]`. With several trackers you can edit, the form asks which one, and the project is filled in from the page's link to that tracker's project. Press **Create issue**.
+
+The issue is one commit in the tracker, made as you. Its body quotes your selection, and its `source:` names this page by its file stem and the heading above the selection, for example `source: review#Budget`. A selection above the first heading names the page alone. Hanji writes nothing to the page. Its Cited by line shows the new issue immediately, and the notice links to it in Plan.
+
+Press **Issue** twice, or file the same words under the same heading again, and you get the issue already filed: the notice says "Filed as HNJ-12". A new issue's notice offers **Undo** for ten seconds, its button or `⌘Z` / `Ctrl+Z` while it shows and your cursor is outside a text field, and it waits while you point at the notice or move focus into it. Undo cancels that issue in one commit, and its key is never given to another issue. A new issue's notice takes focus as it appears, unless you have already moved into another field, so from the keyboard Tab reaches **Open** and then **Undo**. Escape closes the notice. When it closes with focus inside it, by Undo, by Escape or when the ten seconds end, and after a "Filed as" notice, focus is on the paragraph you selected from. A canceled issue does not count, so the same sentence can be filed again. Undo never touches an issue someone filed before you.
+
+Like a comment, an issue needs a selection inside one block.
 
 ## Agents and comments
 

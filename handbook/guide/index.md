@@ -8,15 +8,23 @@ description: Getting started, and the order to read these in.
 
 This section is the how-to. It is written to be read in order the first time, and dipped into after.
 
-1. [[Quick start]] - five minutes to a running Hanji, and the map of where to go next.
-2. [[Install Hanji]] gets it running on your machine in a handful of commands.
-3. [[Mounts]] points it at the repositories you want to read and write.
-4. [[Reading and writing]] covers the human front: reading, editing, history, and making new pages.
-5. [[Comments]] is where you and your readers talk about a page, right on it.
-6. [[Agents]] connects a coding agent through the MCP server, with scoped tokens and propose-as-PR.
-7. [[Proposals]] is where those agent suggestions land: review the diff, merge or reject.
-8. [[Publish to the web]] turns everything you've opened into a website, llms.txt included.
-9. [[On your tailnet]] moves the instance onto your tailnet, where the network signs people in and nobody types a password.
-10. [[Command reference]] is the full list of CLI commands, for when you already know what you want.
+1. [[Quick start]] — choose the desktop preview or the existing-checkout path.
+2. [[Desktop workspace]] — install the preview, create a workspace, and move between products.
+3. [[Install Hanji]] — explicit setup for an existing checkout or server.
+4. [[Think canvas]] — notes, shapes, tables, templates, workshops and agent activity.
+5. [[Objectives and key results]] — the goal hierarchy and check-ins in Plan.
+6. [[Reading and writing]] — pages, editing, search, history and organization in Document.
+7. [[Workspace insights]] — contributions, trends, filters and the journal across products.
+8. [[The conductor]] — one standing agent conversation across the workspace.
+9. [[Mounts]] — connect your repositories and local folders.
+10. [[Links and references]] — connect pages, issues, projects and canvases.
+11. [[Comments]] — discuss a page and anchor feedback to its text.
+12. [[Agents]] — scoped MCP tokens and agent proposals.
+13. [[Proposals]] — review, merge or reject suggested edits.
+14. [[Publish to the web]] — public HTML, Markdown mirrors and llms.txt.
+15. [[On your tailnet]] — share a workspace through your own network.
+16. [[Command reference]] — CLI commands, settings and environment variables.
 
-A note before you start. Hanji is early. It runs today on your machine: one owner, the people you add, and the agents you scope - and the recommended way to share it with a team is [[On your tailnet]]. Hosted sync sits in the later column of [[Where we are]], not in your hands yet. What is here works, and this section documents only what works.
+Hanji’s app is an invited desktop preview. The handbook is public. The products
+run on your machine or a server you operate; hosted workspace sync is not included.
+Connect an agent only when you want one. Your provider account is separate.

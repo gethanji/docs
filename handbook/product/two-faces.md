@@ -12,7 +12,7 @@ Most tools are built for one reader and then bolt on the other. A wiki built for
 
 A person should never have to think about git to write down what they know.
 
-So the front hides it completely. You open a page and it reads like a good magazine, warm paper and a serif set for long reading. You click Edit, the page becomes editable in place, you change what you came to change, and you press Update. Behind that one button, Hanji writes a single commit with a clean message and a full history. No staging, no branch names, no merge dialog. And if you change nothing, nothing is committed, because there was nothing to record.
+So the front hides it completely. You open a page and it reads like a good magazine, cool neutral paper and a serif set for long reading. You click Edit, the page becomes editable in place, you change what you came to change, and you press Update. Behind that one button, Hanji writes a single commit with a clean message and a full history. No staging, no branch names, no merge dialog. And if you change nothing, nothing is committed, because there was nothing to record.
 
 Under the calm surface is a real editor. Tables with the controls you expect, task lists you can check off, a slash menu to insert, images that upload into the repo itself, and embeds for the tools you already use. It stays out of your way, and it never rewrites a line you did not touch. See [[Byte-fidelity]] for why that last part matters more than it sounds.
 

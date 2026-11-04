@@ -9,31 +9,38 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="hanji.css">
-<script>try{var t=localStorage.getItem("hanji-theme");if(t)document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
+<script>try{var t=localStorage.getItem("hanji-theme");if(t==="system")t="auto";if(["auto","light","dark"].indexOf(t)<0)t="auto";document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
 <div class="frame">
 <aside>
-<p class="lockup"><a href="https://gethanji.github.io/"><img class="mark" src="hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="./">Handbook</a></p>
-<nav><p class="mount-label">handbook</p><a href="handbook/">Start here</a><a href="handbook/quickstart/">Quick start</a><details><summary><a href="handbook/guide/">Using Hanji</a></summary><a href="handbook/guide/install/">Install Hanji</a><a href="handbook/guide/mounts/">Mounts</a><a href="handbook/guide/reading-and-writing/">Reading and writing</a><a href="handbook/guide/comments/">Comments</a><a href="handbook/guide/agents/">Agents</a><a href="handbook/guide/proposals/">Proposals</a><a href="handbook/guide/publish/">Publish to the web</a><a href="handbook/guide/cli/">Command reference</a><a href="handbook/guide/on-your-tailnet/">On your tailnet</a></details><details><summary><a href="handbook/product/">What Hanji is</a></summary><a href="handbook/product/two-faces/">The two faces</a><a href="handbook/product/permissions/">Permissions</a><a href="handbook/product/byte-fidelity/">Byte-fidelity</a><a href="handbook/product/performance/">Performance</a><a href="handbook/product/features/">Features</a></details><details><summary><a href="handbook/architecture/">How it's built</a></summary><a href="handbook/architecture/serializer/">The serializer</a><a href="handbook/architecture/core/">The core</a><a href="handbook/architecture/editor/">The editor</a><a href="handbook/architecture/mcp/">The MCP server</a><a href="handbook/architecture/web/">The web front</a></details><details><summary><a href="handbook/contributing/">Contributing</a></summary><a href="handbook/contributing/develop/">Developing</a><a href="handbook/contributing/conventions/">Conventions</a><a href="handbook/contributing/open-core/">Open core</a></details><details><summary><a href="handbook/story/">The story</a></summary><a href="handbook/story/the-name/">The name</a><a href="handbook/story/why-hanji-is-different/">Why Hanji is different</a><a href="handbook/story/is-hanji-for-you/">Is Hanji for you?</a><a href="handbook/story/mission-and-vision/">Mission and vision</a><a href="handbook/story/principles/">Principles</a><details><summary><a href="handbook/story/brand/">The brand</a></summary><a href="handbook/story/brand/visual-language/">The visual language</a><a href="handbook/story/brand/voice/">Voice</a></details></details><a href="handbook/status/">Where we are</a><a href="handbook/changelog/">Changelog</a></nav>
+<p class="lockup"><a href="https://hanji.ink/"><img class="mark" src="hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="./">Handbook</a></p>
+<nav class="desktop-nav" aria-label="Handbook"><p class="mount-label">handbook</p><a href="handbook/">Start here</a><a href="handbook/quickstart/">Quick start</a><details><summary><a href="handbook/guide/">Using Hanji</a></summary><a href="handbook/guide/install/">Install Hanji</a><a href="handbook/guide/desktop/">Desktop workspace</a><a href="handbook/guide/mounts/">Mounts</a><a href="handbook/guide/reading-and-writing/">Reading and writing</a><a href="handbook/guide/links/">Links and references</a><a href="handbook/guide/comments/">Comments</a><a href="handbook/guide/agents/">Agents</a><a href="handbook/guide/proposals/">Proposals</a><a href="handbook/guide/conductor/">The conductor</a><a href="handbook/guide/activity/">Workspace insights</a><a href="handbook/guide/publish/">Publish to the web</a><a href="handbook/guide/cli/">Command reference</a><a href="handbook/guide/on-your-tailnet/">On your tailnet</a><a href="handbook/guide/objectives/">Objectives and key results</a><a href="handbook/guide/whiteboard/">Think canvas</a></details><details><summary><a href="handbook/product/">What Hanji is</a></summary><a href="handbook/product/two-faces/">The two faces</a><a href="handbook/product/permissions/">Permissions</a><a href="handbook/product/byte-fidelity/">Byte-fidelity</a><a href="handbook/product/performance/">Performance</a><a href="handbook/product/features/">Features</a></details><details><summary><a href="handbook/architecture/">How it's built</a></summary><a href="handbook/architecture/serializer/">The serializer</a><a href="handbook/architecture/core/">The core</a><a href="handbook/architecture/editor/">The editor</a><a href="handbook/architecture/mcp/">The MCP server</a><a href="handbook/architecture/web/">The web front</a></details><details><summary><a href="handbook/contributing/">Contributing</a></summary><a href="handbook/contributing/develop/">Developing</a><a href="handbook/contributing/conventions/">Conventions</a><a href="handbook/contributing/open-core/">Open core</a></details><details><summary><a href="handbook/story/">The story</a></summary><a href="handbook/story/the-name/">The name</a><a href="handbook/story/why-hanji-is-different/">Why Hanji is different</a><a href="handbook/story/is-hanji-for-you/">Is Hanji for you?</a><a href="handbook/story/mission-and-vision/">Mission and vision</a><a href="handbook/story/principles/">Principles</a><details><summary><a href="handbook/story/brand/">The brand</a></summary><a href="handbook/story/brand/visual-language/">The visual language</a><a href="handbook/story/brand/voice/">Voice</a></details></details><a href="handbook/status/">Where we are</a><a href="handbook/changelog/">Changelog</a></nav>
+<details class="mobile-nav"><summary>Browse handbook <span aria-hidden="true">⌄</span></summary><nav aria-label="Handbook"><p class="mount-label">handbook</p><a href="handbook/">Start here</a><a href="handbook/quickstart/">Quick start</a><details><summary><a href="handbook/guide/">Using Hanji</a></summary><a href="handbook/guide/install/">Install Hanji</a><a href="handbook/guide/desktop/">Desktop workspace</a><a href="handbook/guide/mounts/">Mounts</a><a href="handbook/guide/reading-and-writing/">Reading and writing</a><a href="handbook/guide/links/">Links and references</a><a href="handbook/guide/comments/">Comments</a><a href="handbook/guide/agents/">Agents</a><a href="handbook/guide/proposals/">Proposals</a><a href="handbook/guide/conductor/">The conductor</a><a href="handbook/guide/activity/">Workspace insights</a><a href="handbook/guide/publish/">Publish to the web</a><a href="handbook/guide/cli/">Command reference</a><a href="handbook/guide/on-your-tailnet/">On your tailnet</a><a href="handbook/guide/objectives/">Objectives and key results</a><a href="handbook/guide/whiteboard/">Think canvas</a></details><details><summary><a href="handbook/product/">What Hanji is</a></summary><a href="handbook/product/two-faces/">The two faces</a><a href="handbook/product/permissions/">Permissions</a><a href="handbook/product/byte-fidelity/">Byte-fidelity</a><a href="handbook/product/performance/">Performance</a><a href="handbook/product/features/">Features</a></details><details><summary><a href="handbook/architecture/">How it's built</a></summary><a href="handbook/architecture/serializer/">The serializer</a><a href="handbook/architecture/core/">The core</a><a href="handbook/architecture/editor/">The editor</a><a href="handbook/architecture/mcp/">The MCP server</a><a href="handbook/architecture/web/">The web front</a></details><details><summary><a href="handbook/contributing/">Contributing</a></summary><a href="handbook/contributing/develop/">Developing</a><a href="handbook/contributing/conventions/">Conventions</a><a href="handbook/contributing/open-core/">Open core</a></details><details><summary><a href="handbook/story/">The story</a></summary><a href="handbook/story/the-name/">The name</a><a href="handbook/story/why-hanji-is-different/">Why Hanji is different</a><a href="handbook/story/is-hanji-for-you/">Is Hanji for you?</a><a href="handbook/story/mission-and-vision/">Mission and vision</a><a href="handbook/story/principles/">Principles</a><details><summary><a href="handbook/story/brand/">The brand</a></summary><a href="handbook/story/brand/visual-language/">The visual language</a><a href="handbook/story/brand/voice/">Voice</a></details></details><a href="handbook/status/">Where we are</a><a href="handbook/changelog/">Changelog</a></nav></details>
 </aside>
-<main>
+<main id="content" tabindex="-1">
 <div class="topline">
 <p class="crumbs"></p>
-<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">auto</button><button type="button" data-theme-choice="light" aria-pressed="false">light</button><button type="button" data-theme-choice="dark" aria-pressed="false">dark</button></div>
+<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">System</button><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div>
 </div>
-<article class="prose-hanji"><div class="cover-head"><img src="hanji-mark.svg" alt=""><h1>Hanji</h1><p>Paper-thin documentation tool. Start here.</p></div><hr class="cover-rule"><h1>Start here</h1>
-<p>This handbook is written in Hanji, kept in Hanji's repository, and read through the product itself. 🎉</p>
-<h2>Quick start</h2>
-<p>Five minutes from a repo full of Markdown to a place worth reading:</p>
-<pre><code class="language-bash">git clone https://github.com/gethanji/hanji &#x26;&#x26; cd hanji &#x26;&#x26; pnpm install
-pnpm dev:web   # → http://localhost:4100
-</code></pre>
-<p>First visit, a short welcome takes it from there: your name for the place, your password, your first folder of Markdown.</p>
-<p>The full walk, with what each line does for you: <a href="handbook/quickstart/">Quick start</a>.</p>
-<h2>Set up yours</h2>
-<p>Four shapes Hanji is lived in. Start with the one that matches you.</p>
+<article class="prose-hanji"><div class="cover-head"><img src="hanji-mark.svg" alt=""><h1>Hanji</h1><p>One workspace for Think, Plan and Document. Start with the current desktop preview and product guides.</p></div><hr class="cover-rule"><h1>Start here</h1>
+<p>Hanji gives ideas, next steps and knowledge a shared workspace. <strong>Think</strong> is the
+canvas. <strong>Plan</strong> holds issues, projects and objectives. <strong>Document</strong> reads and
+edits your Markdown. The conductor brings an agent into context when you need one.</p>
+<p>This public handbook describes the current working preview. The Mac app is
+shared by invitation; public binary downloads and a hosted workspace service
+are not available yet. <a href="https://hanji.ink/start/">Request preview access</a>.</p>
+<p><img src="handbook/assets/public-canvas.png" alt="Think in a fictional workspace"></p>
+<h2>Make a workspace</h2>
+<p><a href="handbook/guide/desktop/">Desktop workspace</a> covers receiving the preview, moving the app to
+Applications and creating a workspace. The setup has four stages: your workspace,
+your content, secure access and a review. Start fresh prepares the selected
+products’ folders; existing content can be connected during setup or later.</p>
+<p><a href="handbook/quickstart/">Quick start</a> helps you choose that path or the path for an existing source
+checkout. You can read, edit and organize without connecting a model account.</p>
+<h2>Find the surface you need</h2>
 
 
 
@@ -59,9 +66,6 @@ pnpm dev:web   # → http://localhost:4100
 
 
 
-<table><thead><tr><th>You are</th><th>Start here</th></tr></thead><tbody><tr><td><strong>Just you, on your machine</strong></td><td><a href="handbook/quickstart/">Quick start</a> - the five minutes above, explained</td></tr><tr><td><strong>A team on a tailnet</strong></td><td><a href="handbook/guide/on-your-tailnet/">On your tailnet</a> - one shared instance, and nobody types a password</td></tr><tr><td><strong>Working with coding agents</strong></td><td><a href="handbook/guide/agents/">Agents</a> - scoped reads, and their edits arrive as proposals you review</td></tr><tr><td><strong>Publishing docs to the world</strong></td><td><a href="handbook/guide/publish/">Publish to the web</a> - one command; this site is the proof</td></tr></tbody></table>
-<h2>The documentation</h2>
-<p>How to use it, and how it actually works. Written to serve you mid-task.</p>
 
 
 
@@ -74,50 +78,20 @@ pnpm dev:web   # → http://localhost:4100
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table><thead><tr><th>Page</th><th>What it does for you</th></tr></thead><tbody><tr><td><a href="handbook/guide/install/">Install Hanji</a></td><td>From clone to a running instance, with the rough edges named.</td></tr><tr><td><a href="handbook/guide/mounts/">Mounts</a></td><td>Point Hanji at your repositories, and keep them in sync on their own.</td></tr><tr><td><a href="handbook/guide/reading-and-writing/">Reading and writing</a></td><td>The daily feel: reading, editing, search, history, organizing.</td></tr><tr><td><a href="handbook/guide/proposals/">Proposals</a></td><td>Review what agents and teammates propose - diff, Merge, done.</td></tr><tr><td><a href="handbook/guide/cli/">Command reference</a></td><td>Every CLI command in one table, for when you know what you want.</td></tr><tr><td><a href="handbook/product/permissions/">Permissions</a></td><td>The lock, from mount to single page - and exactly what it enforces.</td></tr><tr><td><a href="handbook/product/two-faces/">The two faces</a></td><td>The human front and the agent surface, over one git.</td></tr><tr><td><a href="handbook/product/byte-fidelity/">Byte-fidelity</a></td><td>Why a one-word edit is a one-line diff, forever.</td></tr><tr><td><a href="handbook/product/performance/">Performance</a></td><td>Paper-thin: the speed and size numbers.</td></tr><tr><td><a href="handbook/product/features/">Features</a></td><td>The whole list, with honest status.</td></tr></tbody></table>
-<h2>The story</h2>
-<p>The why. What makes this more than a wiki - <a href="handbook/story/">The story</a> opens with the manifesto and carries the rest: the name, the difference, the fit, the mission, the principles, the brand.</p>
-<p>Deeper still: <strong>how it's built</strong> (<a href="handbook/architecture/">How it's built</a> · <a href="handbook/architecture/serializer/">The serializer</a> · <a href="handbook/architecture/core/">The core</a> · <a href="handbook/architecture/editor/">The editor</a> · <a href="handbook/architecture/mcp/">The MCP server</a> · <a href="handbook/architecture/web/">The web front</a>), <strong>contributing</strong> (<a href="handbook/contributing/">Contributing</a> · <a href="handbook/contributing/develop/">Developing</a> · <a href="handbook/contributing/conventions/">Conventions</a> · <a href="handbook/contributing/open-core/">Open core</a>), <strong>the brand</strong> (<a href="handbook/story/brand/">The brand</a> · <a href="handbook/story/brand/visual-language/">The visual language</a> · <a href="handbook/story/brand/voice/">Voice</a>), and <strong>the project</strong> (<a href="handbook/story/principles/">Principles</a> · <a href="handbook/status/">Where we are</a> · <a href="handbook/changelog/">Changelog</a>).</p><p>Agents read this site too: <a href="llms.txt">llms.txt</a>, <a href="llms-full.txt">llms-full.txt</a>, and every page as plain Markdown beside its HTML.</p></article>
+<table><thead><tr><th>You want to</th><th>Start here</th></tr></thead><tbody><tr><td>Explore an idea visually</td><td><a href="handbook/guide/whiteboard/">Think canvas</a> — live notes, diagrams, tables, templates and workshops</td></tr><tr><td>Turn the next step into work</td><td><a href="handbook/guide/objectives/">Objectives and key results</a> — goals, key results and linked work in Plan</td></tr><tr><td>Read, write and keep knowledge</td><td><a href="handbook/guide/reading-and-writing/">Reading and writing</a> — Markdown pages, comments, history and search</td></tr><tr><td>Work with your own agent</td><td><a href="handbook/guide/conductor/">The conductor</a> — a standing conversation across the workspace</td></tr><tr><td>Understand what has moved</td><td><a href="handbook/guide/activity/">Workspace insights</a> — contributions, trends and the journal</td></tr><tr><td>Share with your team</td><td><a href="handbook/guide/on-your-tailnet/">On your tailnet</a> — access through a network you operate</td></tr><tr><td>Publish chosen content</td><td><a href="handbook/guide/publish/">Publish to the web</a> — this handbook, HTML, Markdown and llms.txt</td></tr></tbody></table>
+<h2>Go a little deeper</h2>
+<p><a href="handbook/guide/">Using Hanji</a> is the complete guide map. <a href="handbook/product/features/">Features</a> lists what the preview
+implements. <a href="handbook/product/permissions/">Permissions</a> explains who can read and change each kind of content.
+<a href="handbook/guide/mounts/">Mounts</a> connects repositories, <a href="handbook/guide/agents/">Agents</a> connects scoped tools, and
+<a href="handbook/guide/proposals/">Proposals</a> covers reviewing suggested edits.</p>
+<p>For the project’s direction, read <a href="handbook/story/">The story</a>, <a href="handbook/story/principles/">Principles</a> and
+<a href="handbook/status/">Where we are</a>. For the implementation, start with <a href="handbook/architecture/">How it's built</a>,
+<a href="handbook/architecture/serializer/">The serializer</a>, <a href="handbook/architecture/core/">The core</a> and <a href="handbook/architecture/web/">The web front</a>.</p>
+<p>The products were previously called Write and Work. Their current names are
+Document and Plan; technical package and command identifiers stay stable.</p><p>Agents read this site too: <a href="llms.txt">llms.txt</a>, <a href="llms-full.txt">llms-full.txt</a>, and every page as plain Markdown beside its HTML.</p></article>
 <footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="llms.txt">llms.txt</a></footer>
 </main>
 </div>
-<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
+<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t==="auto"?"system":t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
 </body>
 </html>

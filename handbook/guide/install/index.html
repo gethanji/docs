@@ -9,22 +9,75 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../../hanji.css">
-<script>try{var t=localStorage.getItem("hanji-theme");if(t)document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
+<script>try{var t=localStorage.getItem("hanji-theme");if(t==="system")t="auto";if(["auto","light","dark"].indexOf(t)<0)t="auto";document.documentElement.setAttribute("data-theme",t);document.documentElement.setAttribute("data-js","1")}catch(e){}</script>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to content</a>
 <div class="grain" aria-hidden="true"></div>
 <div class="frame">
 <aside>
-<p class="lockup"><a href="https://gethanji.github.io/"><img class="mark" src="../../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../../..">Handbook</a></p>
-<nav><p class="mount-label">handbook</p><a href="../../">Start here</a><a href="../../quickstart/">Quick start</a><details open><summary><a href="../">Using Hanji</a></summary><a aria-current="page" href="./">Install Hanji</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../comments/">Comments</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a href="../publish/">Publish to the web</a><a href="../cli/">Command reference</a><a href="../on-your-tailnet/">On your tailnet</a></details><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../story/">The story</a></summary><a href="../../story/the-name/">The name</a><a href="../../story/why-hanji-is-different/">Why Hanji is different</a><a href="../../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../../story/mission-and-vision/">Mission and vision</a><a href="../../story/principles/">Principles</a><details><summary><a href="../../story/brand/">The brand</a></summary><a href="../../story/brand/visual-language/">The visual language</a><a href="../../story/brand/voice/">Voice</a></details></details><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+<p class="lockup"><a href="https://hanji.ink/"><img class="mark" src="../../../hanji-mark.svg" alt="">Hanji</a><span class="sep">/</span><a class="site" href="../../..">Handbook</a></p>
+<nav class="desktop-nav" aria-label="Handbook"><p class="mount-label">handbook</p><a href="../../">Start here</a><a href="../../quickstart/">Quick start</a><details open><summary><a href="../">Using Hanji</a></summary><a aria-current="page" href="./">Install Hanji</a><a href="../desktop/">Desktop workspace</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../links/">Links and references</a><a href="../comments/">Comments</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a href="../conductor/">The conductor</a><a href="../activity/">Workspace insights</a><a href="../publish/">Publish to the web</a><a href="../cli/">Command reference</a><a href="../on-your-tailnet/">On your tailnet</a><a href="../objectives/">Objectives and key results</a><a href="../whiteboard/">Think canvas</a></details><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../story/">The story</a></summary><a href="../../story/the-name/">The name</a><a href="../../story/why-hanji-is-different/">Why Hanji is different</a><a href="../../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../../story/mission-and-vision/">Mission and vision</a><a href="../../story/principles/">Principles</a><details><summary><a href="../../story/brand/">The brand</a></summary><a href="../../story/brand/visual-language/">The visual language</a><a href="../../story/brand/voice/">Voice</a></details></details><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav>
+<details class="mobile-nav"><summary>Browse handbook <span aria-hidden="true">⌄</span></summary><nav aria-label="Handbook"><p class="mount-label">handbook</p><a href="../../">Start here</a><a href="../../quickstart/">Quick start</a><details open><summary><a href="../">Using Hanji</a></summary><a aria-current="page" href="./">Install Hanji</a><a href="../desktop/">Desktop workspace</a><a href="../mounts/">Mounts</a><a href="../reading-and-writing/">Reading and writing</a><a href="../links/">Links and references</a><a href="../comments/">Comments</a><a href="../agents/">Agents</a><a href="../proposals/">Proposals</a><a href="../conductor/">The conductor</a><a href="../activity/">Workspace insights</a><a href="../publish/">Publish to the web</a><a href="../cli/">Command reference</a><a href="../on-your-tailnet/">On your tailnet</a><a href="../objectives/">Objectives and key results</a><a href="../whiteboard/">Think canvas</a></details><details><summary><a href="../../product/">What Hanji is</a></summary><a href="../../product/two-faces/">The two faces</a><a href="../../product/permissions/">Permissions</a><a href="../../product/byte-fidelity/">Byte-fidelity</a><a href="../../product/performance/">Performance</a><a href="../../product/features/">Features</a></details><details><summary><a href="../../architecture/">How it's built</a></summary><a href="../../architecture/serializer/">The serializer</a><a href="../../architecture/core/">The core</a><a href="../../architecture/editor/">The editor</a><a href="../../architecture/mcp/">The MCP server</a><a href="../../architecture/web/">The web front</a></details><details><summary><a href="../../contributing/">Contributing</a></summary><a href="../../contributing/develop/">Developing</a><a href="../../contributing/conventions/">Conventions</a><a href="../../contributing/open-core/">Open core</a></details><details><summary><a href="../../story/">The story</a></summary><a href="../../story/the-name/">The name</a><a href="../../story/why-hanji-is-different/">Why Hanji is different</a><a href="../../story/is-hanji-for-you/">Is Hanji for you?</a><a href="../../story/mission-and-vision/">Mission and vision</a><a href="../../story/principles/">Principles</a><details><summary><a href="../../story/brand/">The brand</a></summary><a href="../../story/brand/visual-language/">The visual language</a><a href="../../story/brand/voice/">Voice</a></details></details><a href="../../status/">Where we are</a><a href="../../changelog/">Changelog</a></nav></details>
 </aside>
-<main>
+<main id="content" tabindex="-1">
 <div class="topline">
 <p class="crumbs"><a href="../../">handbook</a> / guide / install</p>
-<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">auto</button><button type="button" data-theme-choice="light" aria-pressed="false">light</button><button type="button" data-theme-choice="dark" aria-pressed="false">dark</button></div>
+<div class="theme-toggle" role="group" aria-label="Colour theme"><button type="button" data-theme-choice="auto" aria-pressed="false">System</button><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="false">Dark</button></div>
 </div>
 <article class="prose-hanji"><h1>Install Hanji</h1>
 <p>Hanji runs today on a machine you own - the same way we run it ourselves, daily. The short version: install, <code>pnpm dev:web</code>, and the first visit walks you through everything on a welcome screen. This page keeps the explicit path - environment variables and CLI - for servers, scripts, and the people who like to see the wiring. Anything set by env always wins over what the welcome screen stored.</p>
+<h2>Desktop preview: from download to workspace</h2>
+<p>The desktop preview is currently shared directly; no public binary release is
+published. <a href="https://hanji.ink/start/">The desktop setup guide</a> explains access,
+installation and the first few minutes. Once you receive a preview archive:</p>
+<ol>
+<li>Unzip it and read <strong>Start here.html</strong>. Use the build shared for your Mac.</li>
+<li>Move <strong>Hanji.app</strong> into <strong>Applications</strong>, then open it there.</li>
+<li>Choose <strong>Create your workspace</strong>. Existing workspace folders and team
+addresses have separate entry points on the same screen.</li>
+<li>Name the workspace and choose Think, Plan and Document. All three start on;
+Settings can change the selection later.</li>
+<li>Choose <strong>Start fresh</strong> to let Hanji prepare the selected products’ folders.
+Document includes an editable welcome page. <strong>Bring existing content</strong> asks
+for only the relevant Markdown, repository, tracker and canvas sources.</li>
+<li>Set and confirm the owner's password, review the choices, then select
+<strong>Create workspace</strong>. The desktop signs this Mac in automatically.</li>
+</ol>
+<p><strong>Quick setup help</strong> opens inside onboarding, with guidance available even before
+a workspace exists. Escape closes it and returns focus to its button.</p>
+<p>The name, selected products and fresh/import choice survive a reload in this
+browser tab. Passwords are never stored in that draft. Back and review links keep
+in-memory choices. Setup errors remain visible and can be corrected or retried;
+new folders and mounts roll back before the owner account is stored. Existing
+files are preserved. New fresh-start folders live inside the data folder, with a
+numbered suffix when an existing folder already uses the name.</p>
+<p><img src="../../assets/onboarding-workspace.png" alt="Choose a workspace and products"></p>
+<p><img src="../../assets/onboarding-review.png" alt="A final review before creation"></p>
+<p><img src="../../assets/onboarding-setup.gif" alt="The four setup stages"></p>
+<p>Preview signing and notarization depend on the supplied build. If macOS cannot
+verify it, confirm its source with the person sharing it and follow
+<a href="https://support.apple.com/102445">Apple’s guidance on opening apps safely</a>.
+The preview pack never changes Gatekeeper settings.</p>
+<h2>Preparing a preview to share</h2>
+<p>Build the desktop bundle using <code>pnpm --filter desktop bundle</code>, then run:</p>
+<pre><code class="language-bash">bash apps/desktop/scripts/package-preview.sh /path/to/Hanji.app
+</code></pre>
+<p>The script creates a versioned, architecture-labeled ZIP and SHA-256 checksum
+under <code>apps/desktop/dist/</code>. The archive includes Hanji.app, an Applications
+shortcut and an offline Start here guide. It refuses to overwrite an existing
+artifact. An optional second argument selects an output directory. It does not
+publish a release, sign or notarize a build, or install it. Public distribution
+still needs a release and the appropriate signing/notarization process.</p>
+<h2>Shared workspace accent</h2>
+<p>The accent chosen in Settings applies across products. Plan uses it for links, selected navigation and in-progress status text and marks. Already-open Plan pages pick up changes while visible and when returning from Settings, preserving the current page and unsent drafts. Other semantic colors, such as completed work and warnings, remain distinct.</p>
+<p><img src="../../assets/work-shared-accent.gif" alt="Plan follows the shared accent"></p>
+<h2>Desktop product switching</h2>
+<p>The title bar groups Think, Plan and Document in one quiet track. A floating plate glides to the selected product while its label and icon stay still. The selection holds steady while the app opens the product. Activity and Settings are workspace pages, so they leave all product segments unselected. Keyboard shortcuts and focus controls remain available; reduced motion makes the plate move immediately.</p>
+<p><img src="../../assets/desktop-product-switcher.gif" alt="The desktop product switcher"></p>
+<h2>Desktop startup</h2>
+<p>While the desktop app prepares a workspace, the three shapes of the Hanji logo separate, follow curved paths and spring gently back into the mark in a slow loop. Their dimensions and proportions stay fixed throughout. The line underneath reports the actual startup stage. It follows the system's light or dark theme and reduced-motion preference. When startup needs an action, such as choosing a work folder, the logo rests and the action appears below it.</p>
+<p><img src="../../assets/desktop-loading-elastic.gif" alt="The three logo shapes animate during desktop startup"></p>
 <h2>Before you start</h2>
 <p>You need a recent Node, <code>pnpm</code>, and <code>git</code>. One dependency, the SQLite driver, is built from source on install, so you also need a working C toolchain: the Xcode command-line tools on a Mac, or <code>build-essential</code> on Linux. That is a known rough edge, and smoothing it out is on the <a href="../../status/">Where we are</a>.</p>
 <h2>Get it running</h2>
@@ -46,10 +99,10 @@ pnpm hanji sync
 pnpm dev:web   # the human front at http://localhost:4100
 pnpm dev:mcp   # the agent surface at http://localhost:4101/mcp
 </code></pre>
-<p>Open <code>http://localhost:4100</code>, sign in with the owner password you set, and your notes are there, rendered on warm paper. That is the whole thing running.</p>
+<p>Open <code>http://localhost:4100</code>, sign in with the owner password you set, and your notes are there, rendered on cool neutral paper. That is the whole thing running.</p>
 <figure>
-<img src="../../assets/login.png" alt="The login screen: the workspace mark, its name, and one password field" class="w-25">
-<figcaption>The front door. One password for the owner; people you add sign in with their own.</figcaption>
+<img src="../../assets/login.png" alt="Hanji Document&#x27;s sign-in card: the workspace mark, Hanji Document, the workspace&#x27;s name, one sentence, and the Name and Password fields with Enter" class="w-25">
+<figcaption>The front door. The owner leaves the name empty and types the owner password; people you add sign in with their own name and password. A link opened while signed out comes back to its page after sign-in.</figcaption>
 </figure>
 <h2>The three secrets</h2>
 
@@ -73,12 +126,13 @@ pnpm dev:mcp   # the agent surface at http://localhost:4101/mcp
 
 
 
-<table><thead><tr><th>Variable</th><th>What it is</th></tr></thead><tbody><tr><td><code>HANJI_DATA_DIR</code></td><td>Where Hanji keeps its clones and its index. Everything here is disposable and rebuildable from git.</td></tr><tr><td><code>HANJI_SESSION_SECRET</code></td><td>The key that signs your login session. Any 32-byte hex string.</td></tr><tr><td><code>HANJI_OWNER_PASSWORD</code></td><td>The password for the single owner account, the one that reads and writes everything.</td></tr></tbody></table>
-<p>Two more are optional. <code>HANJI_GITHUB_TOKEN</code> lets the propose path open real pull requests, and <code>HANJI_GIT_AUTHOR_NAME</code> with <code>HANJI_GIT_AUTHOR_EMAIL</code> set the name on the commits Hanji makes. See <a href="../agents/">Agents</a> for the first and <a href="../cli/">Command reference</a> for the rest.</p>
-<p>Next, point Hanji at the repositories you actually want. Read <a href="../mounts/">Mounts</a>.</p></article>
+<table><thead><tr><th>Variable</th><th>What it is</th></tr></thead><tbody><tr><td><code>HANJI_DATA_DIR</code></td><td>Where Hanji keeps clones, disposable <code>index.db</code>, and durable <code>config.db</code> (accounts, grants, settings and comments). Back up <code>config.db</code>; it is not rebuilt from Git.</td></tr><tr><td><code>HANJI_SESSION_SECRET</code></td><td>The key that signs your login session. Any 32-byte hex string.</td></tr><tr><td><code>HANJI_OWNER_PASSWORD</code></td><td>The password for the single owner account, the one that reads and writes everything.</td></tr></tbody></table>
+<p>Two more are optional. <code>HANJI_GITHUB_TOKEN</code> lets the propose path open real pull requests on a clone mount (a local mount's proposal opens none), and <code>HANJI_GIT_AUTHOR_NAME</code> with <code>HANJI_GIT_AUTHOR_EMAIL</code> set the name on the owner's commits; without the variable, the name you set in Settings → People (Settings → General while the workspace has no people) is used, and with neither, Hanji Owner. See <a href="../agents/">Agents</a> for the first and <a href="../cli/">Command reference</a> for the rest.</p>
+<p>Next, point Hanji at the repositories you actually want. Read <a href="../mounts/">Mounts</a>.</p>
+<p>Product activation restores document visibility synchronously, including when WebKit has paused a hidden view. Content arrival uses a short finite animation without changing the document’s opacity or positioning context.</p></article>
 <footer>Published with <a href="https://github.com/gethanji">Hanji</a> · also readable as <a href="../../../llms.txt">llms.txt</a></footer>
 </main>
 </div>
-<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
+<script>(function(){var r=document.documentElement,b=document.querySelectorAll("[data-theme-choice]");function set(t){try{localStorage.setItem("hanji-theme",t==="auto"?"system":t)}catch(e){}r.setAttribute("data-theme",t);for(var i=0;i<b.length;i++)b[i].setAttribute("aria-pressed",String(b[i].getAttribute("data-theme-choice")===t))}for(var i=0;i<b.length;i++)b[i].addEventListener("click",function(){set(this.getAttribute("data-theme-choice"))});set(r.getAttribute("data-theme")||"auto")})()</script>
 </body>
 </html>

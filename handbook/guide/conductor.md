@@ -12,16 +12,6 @@ The conductor is the workspace's standing conversation with its agent. Each pers
 
 In Think, the canvas also shows tool activity: a reading/editing/approval badge and a labeled cursor using your selected conductor shape, primary color and state motion, at explicit tool targets, and brief object highlights after an update. It follows your conductor’s actual tool events, keeps off-screen work in a badge, and never pans the canvas just to show activity. See [[Think canvas]].
 
-## Shape and motion
-
-In workspace **Settings → Appearance → Conductor**, choose one of six [Solids](https://mmaxence.github.io/solids/index.html) shapes: Orb, Ring, Crystal, Blob, Cube and Disc. The dock uses the workspace primary color in Document, Plan and Think. Shapes are bundled locally and need no network connection.
-
-Choose separate motions for **Paused**, **Open**, **Active** and **Working**: Still, Gentle sway, Rotate or Breathe. The four state tabs show their saved motion beneath each name. Select a tab to preview that state and choose its motion directly below; arrow keys, Home and End move between tabs. Shape previews stay compact. Paused rotation is slow; working motion has more energy. State changes blend smoothly and polling preserves the geometry and animation clock. Waiting for a decision, replies, errors, offline and ended states stay still, with their usual text labels. Reduced motion follows the system. Save keeps the workspace choice; Reset conductor restores Orb and the default motions. Saved changes reach other open docks on their next poll. Retired shapes fall back to Orb; saved Float motions become Gentle sway without resetting other preferences.
-
-![Workspace shape and motion choices](assets/conductor-shape-settings.png)
-
-![The conductor working with the selected solid](assets/conductor-solid-working.gif)
-
 ## What it knows
 
 Every message carries where you are. A page in Document adds `Looking at page:docs/guide.md: Guide`, the selection when you have one, and whether the page has unsaved changes; an issue or a view in Plan adds the issue or the view; a canvas in Think adds the board, the selected objects and the visible area. In Think, **Ask conductor** on an object or selection prepares a request to improve its structure and connections. It appends to an existing draft and opens the composer without sending. The chip above the composer shows the line that will go with your message; its × drops it for that message. A page the agent reads comes back to it marked as text its author wrote, so a sentence planted in a page is data to the conductor.
@@ -52,3 +42,7 @@ By default the conductor answers the owner alone. The teammates switch on Hanji 
 - "Claude Code is not installed": the host found no `claude` on its PATH; install Claude Code, or start the session host with `CLAUDE_BIN` naming the claude binary.
 - "scribe reads no page yet" (the agent's handle first): the agent has no token; the owner's panel in Hanji Document offers one checkbox per mount and a button that mints `read+propose` on each (`pnpm hanji token agent-<handle> <mount>=read+propose` does the same).
 - "The conductor is not available; ask Ada": the workspace's conductor is a Codex agent, which answers the owner alone.
+
+## Appearance settings
+
+In **Settings → Appearance → Conductor**, choose Orb, Ring, Crystal, Blob, Cube or Disc. The indicator uses the workspace primary color. Each state—Paused, Open, Active and Working—has a motion choice: Still, Gentle sway, Rotate or Breathe. These change the indicator's appearance, not the agent's capabilities or permissions. Reduced motion keeps it still.

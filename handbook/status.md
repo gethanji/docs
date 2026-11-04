@@ -8,143 +8,23 @@ description: What is shipped, what is next, and what we are still exploring.
 
 Hanji is early, and built in the open with its own tools. This page is written in Hanji, kept in Hanji's repository, and read through the product you are looking at now. It is honest to a fault, because pretending to be further along than you are is its own kind of lock-in. There are no dates here, because a solo, early project that promises dates is lying. The order is real, though, and it follows the rule in [[Mission and vision]]: earn trust first, charge for what an administrator wants, never gate what one person needs to write.
 
-## Current public documentation
+## Current product
 
-The public handbook covers the invited desktop preview as one workspace with
-Think, Plan and Document. The product names Write and Work are retained only when
-explaining earlier names or technical identifiers. Current figures use isolated
-fictional workspaces. Setup, canvas tools, objectives, the conductor and workspace
-insights have their own guides. The marketing site and handbook publish separately;
-the app has no unrestricted public binary download yet. Exported guide images use
-mount-relative paths, and the handbook’s theme toggle accepts the site’s System
-preference while keeping older auto choices compatible.
+Hanji is an invited Mac desktop preview with three connected surfaces:
 
-## A smoother first workspace
+- **Think**: live canvases for notes, diagrams, tables and shared workshops. Selected notes can become issues or a written page.
+- **Plan**: file-backed issues, projects, dependencies, objectives and key results, with list, board and canvas views.
+- **Document**: Markdown reading and editing, scoped search, comments, history, proposals and selective publishing.
 
-- Four named stages cover the workspace and its products, content, owner access and a final review. All products begin selected. Import details appear only when needed.
-- Start fresh creates local repositories for the selected products inside the workspace data folder, with an editable welcome page in Document. Existing folders are preserved; failures roll back newly created folders and mounts before the owner is stored.
-- Setup keeps the workspace name and product choices across a reload, never passwords. Inputs have labels, errors stay in place, each step receives keyboard focus, and local setup help opens without leaving the flow. Small screens, dark mode and reduced motion are supported.
-- The desktop’s empty workspace home has a clear Create your workspace action. A shareable preview pack includes the app, an Applications shortcut, a Start here guide and a SHA-256 checksum. Packaging does not publish or claim notarization; public downloads remain unavailable until a release is made.
+The conductor carries a standing agent conversation across the workspace. Agent use is optional and requires your own supported provider setup. Workspace insights show recorded activity across products.
 
-## Canvas tools with a considered place to open
+[[What Hanji is]] explains the whole workspace. [[From idea to action]] follows a fictional decision across the three surfaces; [[Using Hanji]] maps the detailed guides. [[Mission and vision]] distinguishes our larger ambition from the preview available today. The [[Changelog]] records individual interface changes.
 
-- Timer and voting open in an anchored session panel with clear tabs, duration presets, a large shared countdown and stable vote controls. Escape and outside clicks dismiss it; an active status chip reopens the relevant tool.
-- Templates use a visual dialog with a distinct bulk-note flow and clear insertion actions. Help has searchable, grouped shortcuts. Canvas settings open in a drawer over the live canvas, preview its background, and protect unsaved drafts.
-- The four surfaces share focus return, close controls, keyboard tabs, responsive bounds and reduced-motion support. Plan’s New issue action now uses the same light primary treatment as New canvas.
+## Availability and limits
 
-## Workspace insights without the cold-open wait
+The handbook is public; the app is shared by invitation. There is no unrestricted public binary download or hosted workspace service. The preview runs on your machine or infrastructure you operate. Direct repository access is outside Hanji's permission boundary, and storage and permission models differ by surface. Back up durable configuration and journals as well as repositories.
 
-- Activity opens an authenticated, usable shell before reading history. Scoped journal data loads separately with retry and timeout handling; independent readable repositories are discovered concurrently.
-- The overview adds a seven-day comparison, recorded contributions, active days, busiest day, product mix and human/agent attribution. Counts describe recorded work, not time saved or productivity; capped history is labeled.
-- Product charts drill into bookmarkable filters. Filter changes and browser Back update data in the same document. The journal, historical pagination, permissions and seen position remain intact.
-
-## Reliable view switching and canvas presence
-
-- Product activation restores visibility immediately. A hidden WebKit view no longer needs an animation-frame callback to recover from a dimmed transition; root transforms no longer trap fixed controls.
-- Think’s tool-activity badge and target cursor use the workspace conductor shape, primary color and state motion. Approval stays still; reduced motion and off-screen behavior remain intact.
-
-## A quieter conductor picker
-
-- Keep Orb, Ring, Crystal, Blob, Cube and Disc; remove the other shape choices and Float motion.
-- Smaller shape previews sit above four keyboard-accessible state tabs. Each tab names its motion and reveals a focused preview with direct motion choices.
-- Existing retired shapes fall back to Orb; Float becomes Gentle sway, preserving the rest of the saved preferences.
-
-## Completed binary key results stay complete
-
-- Completed binary key results no longer show Update due or inflate the overview’s check-ins-due count when their last check-in ages.
-- Unfinished and reopened binary results still need fresh check-ins. Metrics keep their freshness checks even at 100%, including recurring monthly measures.
-
-## Cooler surfaces and a shaped conductor
-
-- Document, Plan, Think, shared search, the conductor and desktop shell use calmer cool neutral paper, sheets, navigation and borders in light and dark. Workspace accents, status semantics and sticky colors remain distinct.
-- The conductor replaces its dot with a locally bundled Solids shape in the workspace primary color. Settings, Appearance offers six compact geometry previews and separate motions for paused, open, active and working states.
-- Saved preferences reach every product’s dock through its shared lookup and poll. Pose changes blend without replacing the shape; reduced motion and attention states remain quiet, and state text stays visible.
-
-## Readable objectives and one search field
-
-- Objectives separate company goals, supporting objectives, metadata and progress. Key results align in stable columns, wrap long titles and reflow for narrow windows.
-- Health reads On track, At risk, Off track or Not assessed. Check-in age and Update due share one column; missing measures and empty objectives stay compact.
-- The overview stays clear of the sticky header during navigation and keyboard focus, and counts objectives, key results and results needing check-ins. Native disclosures reveal measurement, latest notes and linked work, preserving computed progress and manual overrides.
-- Document, Plan and Think share search colors, borders, spacing, the same search glyph, a Search… placeholder and shortcut badge. Both Plan search variants use the same presentation, with each product's search behavior preserved.
-
-## Shared accents and quieter page actions
-
-- Plan's in-progress status, links and selected navigation use the workspace accent. The fixed purple and wide-gamut override are removed; canceled marks use a neutral tone.
-- Open Plan pages check for accent changes while visible and on return, updating without losing drafts or navigating away.
-- Document's History, Annotations, Delete and Share controls share a quiet secondary action group. Edit remains distinct, with aligned sizing and a theme-aware shortcut. Delete still requires its explicit confirmation.
-
-## A quieter desktop product switcher
-
-- Think, Plan and Document sit in a subtle shared track with a floating active plate, steadier type and aligned icons.
-- The plate glides between products while labels stay still. Pending switches stay visually stable through background polling and recover if the switch fails.
-- Activity and Settings clear the product selection. Light, dark and reduced-motion appearances follow the shell.
-
-## A loading mark in motion
-
-- The desktop loading screen animates the logo's three shapes in a quiet 6.4-second loop, returning to the assembled mark between cycles.
-- Shapes follow curved paths with a spring-like settle, keeping their original dimensions and proportions throughout.
-- Real startup stages remain beneath the mark. Light and dark themes are supported; reduced motion and states waiting for user action show the resting logo.
-
-## Canvas editing and workspace navigation
-
-- Collapsed Document mounts and Think's single-row sidebar sections sit close together; expanded trees retain breathing room.
-- Activity opens in its own workspace view, showing all products by default, without navigating through Document. Back returns to the product you were using.
-- Option-drag shows a copy cursor and switches between moving and duplicating as Option is pressed or released.
-- Tables have on-canvas cell editing, range selection, add-row/column controls, clearing cells and deleting selected rows or columns.
-- Canvas creation and header controls share SVG icon sizing, stroke weight and alignment.
-- Sticky editors keep routine live-save messages out of the way; errors and retained-draft warnings remain visible.
-
-## Document mount rows
-
-- Mounts use full-height 33px rows with a full-row hover target, matching folder and document rhythm.
-- Mounts and folders share the same caret component. Children start one 16px level beneath the mount, with aligned branch guides.
-
-## Document sidebar hierarchy
-
-- Folders and documents share a disclosure column, so sibling labels align.
-- Each child level is inset by 16px, with subtle branch guides. The selected document stays aligned within its branch, including deep folders.
-
-## Think: four canvas chapters
-
-1. **Objects:** persistent flat groups, proportional group resizing, explicit unlock controls, and server-enforced object locks. Copies receive independent group identities.
-2. **Content:** pen, highlighter and stroke eraser; editable tables with row/column controls. Drawings and tables participate in selection, resize, duplication, checkpoints and PNG export; tables also write up as Markdown.
-3. **Workshops:** a shared countdown with pause/resume/reset, and public live voting with per-person budgets. Editors facilitate; commenters can vote. Deadlines and ballots survive restart.
-4. **Collaboration:** transient drag/resize previews and simultaneous ProseMirror text editing. Concurrent steps rebase; local text Undo preserves other writers’ changes. Accepted steps and their versions are journaled with the resulting Markdown.
-
-## Think: visible conductor activity
-
-- Canvas tools show a live activity badge for reading, preparing an edit, waiting for approval and confirmed updates.
-- A labeled agent cursor and object outlines point to targets named in tool calls. Canvas-wide or off-screen work keeps a status badge without moving the view.
-- Completed updates fade after six seconds. Failed tools and ended turns clear unfinished activity; host loss and stale activity clear the indicator; reduced-motion settings disable cursor transitions and pulsing.
-
-## Think: smoother objects and shared views
-
-- Creation, paste and duplication find free space using full object bounds, including unsaved creates. Imported images use modest frames based on their natural proportions; template batches avoid existing content.
-- Selection gains hover feedback, a group outline and explicit Duplicate actions. ⌘/Ctrl+D duplicates; Shift-drag locks movement to one axis. Sticky widths resize continuously from 160–800px; Shift keeps shape/text proportions and Option/Alt resizes around the center.
-- Teammates’ selections are visible. Click a person to follow their view; navigation, editing or Stop ends following. Presence is transient and checked against the canvas’s existing access rules.
-- **Ask conductor** drafts a contextual request from the selection, preserving any existing draft. Sending stays in the conductor composer.
-
-## Think: content with the conductor
-
-- A template picker offers Brainstorm, Retrospective and Decision flow, adding editable sections, notes and connectors to the current canvas.
-- Paste one idea per line to create up to 50 sticky notes, arranged in rows. Each insertion is one undoable action and frames its new objects.
-- The conductor and direct MCP share the same builders through the apply tool’s `content` parameter. Existing permissions, authorship, retries, Show and Undo apply.
-
-
-## Think canvas foundations
-
-- The interface names boards **canvases**, including search, creation, settings and empty folders. Existing addresses, references and stored files keep working.
-- Canvas edits have server-backed Undo and Redo, with conflict checks and history kept across reloads in the same tab. Deleted objects retain comments and reactions when restored.
-- Select all, alignment, equal-gap distribution and drag guides help arrange objects. Connectors gain labels, curved/straight/elbow routes, explicit attachments and connected-object creation from an edge handle.
-- Document, Plan and Think use one shared sidebar stylesheet for headers, sections and rows. Sidebar search is capped at 264px; Edit and Save shortcuts inherit their button’s themed text color.
-
-## Think: a first canvas
-
-Empty folders offer a centered **Create your first canvas** prompt and **Create canvas** button for editors. The dialog creates in that folder; readers see a quiet empty state.
-
-## Think in the current preview
-
-Think’s implementation includes: a shared canvas, Markdown objects, styled inline editing with per-line headings, quoted selection comments, compact single-row object colors, compact fanned object reactions and a searchable 40-design EN/KR vector sticker catalog, richer Open Graph/Twitter preview cards with proportional 1200:630 image frames, editable connectors with immediate icon-only stroke and arrow/dot styles, four-edge handles with automatic moving attachments, and seven draggable/swappable flowchart shape types with immediate visual fill/border controls beside the colors, standalone Text with four font stacks and typography controls, geometric Sections with grouped movement and 1×/2×/4× PNG export, default drag-to-select with Shift-add, Option-drag and selection copy/paste, proportional image/sticker resizing, attached stickers and auto-height notes with continuous width resizing, a floating workspace island, sharp native-resolution zoom with board-wide browser-zoom protection with legacy sticker compatibility and canvas patterns that pan and zoom with content, agent operations, and automatic Git checkpoints. It now reads the workspace's data folder, serves every board of a think mount at `/b/<mountPath>/<folder>`, and signs people in through the tailnet or the owner's key with the workspace's grants. A sticky becomes a Plan issue from the board, with a live chip, Undo and cards for pasted keys. A section or a selection becomes a Document page, or a proposal, from the board. It remains a single-server development preview, with same-note live rich-text collaboration, and without remote sync. See [[Think canvas]].
+The public site and handbook publish separately. Product figures use fictional workspaces rendered by the real application; illustrative workflows are not customer results.
 
 ## Implemented in the source and desktop preview
 

@@ -6,15 +6,15 @@ description: One workspace for Think, Plan and Document. Start with the current 
 
 # Start here
 
-Hanji gives ideas, next steps and knowledge a shared workspace. **Think** is the
-canvas. **Plan** holds issues, projects and objectives. **Document** reads and
-edits your Markdown. The conductor brings an agent into context when you need one.
+Hanji is a workspace for people and agents to explore ideas, organize work and keep knowledge. Our mission is to help them build shared understanding on a foundation they own.
 
-This public handbook describes the current working preview. The Mac app is
-shared by invitation; public binary downloads and a hosted workspace service
-are not available yet. [Request preview access](https://hanji.ink/start/).
+Today's desktop preview is the first step: **Think** for visual exploration, **Plan** for issues, projects and objectives, and **Document** for knowledge in Markdown. The conductor brings an optional agent into the context of that work.
 
-![Think in a fictional workspace](assets/public-canvas.png)
+## Understand the whole workspace
+
+Start with [[What Hanji is]] for the product and its boundaries. Read [[Mission and vision]] for the larger ambition. Then follow [[From idea to action]]: a concrete example of exploring a question, giving the next step an owner, and preserving the decision.
+
+This handbook describes the working preview. The Mac app is shared by invitation; public binary downloads and a hosted workspace service are not available yet. [Preview access and setup](https://hanji.ink/start/).
 
 ## Make a workspace
 

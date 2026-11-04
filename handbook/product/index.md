@@ -8,8 +8,10 @@ description: One local workspace for ideas, next steps and knowledge, with scope
 
 Hanji is a workspace with three surfaces. **Think** gives ideas room on a canvas.
 **Plan** turns the next step into an issue, project or objective. **Document**
-keeps knowledge in real Markdown. They share people, appearance, workspace
-insights and a standing conversation with the conductor.
+keeps knowledge in real Markdown. They share a workspace and a standing conversation with the conductor. This is
+the first step toward our mission: shared understanding on a foundation you own.
+Read [[Mission and vision]] for the direction, or [[From idea to action]] for a
+worked example.
 
 The current app is an invited desktop preview. The public handbook is available
 to everyone; public app downloads and hosted sync are not included.

@@ -21,6 +21,7 @@
 - [Comments](handbook/guide/comments.md)
 - [The conductor](handbook/guide/conductor.md)
 - [Desktop workspace](handbook/guide/desktop.md)
+- [From idea to action](handbook/guide/idea-to-action.md)
 - [Using Hanji](handbook/guide/index.md)
 - [Install Hanji](handbook/guide/install.md)
 - [Links and references](handbook/guide/links.md)

@@ -7,6 +7,11 @@ description: The road behind us, honestly logged.
 
 # Changelog
 
+## 2026-11-04 — A clearer introduction to Hanji
+
+The public introduction now starts with the mission and the workspace as a whole. A new **From idea to action** guide follows a fictional decision across Think, Plan and Document. Product captures use higher-density rendering. Installation and conductor guides put practical tasks ahead of appearance customization.
+
+
 Reverse chronological. Struck-through text is a decision we made and then moved past, kept visible on purpose, because a changelog that hides its own wrong turns is just marketing.
 
 ## The public story catches up with the workspace

@@ -6,7 +6,7 @@ description: Getting started, and the order to read these in.
 
 # Using Hanji
 
-This section is the how-to. It is written to be read in order the first time, and dipped into after.
+Start with [[From idea to action]] to understand how the workspace fits together. The guides below explain setup and each surface in depth.
 
 1. [[Quick start]] — choose the desktop preview or the existing-checkout path.
 2. [[Desktop workspace]] — install the preview, create a workspace, and move between products.

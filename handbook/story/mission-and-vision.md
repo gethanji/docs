@@ -1,25 +1,39 @@
 ---
 title: Mission and vision
 order: 50
-description: Why Hanji exists, and where it is going.
+description: Shared understanding, on a foundation that people and teams own.
 ---
 
 # Mission and vision
 
-The whole of it in one line: keep what a team knows on a foundation they own, readable by people and agents alike, free to walk away from, and good enough that they stay.
+Our mission is to help people and agents build shared understanding on a foundation they own.
 
-## The mission
+Good work produces more than a finished task. It produces questions, reasoning, decisions and knowledge that the next person can build on. Those things deserve a life beyond the conversation, model or software that helped create them.
 
-Keep what a team knows in a form that outlasts the software holding it, and never hold it hostage to get there.
+## The problem we want to solve
 
-That is the entire job. A team's knowledge is one of the few things it builds that should still be readable in ten years, and it is usually trapped in the tool least likely to last that long. Hanji's mission is to break that trap. Put the knowledge somewhere durable and yours. Give people a surface calm enough to actually write on. Give agents a native way in. Lock the parts that need locking. If Hanji disappeared tomorrow, you would lose a nice reading experience and nothing else, because the knowledge was never inside it.
+Thinking happens on a canvas. Decisions move into a document. Tasks live in a tracker. Each handoff loses a little of the reasoning, and the next person has to reconstruct it. Agents face the same problem: they can do more, but they inherit fragments of the work.
 
-## The vision
+We want the understanding behind the work to accumulate. People should be able to see why a decision was made. An agent should be able to work from the relevant context, within the access it has been given. A team should be able to keep that knowledge even when its tools change.
 
-Most tools grow by pulling more of your work inside their walls, so that leaving costs a little more every year. We want to grow the opposite way, by being worth keeping even though leaving is free.
+## The first step: one workspace
 
-The order matters, and it is the same order for every decision. Earn trust first. Charge for the parts an administrator wants, the hosted sync and the single sign-on and the per-folder controls a real organization needs. Never gate what one person needs to write. A student, a solo maintainer, a two-person team should get the whole writing experience for nothing, because the day you charge someone for the right to write down what they know is the day you have become the thing Hanji was built against.
+Today's Hanji is the first expression of that mission. **Think** makes room to explore an idea. **Plan** gives the next step an owner and connects it to a goal. **Document** preserves the decision and what the team learns. The conductor brings an optional agent into that workspace, with a standing conversation across the three surfaces.
 
-Further out, the bet is bigger than a nicer wiki. Documentation is turning into something machines read as much as people do, and the team that owns its knowledge as clean, permissioned, git-native files hands its agents a sharper tool than any bundled chat box can be. The knowledge base stops being a place you visit and becomes infrastructure you own. That is the world Hanji is building toward.
+This is a working desktop preview, not the finished vision. The surfaces have different storage and permission boundaries; not every relationship is created automatically. [[What Hanji is]] describes the current product, and [[From idea to action]] walks through a concrete example.
 
-See [[Where we are]] for what is shipped and what is next, and [[Why Hanji is different]] for the refusals that keep this honest.
+## A foundation you own
+
+The useful life of your knowledge should not depend on a subscription or a particular interface. Document pages and Plan issues live as Markdown in repositories you control. Think keeps canvas files, a live journal and Git checkpoints. Durable workspace configuration, comments and session journals need backup alongside that content.
+
+Ownership is a design obligation, not just an export button. We aim to make the work readable and useful outside Hanji, while earning a place in your day through the quality of the experience. The details and limits are explained in [[Why Hanji is different]] and [[Mounts]].
+
+## Where we want to go
+
+A workspace should become a lasting foundation for a team's understanding: useful to people, accessible to their chosen agents, and independent of any one model. It should help a team think clearly, act deliberately and keep what it learns.
+
+We intend to earn trust first. Our direction is to keep the individual writing experience accessible and build a business around the operational needs of organizations. Hosted services, organizational controls and future plans are ambitions unless [[Where we are]] explicitly says they are available.
+
+Hanji is named after Korean paper, 한지: a material associated with care and durability. The aspiration is the same for the work itself. The interface may change; what you have built should remain yours.
+
+Read [[The story]], [[Principles]] and [[Where we are]] for the choices and current limits behind that ambition.

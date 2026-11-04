@@ -1,7 +1,7 @@
 ---
 title: Install Hanji
 order: 10
-description: From clone to a running instance in a handful of commands.
+description: Install the invited Mac preview, or run an existing source checkout.
 ---
 
 # Install Hanji
@@ -61,24 +61,6 @@ shortcut and an offline Start here guide. It refuses to overwrite an existing
 artifact. An optional second argument selects an output directory. It does not
 publish a release, sign or notarize a build, or install it. Public distribution
 still needs a release and the appropriate signing/notarization process.
-
-## Shared workspace accent
-
-The accent chosen in Settings applies across products. Plan uses it for links, selected navigation and in-progress status text and marks. Already-open Plan pages pick up changes while visible and when returning from Settings, preserving the current page and unsent drafts. Other semantic colors, such as completed work and warnings, remain distinct.
-
-![Plan follows the shared accent](assets/work-shared-accent.gif)
-
-## Desktop product switching
-
-The title bar groups Think, Plan and Document in one quiet track. A floating plate glides to the selected product while its label and icon stay still. The selection holds steady while the app opens the product. Activity and Settings are workspace pages, so they leave all product segments unselected. Keyboard shortcuts and focus controls remain available; reduced motion makes the plate move immediately.
-
-![The desktop product switcher](assets/desktop-product-switcher.gif)
-
-## Desktop startup
-
-While the desktop app prepares a workspace, the three shapes of the Hanji logo separate, follow curved paths and spring gently back into the mark in a slow loop. Their dimensions and proportions stay fixed throughout. The line underneath reports the actual startup stage. It follows the system's light or dark theme and reduced-motion preference. When startup needs an action, such as choosing a work folder, the logo rests and the action appears below it.
-
-![The three logo shapes animate during desktop startup](assets/desktop-loading-elastic.gif)
 
 ## Before you start
 

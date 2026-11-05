@@ -14,7 +14,9 @@ We say the thing. No jargon standing in for a plain word, no sentence that could
 
 ## With an edge
 
-Plain does not mean bland. Hanji takes positions. Git is the store, and a backup target is not good enough. An agent is a reader, not a chat box. The day you charge someone for the right to write down what they know is the day you have become the thing this was built against. The voice is willing to be a little sharp, because a product with no point of view is not worth reading about.
+Plain does not mean bland. Hanji has a point of view: clarity matters when people work with agents, and an interface should support human judgment. Speak from the practical experience of building and using the tools. Give the reader a clear observation, a working example or an honest question.
+
+Describe Hanji as a research lab and the products as current expressions of that research. Explain open formats and ownership where they matter to a workflow. Keep the lab's purpose centered on the interaction between people and agents.
 
 ## Honest about limits
 

@@ -6,7 +6,7 @@ description: Follow one decision through Think, Plan and Document without losing
 
 # From idea to action
 
-Hanji brings exploration, execution and knowledge into one workspace. This guide follows a small fictional project, **First mile**, to show how the three surfaces fit together. It is a worked example, not a customer result or a promise that every handoff happens automatically.
+Hanji explores clearer interaction between people and agents. Its current workspace brings exploration, execution and knowledge into one place. This guide follows a small fictional project, **First mile**, to show how the three surfaces can make context and decisions easier to understand. It is a worked example, not a customer result or a promise that every handoff happens automatically.
 
 The question: **How could a new teammate experience value before configuring a workspace?**
 
@@ -39,6 +39,12 @@ The record should distinguish what the team chose from what it has validated. In
 ## Bring an agent in when useful
 
 Open the conductor from the canvas, issue or page. Check the context chip before sending. You might ask it to compare the selected alternatives, clarify completion criteria or propose a decision summary. Review the response and any requested changes. [[The conductor]] explains context, approvals and Undo; [[Permissions]] explains the different access boundaries.
+
+## What the interface should make clear
+
+Before asking an agent to help, check what context you are sharing. After its response, distinguish the suggestion from the decision you have actually made. When it changes something, inspect the affected content and use the available history, approval or Undo controls where supported.
+
+In this example, an agent could help compare the onboarding alternatives or draft the decision record. The people still need to judge the trade-offs and test the result. A clear account of the question, the contribution and the decision helps them do that. This is the interaction Hanji's research is trying to improve.
 
 ## What you keep
 

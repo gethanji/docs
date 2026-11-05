@@ -1,39 +1,37 @@
 ---
 title: Mission and vision
 order: 50
-description: Shared understanding, on a foundation that people and teams own.
+description: A research lab for clearer interactions between people and agents.
 ---
 
 # Mission and vision
 
-Our mission is to help people and agents build shared understanding on a foundation they own.
+Hanji is a research lab exploring how people interact with agents. Our mission is to bring clarity to those interactions, so people can understand what is happening, exercise sound judgment and guide what comes next.
 
-Good work produces more than a finished task. It produces questions, reasoning, decisions and knowledge that the next person can build on. Those things deserve a life beyond the conversation, model or software that helped create them.
+## A thin layer between people and agents
 
-## The problem we want to solve
+Agents are becoming our virtual companions and colleagues. Their capabilities are changing quickly, and the ways we interact with them are still taking shape. More output or greater autonomy does not by itself make an interaction understandable. People need enough clarity to question a contribution, recognize uncertainty and make a decision.
 
-Thinking happens on a canvas. Decisions move into a document. Tasks live in a tracker. Each handoff loses a little of the reasoning, and the next person has to reconstruct it. Agents face the same problem: they can do more, but they inherit fragments of the work.
+Hanji explores that interface. It exists as a thin layer between people and agents: a surface that makes context, contributions, choices and changes easier to understand. The purpose is to help people make good use of this new workflow while keeping their judgment present.
 
-We want the understanding behind the work to accumulate. People should be able to see why a decision was made. An agent should be able to work from the relevant context, within the access it has been given. A team should be able to keep that knowledge even when its tools change.
+## Born from an individual need
 
-## The first step: one workspace
+Hanji began with a personal need to work better with agents. It grew through countless iterations in everyday use: trying an interaction, seeing where understanding broke down, and changing the surface to make the next interaction clearer.
 
-Today's Hanji is the first expression of that mission. **Think** makes room to explore an idea. **Plan** gives the next step an owner and connects it to a goal. **Document** preserves the decision and what the team learns. The conductor brings an optional agent into that workspace, with a standing conversation across the three surfaces.
+That remains the method. Build something useful, work with it, notice what is confusing, and iterate. The research happens through the tools and the practice of using them.
 
-This is a working desktop preview, not the finished vision. The surfaces have different storage and permission boundaries; not every relationship is created automatically. [[What Hanji is]] describes the current product, and [[From idea to action]] walks through a concrete example.
+## The research, in working products
 
-## A foundation you own
+Today's workspace is one expression of that research. **Think** explores visual thinking and discussion with agents. **Plan** explores coordinating work with them. **Document** explores reading, reviewing and improving the knowledge they help produce.
 
-The useful life of your knowledge should not depend on a subscription or a particular interface. Document pages and Plan issues live as Markdown in repositories you control. Think keeps canvas files, a live journal and Git checkpoints. Durable workspace configuration, comments and session journals need backup alongside that content.
+The conductor brings an agent into the context of a canvas, issue or page. History, authorship, reviewable changes and supported Undo actions help make the interaction visible and open to human direction. These are current approaches to the question, and they will keep evolving.
 
-Ownership is a design obligation, not just an export button. We aim to make the work readable and useful outside Hanji, while earning a place in your day through the quality of the experience. The details and limits are explained in [[Why Hanji is different]] and [[Mounts]].
+The workspace is a working desktop preview. [[What Hanji is]] explains today's capabilities and boundaries; [[From idea to action]] shows a practical example. The larger mission is not limited to these three surfaces or to one version of the app.
 
-## Where we want to go
+## Share the results, keep learning
 
-A workspace should become a lasting foundation for a team's understanding: useful to people, accessible to their chosen agents, and independent of any one model. It should help a team think clearly, act deliberately and keep what it learns.
+Hanji now shares the results publicly and as open source while continuing to iterate. Sharing makes the work available to examine, use and build on. It also opens the research to experiences beyond the individual need that started it.
 
-We intend to earn trust first. Our direction is to keep the individual writing experience accessible and build a business around the operational needs of organizations. Hosted services, organizational controls and future plans are ambitions unless [[Where we are]] explicitly says they are available.
+AI tools, methods and working habits will keep changing. Hanji should change with them. The ambition is an ongoing practice of finding better ways to interact with our new virtual companions and colleagues.
 
-Hanji is named after Korean paper, 한지: a material associated with care and durability. The aspiration is the same for the work itself. The interface may change; what you have built should remain yours.
-
-Read [[The story]], [[Principles]] and [[Where we are]] for the choices and current limits behind that ambition.
+Open formats, portable content and clear access boundaries support that practice. They are important design choices within the current products; the central question remains the quality and clarity of human–agent interaction. [[Principles]] explains the choices, and [[Where we are]] distinguishes current availability from future exploration.

@@ -7,6 +7,11 @@ description: The road behind us, honestly logged.
 
 # Changelog
 
+## 2026-11-05 — Restore the research lab's purpose
+
+The public introduction and brand guides now explain Hanji as a thin interface between people and agents, with clarity supporting human judgment. The story includes its personal origin, ongoing iteration and public, open-source sharing. The workspace is presented as a current expression of that research.
+
+
 ## 2026-11-04 — A clearer introduction to Hanji
 
 The public introduction now starts with the mission and the workspace as a whole. A new **From idea to action** guide follows a fictional decision across Think, Plan and Document. Product captures use higher-density rendering. Installation and conductor guides put practical tasks ahead of appearance customization.

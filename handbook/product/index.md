@@ -6,10 +6,10 @@ description: One local workspace for ideas, next steps and knowledge, with scope
 
 # What Hanji is
 
-Hanji is a workspace with three surfaces. **Think** gives ideas room on a canvas.
+Hanji is a research lab for clearer human–agent interaction. Its current product is a workspace with three surfaces. **Think** gives ideas room on a canvas.
 **Plan** turns the next step into an issue, project or objective. **Document**
 keeps knowledge in real Markdown. They share a workspace and a standing conversation with the conductor. This is
-the first step toward our mission: shared understanding on a foundation you own.
+a working expression of the mission: clearer interactions that support human judgment.
 Read [[Mission and vision]] for the direction, or [[From idea to action]] for a
 worked example.
 

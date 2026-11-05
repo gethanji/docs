@@ -6,6 +6,9 @@ description: The choices behind Hanji’s files, agent access and human surfaces
 
 # Why Hanji is different
 
+Hanji approaches the workspace as research into human–agent interaction. The aim is to make context, contributions and decisions understandable enough for people to exercise judgment. The choices below support that work in today's products.
+
+
 Hanji began with a practical need: people should be able to read and improve
 knowledge that coding agents already use, without losing the files or the access
 boundary. That idea now spans a canvas, a planning surface and a document reader.

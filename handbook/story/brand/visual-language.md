@@ -6,7 +6,7 @@ description: Cool neutral paper, an editorial serif, celadon, and a mark cut bac
 
 # The visual language
 
-Every visual choice in Hanji answers to one idea: this is paper made to be written on and meant to last. Here is what that produced, and why.
+The visual language serves a thin surface between people and agents. Calm paper, readable typography and restrained controls help people understand the work and exercise judgment. Here is how that becomes visible.
 
 ## Calm neutral paper
 

@@ -6,9 +6,9 @@ description: One workspace for Think, Plan and Document. Start with the current 
 
 # Start here
 
-Hanji is a workspace for people and agents to explore ideas, organize work and keep knowledge. Our mission is to help them build shared understanding on a foundation they own.
+Hanji is a research lab exploring clearer interactions between people and agents. It builds a thin interface layer to help people understand the work, exercise judgment and guide what comes next. Born from an individual need and countless iterations, Hanji now shares results publicly and as open source while continuing to learn.
 
-Today's desktop preview is the first step: **Think** for visual exploration, **Plan** for issues, projects and objectives, and **Document** for knowledge in Markdown. The conductor brings an optional agent into the context of that work.
+This handbook covers a current result of that research, the desktop workspace: **Think** for visual exploration, **Plan** for issues, projects and objectives, and **Document** for knowledge in Markdown. The conductor brings an optional agent into the context of that work.
 
 ## Understand the whole workspace
 

@@ -1,57 +1,35 @@
 ---
 title: The story
 order: 60
-description: Why Hanji brings thinking, planning and knowledge into one workspace.
+description: How a personal need became a research lab for human–agent interaction.
 ---
 
 # The story
 
-*Room to think. Clarity to move.*
+*A thin surface between people and agents.*
 
-Hanji started with knowledge: real Markdown that people could read and improve,
-and coding agents could use through a scoped surface. The files should remain
-useful after the app is gone, and the human reading experience should matter as
-much as the agent protocol.
+Hanji began with an individual need: to work better with agents. As they became more capable, understanding their work and deciding what to do with it became a problem of its own. A conversation could produce a great deal, while leaving the person without a clear view of the context, the changes or the choices ahead.
 
-Working that way brought the next question into view. An idea often starts as
-fragments on a canvas, becomes a next step, then leaves behind knowledge someone
-else will need. Those moments should stay connected.
+Hanji grew through countless iterations around that need. Try an interaction in real work, notice what is still unclear, and refine the interface. The project became a research lab for exploring how people can interact with their new virtual companions and colleagues.
 
-## Three surfaces, one workspace
+## Clarity supports judgment
 
-Think makes room for notes, diagrams and conversation. Plan gives the next step
-an owner and a place among projects and objectives. Document keeps the context
-in Markdown. They share a workspace rather than asking people to rebuild the
-same identity and background in each tool.
+When people cannot understand what an agent is doing or contributing, it is difficult to make sound judgments. Hanji's mission is to bring clarity to that interaction. Its role is a thin layer between human and agent: helping people see, question, review and direct the work.
 
-The conductor is a standing agent conversation across those surfaces. It carries
-context, follows access scopes, asks for required approval and makes supported
-changes reversible. It is optional: people can read, write and organize without
-connecting a model account.
+That gives the products their purpose. Context should be understandable. Contributions should be visible. Decisions should remain open to human judgment. The interface should help people make use of the workflow as it evolves.
 
-## Files that outlast the interface
+## Working experiments
 
-Document and Plan keep file-backed content; Think combines a live edit journal
-with automatic Git checkpoints. Durable configuration and journals need backup
-alongside the repositories. The promise is control over your work, with those
-boundaries named honestly.
+Think, Plan and Document are today's working experiments. They explore visual thinking, coordination and knowledge, in a shared workspace with an agent conversation across the surfaces.
 
-## A calm surface and a clear lock
+They are one step in the research, rather than a fixed definition of its scope. [[What Hanji is]] explains the current product; [[From idea to action]] shows how its surfaces fit together. The app is currently an invited desktop preview.
 
-The interface should give the work attention rather than demand it. Shared
-navigation, cool neutral surfaces, useful editing controls and readable history
-are part of that aim. So is scoped access: a person or agent should see only what
-the workspace permits, with direct repository access explained as a separate limit.
+## An open, continuing practice
 
-The current app remains an invited desktop preview. We are learning through the
-working product rather than promising a hosted service or a finished public release.
+We now share the results publicly and as open source. The work continues as AI tools, methods and the ways people use them evolve. We want others to be able to examine, try and build on the results, and help us understand what should change next.
 
 ## Why “Hanji”
 
-한지 is Korean paper. The name expresses a hope that the work will outlast its
-interface. [[The name]] tells that story; [[What Hanji is]] describes today’s
-workspace.
+한지 is Korean paper. The name gives us a way to think about software as a thin surface that can take different forms to suit an interaction: a document, a conversation, a canvas. [[The name]] explains the metaphor.
 
-Read [[Why Hanji is different]], [[Is Hanji for you?]], [[Mission and vision]],
-[[Principles]], [[The brand]], [[The visual language]] and [[Voice]] for the
-choices behind the product.
+Read [[Mission and vision]], [[Principles]] and [[The brand]] for the direction behind the work, and [[Where we are]] for its current state.

@@ -6,7 +6,7 @@ description: What is shipped, what is next, and what we are still exploring.
 
 # Where we are now
 
-Hanji is early, and built in the open with its own tools. This page is written in Hanji, kept in Hanji's repository, and read through the product you are looking at now. It is honest to a fault, because pretending to be further along than you are is its own kind of lock-in. There are no dates here, because a solo, early project that promises dates is lying. The order is real, though, and it follows the rule in [[Mission and vision]]: earn trust first, charge for what an administrator wants, never gate what one person needs to write.
+Hanji is a research lab exploring how people interact with agents. The current workspace is a working result of that research, shaped by an individual need and continued iteration. [[Mission and vision]] explains the purpose; this page describes what can be used today and what is still being explored.
 
 ## Current product
 

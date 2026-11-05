@@ -92,3 +92,16 @@ This uses `docs/handbook` as the only mount. It does not change the rules of a
 live workspace, copy other mounts or push a repository. Review the exported
 HTML, assets and Markdown mirrors before committing the artifact. The marketing
 site and this handbook have separate GitHub Pages deployments.
+
+## The published reading experience
+
+![The redesigned public handbook, with product entry cards, guide navigation and an on-page outline](assets/published-handbook.png)
+
+The HTML export includes grouped navigation, a page-title finder and an on-page outline with stable section links. Previous and next links follow the exported navigation order. Each page links to its Markdown source. The page finder filters only titles and sections already present in the public navigation; it does not query the live workspace or index private content.
+
+On smaller screens, guide navigation and the outline use native collapsible panels. Reading, navigation, section links and Markdown links work without JavaScript. JavaScript adds the title finder and explicit theme controls; without it the palette follows the system.
+
+<figure>
+<img src="assets/published-guide-mobile.png" alt="A published guide on a phone, with collapsed navigation and an on-page outline" class="w-50">
+<figcaption>On a phone, navigation stays out of the reading path until you open it.</figcaption>
+</figure>

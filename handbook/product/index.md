@@ -19,7 +19,7 @@ to everyone; public app downloads and hosted sync are not included.
 ## Start where the work is
 
 Use [[Think canvas]] for notes, diagrams, tables, templates and workshops. Objects
-can become issues in Plan or a page in Document. Use [[Objectives and key results]]
+can become issues in Plan or a page in Document. [[Planning work]] covers everyday issues and agent requests. Use [[Objectives and key results]]
 to connect a goal to the work behind it, and [[Reading and writing]] to preserve
 what the team learns. [[Desktop workspace]] explains setup and navigation.
 

@@ -7,6 +7,11 @@ description: The road behind us, honestly logged.
 
 # Changelog
 
+## 2026-11-05 — A handbook made for finding and reading
+
+The public handbook has a compact header, a page-title finder, a readable guide hierarchy, an on-page outline, stable section links, Markdown source links and previous/next navigation. The start page offers a clearer route into each product. A new Planning work guide covers everyday tasks, focused agent mentions and project-wide help. Mobile keeps navigation and the outline in native collapsible panels. Themes and reading still work without JavaScript; search filters only already-published page titles and sections.
+
+
 ## 2026-11-05 — Restore the research lab's purpose
 
 The public introduction and brand guides now explain Hanji as a thin interface between people and agents, with clarity supporting human judgment. The story includes its personal origin, ongoing iteration and public, open-source sharing. The workspace is presented as a current expression of that research.

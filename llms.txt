@@ -28,6 +28,7 @@
 - [Mounts](handbook/guide/mounts.md)
 - [Objectives and key results](handbook/guide/objectives.md)
 - [On your tailnet](handbook/guide/on-your-tailnet.md)
+- [Planning work](handbook/guide/planning-work.md)
 - [Proposals](handbook/guide/proposals.md)
 - [Publish to the web](handbook/guide/publish.md)
 - [Reading and writing](handbook/guide/reading-and-writing.md)

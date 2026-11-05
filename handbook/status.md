@@ -8,6 +8,10 @@ description: What is shipped, what is next, and what we are still exploring.
 
 Hanji is a research lab exploring how people interact with agents. The current workspace is a working result of that research, shaped by an individual need and continued iteration. [[Mission and vision]] explains the purpose; this page describes what can be used today and what is still being explored.
 
+## Public handbook
+
+The public handbook has a product-oriented start page, grouped navigation, local page-title search and section links with an on-page outline. A compact header keeps site identity and theme controls together. Previous/next links follow the published guide order; Markdown sources remain available. Reading, section links and collapsible navigation work without JavaScript. Search is a client-side filter of exported public navigation, not a search into the live or private workspace.
+
 ## Current product
 
 Hanji is an invited Mac desktop preview with three connected surfaces:

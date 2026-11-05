@@ -1,53 +1,46 @@
 ---
 title: Start here
 order: 0
-description: One workspace for Think, Plan and Document. Start with the current desktop preview and product guides.
+description: Practical guides for working with people and agents in Hanji.
 ---
 
 # Start here
 
-Hanji is a research lab exploring clearer interactions between people and agents. It builds a thin interface layer to help people understand the work, exercise judgment and guide what comes next. Born from an individual need and countless iterations, Hanji now shares results publicly and as open source while continuing to learn.
+Learn the workspace, bring an agent into the work, and decide what happens next. This handbook covers the current Think, Plan and Document preview.
 
-This handbook covers a current result of that research, the desktop workspace: **Think** for visual exploration, **Plan** for issues, projects and objectives, and **Document** for knowledge in Markdown. The conductor brings an optional agent into the context of that work.
+## Choose a surface
 
-## Understand the whole workspace
+| Surface | Work together | Start reading |
+| --- | --- | --- |
+| **Think** | Explore a question, arrange alternatives and make a decision visible on a shared canvas. | [[Think canvas]] |
+| **Plan** | Give the next step an owner, ask an agent for help and connect the work to a goal. | [[Planning work]] |
+| **Document** | Read and improve Markdown together, discuss the details and review proposed changes. | [[Reading and writing]] |
 
-Start with [[What Hanji is]] for the product and its boundaries. Read [[Mission and vision]] for the larger ambition. Then follow [[From idea to action]]: a concrete example of exploring a question, giving the next step an owner, and preserving the decision.
+## Your first workspace
 
-This handbook describes the working preview. The Mac app is shared by invitation; public binary downloads and a hosted workspace service are not available yet. [Preview access and setup](https://hanji.ink/start/).
+- **Install and set up:** [[Desktop workspace]] takes you from the invited Mac preview to a workspace with fresh or existing content.
+- **See the whole workflow:** [[From idea to action]] follows one fictional decision across the canvas, task and written record.
+- **Choose another setup:** [[Quick start]] and [[Install Hanji]] cover an existing checkout or a server you operate.
 
-## Make a workspace
+The Mac app is currently shared by invitation. Public binary downloads and a hosted workspace service are not available yet. [Preview access and setup](https://hanji.ink/start/).
 
-[[Desktop workspace]] covers receiving the preview, moving the app to
-Applications and creating a workspace. The setup has four stages: your workspace,
-your content, secure access and a review. Start fresh prepares the selected
-products’ folders; existing content can be connected during setup or later.
+## Work with an agent
 
-[[Quick start]] helps you choose that path or the path for an existing source
-checkout. You can read, edit and organize without connecting a model account.
+- [[The conductor]] — a standing conversation with context from the canvas, issue or page you are working on.
+- [[Agents]] — connect scoped tools and understand how agent identities and access work.
+- [[Proposals]] — review a suggested edit before merging it into the accepted page.
+- [[Comments]] — discuss a page or anchor feedback to a passage.
 
-## Find the surface you need
+People can use the products directly without connecting a model account. Your agent provider is configured separately.
 
-| You want to | Start here |
-|---|---|
-| Explore an idea visually | [[Think canvas]] — live notes, diagrams, tables, templates and workshops |
-| Turn the next step into work | [[Objectives and key results]] — goals, key results and linked work in Plan |
-| Read, write and keep knowledge | [[Reading and writing]] — Markdown pages, comments, history and search |
-| Work with your own agent | [[The conductor]] — a standing conversation across the workspace |
-| Understand what has moved | [[Workspace insights]] — contributions, trends and the journal |
-| Share with your team | [[On your tailnet]] — access through a network you operate |
-| Publish chosen content | [[Publish to the web]] — this handbook, HTML, Markdown and llms.txt |
+## Keep the workspace understandable
 
-## Go a little deeper
+[[Workspace insights]] explains the contribution journal and activity views. [[Links and references]] connects the places where work happens. [[Permissions]] describes access checks and their limits. [[Mounts]] covers repositories and folders; [[Think canvas]] explains live saves, Git checkpoints and recovery.
 
-[[Using Hanji]] is the complete guide map. [[Features]] lists what the preview
-implements. [[Permissions]] explains who can read and change each kind of content.
-[[Mounts]] connects repositories, [[Agents]] connects scoped tools, and
-[[Proposals]] covers reviewing suggested edits.
+For operating or extending Hanji, continue with [[On your tailnet]], [[Publish to the web]], [[Command reference]] and [[How it's built]]. [[Using Hanji]] is the complete guide map.
 
-For the project’s direction, read [[The story]], [[Principles]] and
-[[Where we are]]. For the implementation, start with [[How it's built]],
-[[The serializer]], [[The core]] and [[The web front]].
+## About the lab
 
-The products were previously called Write and Work. Their current names are
-Document and Plan; technical package and command identifiers stay stable.
+Hanji is a research lab exploring clearer interaction between people and agents: a thin interface that supports human understanding and judgment. It began with an individual need and countless iterations, and now shares results publicly and as open source while continuing to learn.
+
+Read [[Mission and vision]], [[The story]] and [[Where we are]] for the purpose and current state of the research. Product names were previously Write and Work; the current names are Document and Plan, while technical package and command identifiers stay stable.
